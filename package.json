@@ -1,0 +1,22 @@
+{
+  "name": "license-game-project",
+  "version": "1.0.0",
+  "description": "Under Development",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hungbk1412/license-game-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hungbk1412/license-game-backend/issues"
+  },
+  "homepage": "https://github.com/hungbk1412/license-game-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
