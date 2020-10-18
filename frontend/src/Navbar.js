@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Redirect} from 'react-router-dom';
+import React from 'react';
+import { useHistory } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -7,10 +7,9 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Grid from '@material-ui/core/Grid';
 
 const Navbar = () => {
-    const [is_back_button_clicked, set_is_back_button_clicked] = useState(false);
-
+    let history = useHistory();
     const click_on_back_button = () => {
-        window.location = 'http://' + window.location.host + '/';
+        history.push('/')
     };
 
     return (
