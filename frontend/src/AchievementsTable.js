@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import Achievement from "./Achievement";
 import {makeStyles} from "@material-ui/core/styles";
-import Navbar from "./Navbar";
 
 const useStyles = makeStyles({
     root: {
@@ -10,7 +9,6 @@ const useStyles = makeStyles({
     }
 });
 const AchievementsTable = () => {
-    const styles = useStyles();
     return (
         <Grid container item direction={'column'} xs={11}>
             <Grid item>

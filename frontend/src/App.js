@@ -10,13 +10,16 @@ import ArcadeMode from './ArcadeMode';
 import AchievementsTable from './AchievementsTable';
 import StoryMode from "./StoryMode";
 import Grid from '@material-ui/core/Grid';
-import Navbar from './Navbar';
+import NavBar from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
+import {DndProvider} from 'react-dnd';
+import {HTML5Backend} from 'react-dnd-html5-backend';
+
 
 const useStyles = makeStyles({
     root: {
         border: '1px solid black',
-        height: '1000px'
+        height: '1200px'
     },
     main_menu: {
         margin_top: '15px',
@@ -27,20 +30,23 @@ const useStyles = makeStyles({
 function App() {
     const styles = useStyles();
     return (
-        <Router>
-            <Grid container justify={'center'}>
-                <Grid container item direction={'column'} alignItems={'center'} className={styles.root} xs={12} md={6}>
-                    <Navbar/>
-                    <Switch>
-                        <Route path={'/choose-mode'} component={CompositionOrCollage}/>
-                        <Route path={'/arcade'} component={ArcadeMode}/>
-                        <Route path={'/achievements'} component={AchievementsTable}/>
-                        <Route path={'/story'} component={StoryMode}/>
-                        <Route path={'/'} component={MainMenu}/>
-                    </Switch>
+        <DndProvider backend={HTML5Backend}>
+            <Router>
+                <Grid container justify={'center'}>
+                    <Grid container item direction={'column'} alignItems={'center'} className={styles.root} xs={12}
+                          md={6}>
+                        <NavBar/>
+                        <Switch>
+                            <Route path={'/choose-mode'} component={CompositionOrCollage}/>
+                            <Route path={'/arcade'} component={ArcadeMode}/>
+                            <Route path={'/achievements'} component={AchievementsTable}/>
+                            <Route path={'/story'} component={StoryMode}/>
+                            <Route path={'/'} component={MainMenu}/>
+                        </Switch>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Router>
+            </Router>
+        </DndProvider>
     );
 }
 
