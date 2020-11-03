@@ -5,7 +5,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Modal from '@material-ui/core/Modal';
 import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core/styles";

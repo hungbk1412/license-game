@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
-import badge from './badge.png';
+import badge from './images/other/badge.png';
 const useStyles = makeStyles({
     root: {
         'border-bottom': '1px solid black',

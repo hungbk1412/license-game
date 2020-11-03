@@ -34,8 +34,8 @@ app.post("/", (req, res) => {
     console.log('utils.checkCompatibilityComposition(req.body) :>> ', utils.checkCompatibilityComposition(req.body));
     res.send(utils.checkCompatibilityComposition(req.body))
   }
-})
+});
 
 app.listen(6969, () => {
   console.log("App listening on port 6969");
-})
+});

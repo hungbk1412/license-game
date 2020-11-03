@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
-import license from './CC0.png';
+import license from './images/licenses/CC_0.png';
 import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
