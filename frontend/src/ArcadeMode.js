@@ -34,12 +34,37 @@ function ArcadeMode() {
     const styles = useStyles();
     const [resources, setResources] = useState(challengeGenerator());
     const [isSubmitDialogOpening, setIsSubmitDialogOpening] = useState(false);
-    const clickOnSubmitButton = () => {
+    const [finalLicense, setFinalLicense] = useState('CC');
+    const openSubmitDialog = () => {
         setIsSubmitDialogOpening(true);
     };
 
     const closeSubmitDialog = () => {
         setIsSubmitDialogOpening(false);
+    };
+
+    const selectFinalLicense = (e) => {
+        setFinalLicense(e.target.value)
+    };
+
+    const clickOnSubmitButton = (e) => {
+        e.preventDefault();
+        let licenseArray = [];
+        for (let i = 0; i < resources.length; i++) {
+            if (resources[i].has_been_chosen) {
+                licenseArray.push(resources[i].license);
+            }
+        }
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                type: 'collage',
+                clientLicenseAnswer: finalLicense,
+                licenseArray: licenseArray
+            })
+        };
+        fetch('http://localhost:5000/', requestOptions).then(res => res.json()).then(res => alert('error: ' + res.error_message + '/ ' +'result: ' + res.result));
     };
 
     const onClickRemoveResource = (resource_id) => {
@@ -68,18 +93,19 @@ function ArcadeMode() {
                    aria-labelledby="simple-modal-title"
                    aria-describedby="simple-modal-description">
                 <Paper className={styles.pop_up}>
-                    <Form>
+                    <Form onSubmit={clickOnSubmitButton}>
                         <Grid container direction={'column'} alignItems={'center'}>
                             <Form.Group controlId="exampleForm.SelectCustom">
                                 <Form.Label>Now, please license your content</Form.Label>
-                                <Form.Control as="select" custom>
-                                    <option>CC</option>
-                                    <option>CC-BY</option>
-                                    <option>CC-BY-SA</option>
-                                    <option>CC-BY-NC</option>
-                                    <option>CC-BY-NC-SA</option>
-                                    <option>CC-BY-ND</option>
-                                    <option>CC-BY-NC-ND</option>
+                                <Form.Control as="select" value={finalLicense} onChange={selectFinalLicense}>
+                                    <option value={'none'}>Not combinable</option>
+                                    <option value={'CC_ZERO'}>CC</option>
+                                    <option value={'CC_BY'}>CC-BY</option>
+                                    <option value={'CC_BY_SA'}>CC-BY-SA</option>
+                                    <option value={'CC_BY_NC'}>CC-BY-NC</option>
+                                    <option value={'CC_BY_NC_SA'}>CC-BY-NC-SA</option>
+                                    <option value={'CC_BY_ND'}>CC-BY-ND</option>
+                                    <option value={'CC_BY_NC_ND'}>CC-BY-NC-ND</option>
                                 </Form.Control>
                             </Form.Group>
                             <Button variant={'contained'} type={'submit'}>
@@ -134,7 +160,7 @@ function ArcadeMode() {
             </Grid>
             <Grid container item justify={'center'} className={styles.submit_button}>
                 <Grid item xs={3}>
-                    <Button variant={'contained'} fullWidth onClick={clickOnSubmitButton}>Submit</Button>
+                    <Button variant={'contained'} fullWidth onClick={openSubmitDialog}>Submit</Button>
                 </Grid>
             </Grid>
         </Grid>

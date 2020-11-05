@@ -24,18 +24,18 @@ app.use(function (req, res, next) {
 });
 
 app.post("/", (req, res) => {
-  // console.log('req.body :>> ', req.body);
-  // res.send("Done!");
   const { type } = req.body;
   if (type.toLowerCase() === constants.TYPE.collage) {
+    console.log(req.body);
     console.log('utils.checkCompatibilityCollage(req.body) :>> ', utils.checkCompatibilityCollage(req.body));
     res.send(utils.checkCompatibilityCollage(req.body))
   } else if (type.toLowerCase() === constants.TYPE.composition) {
+    console.log(req.body);
     console.log('utils.checkCompatibilityComposition(req.body) :>> ', utils.checkCompatibilityComposition(req.body));
     res.send(utils.checkCompatibilityComposition(req.body))
   }
 });
 
-app.listen(6969, () => {
-  console.log("App listening on port 6969");
+app.listen(5000, () => {
+  console.log("App listening on port 5000");
 });

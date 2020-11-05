@@ -11,7 +11,7 @@ const containOnlyNDLicenses = (generated_result) => {
 
 const challengeGenerator = () => {
     const resource_types = ['audio', 'document', 'video', 'picture'];
-    const licenses = ['CC_0', 'CC_BY', 'CC_BY_SA', 'CC_BY_NC', 'CC_BY_NC_SA', 'CC_BY_ND', 'CC_BY_NC_ND'];
+    const licenses = ['CC_ZERO', 'CC_BY', 'CC_BY_SA', 'CC_BY_NC', 'CC_BY_NC_SA', 'CC_BY_ND', 'CC_BY_NC_ND'];
     let result = [];
     for (let i = 0; i < 8; i++) {
         const resource = resource_types[Math.floor(Math.random() * 4)];
