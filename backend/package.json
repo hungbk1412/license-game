@@ -7,18 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hungbk1412/license-game-backend.git"
-  },
-  "author": "",
+  "author": "Vu Tuan Tran",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/hungbk1412/license-game-backend/issues"
-  },
-  "homepage": "https://github.com/hungbk1412/license-game-backend#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "keycloak-connect": "^11.0.3"
   }
 }
