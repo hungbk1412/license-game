@@ -17,7 +17,7 @@ function MainMenu(props) {
     const [to_story, set_to_story] = useState(false);
     const [to_instruction, set_to_instruction] = useState(false);
     const [to_achievements, set_to_achievements] = useState(false);
-    const onClickArcade = () => {
+    const onClickPractice = () => {
         set_to_arcade(true)
     };
 
@@ -35,7 +35,7 @@ function MainMenu(props) {
 
     if (to_arcade) {
         return (
-            <Redirect to={'/arcade'}/>
+            <Redirect to={'/practice'}/>
         )
     } else if (to_story) {
         return (
@@ -54,7 +54,7 @@ function MainMenu(props) {
             <Grid container direction={'column'} spacing={10} className={styles.root}>
                 <Grid container item justify={'center'}>
                     <Grid item xs={6} md={2}>
-                        <Button variant={'contained'} fullWidth onClick={onClickArcade}>Arcade</Button>
+                        <Button variant={'contained'} fullWidth onClick={onClickPractice}>Practice</Button>
                     </Grid>
                 </Grid>
                 <Grid container item justify={'center'}>

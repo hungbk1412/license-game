@@ -30,7 +30,7 @@ const useStyles = makeStyles({
     }
 });
 
-function ArcadeMode() {
+function ArcadeMode(props) {
     const styles = useStyles();
     const [resources, setResources] = useState(challengeGenerator());
     const [isSubmitDialogOpening, setIsSubmitDialogOpening] = useState(false);
@@ -59,7 +59,7 @@ function ArcadeMode() {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                type: 'collage',
+                type: props.mode,
                 clientLicenseAnswer: finalLicense,
                 licenseArray: licenseArray
             })

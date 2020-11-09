@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 import MainMenu from './MainMenu';
 import CompositionOrCollage from './CompositionOrCollage';
-import ArcadeMode from './ArcadeMode';
 import AchievementsTable from './AchievementsTable';
 import StoryMode from "./StoryMode";
 import Grid from '@material-ui/core/Grid';
@@ -37,8 +36,7 @@ function App() {
                           md={6}>
                         <NavBar/>
                         <Switch>
-                            <Route path={'/choose-mode'} component={CompositionOrCollage}/>
-                            <Route path={'/arcade'} component={ArcadeMode}/>
+                            <Route path={'/practice'} component={CompositionOrCollage}/>
                             <Route path={'/achievements'} component={AchievementsTable}/>
                             <Route path={'/story'} component={StoryMode}/>
                             <Route path={'/'} component={MainMenu}/>
