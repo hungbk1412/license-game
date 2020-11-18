@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import ArcadeMode from "./ArcadeMode";
+import PracticeMode from "./PracticeMode";
 import {makeStyles} from "@material-ui/core/styles";
-import {Redirect} from 'react-router-dom';
+import {menu_button_background} from "./images";
 
 const useStyle = makeStyles({
     text_pos: {
@@ -11,6 +11,12 @@ const useStyle = makeStyles({
     },
     button_pos: {
         'margin-top': '300px'
+    },
+    button: {
+        'height': '90px',
+        'font-size': '20px',
+        'background-image': `url(${menu_button_background})`,
+        'background-size': '100% 100%'
     }
 });
 
@@ -29,11 +35,11 @@ const CompositionOrCollage = () => {
 
     if (mode === 'composition') {
         return (
-            <ArcadeMode mode={'composition'}/>
+            <PracticeMode mode={'composition'}/>
         )
     } else if (mode === 'collage') {
         return (
-            <ArcadeMode mode={'collage'}/>
+            <PracticeMode mode={'collage'}/>
         )
     } else {
         return (
@@ -45,10 +51,10 @@ const CompositionOrCollage = () => {
                 </Grid>
                 <Grid container item justify={'space-around'} className={styles.button_pos}>
                     <Grid item xs={2}>
-                        <Button variant={'contained'} onClick={clickOnComposition} fullWidth>Composition</Button>
+                        <Button className={styles.button} onClick={clickOnComposition} fullWidth>Composition</Button>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button variant={'contained'} onClick={clickOnCollage} fullWidth>Collage</Button>
+                        <Button className={styles.button} onClick={clickOnCollage} fullWidth>Collage</Button>
                     </Grid>
                 </Grid>
             </Grid>

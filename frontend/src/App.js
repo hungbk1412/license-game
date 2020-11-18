@@ -13,18 +13,16 @@ import NavBar from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
+import {main_background} from "./images";
 
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
-        border: '1px solid black',
-        height: '1200px'
-    },
-    main_menu: {
-        margin_top: '15px',
-        margin_bottom: '15px'
+        'border': '1px solid black',
+        'height': '100vh',
+        'backgroundImage': `url(${main_background})`,
+        'background-size': '100% 100%'
     }
-});
+}));
 
 function App() {
     const styles = useStyles();

@@ -1,4 +1,4 @@
 const ItemTypes = {
-    ARCADE_RESOURCE: 'arcade_resource'
+    PRACTICE_RESOURCE: 'practice_resource'
 };
 export default ItemTypes;

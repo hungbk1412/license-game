@@ -2,16 +2,29 @@ import React, {useState} from 'react';
 import Grid from "@material-ui/core/Grid";
 import Button from '@material-ui/core/Button';
 import {makeStyles} from "@material-ui/core/styles";
-import  { Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
+import {menu_button_background} from "./images";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
         margin: '100px 0px 100px 0px',
         width: '100%'
+    },
+    button: {
+        [theme.breakpoints.up('xl')]: {
+            'height': '90px',
+            'font-size': '20px'
+        },
+        [theme.breakpoints.down('xl')]: {
+            'height': '50px',
+            'font-size': '14px'
+        },
+        'background-image': `url(${menu_button_background})`,
+        'background-size': '100% 100%'
     }
-});
+}));
 
-function MainMenu(props) {
+function MainMenu() {
     const styles = useStyles();
     const [to_arcade, set_to_arcade] = useState(false);
     const [to_story, set_to_story] = useState(false);
@@ -21,15 +34,15 @@ function MainMenu(props) {
         set_to_arcade(true)
     };
 
-    const onClickStory = (props) => {
+    const onClickStory = () => {
         set_to_story(true)
     };
 
-    const onClickHowToPlay = (props) => {
+    const onClickHowToPlay = () => {
         set_to_instruction(true)
     };
 
-    const onClickMyAchievements = (props) => {
+    const onClickMyAchievements = () => {
         set_to_achievements(true)
     };
 
@@ -53,23 +66,24 @@ function MainMenu(props) {
         return (
             <Grid container direction={'column'} spacing={10} className={styles.root}>
                 <Grid container item justify={'center'}>
-                    <Grid item xs={6} md={2}>
-                        <Button variant={'contained'} fullWidth onClick={onClickPractice}>Practice</Button>
+                    <Grid item xs={6} md={3}>
+                        <Button className={styles.button} fullWidth onClick={onClickPractice}>Practice</Button>
                     </Grid>
                 </Grid>
                 <Grid container item justify={'center'}>
-                    <Grid item xs={6} md={2}>
-                        <Button variant={'contained'} fullWidth onClick={onClickStory}>Story Mode</Button>
+                    <Grid item xs={6} md={3}>
+                        <Button className={styles.button} fullWidth onClick={onClickStory}>Story Mode</Button>
                     </Grid>
                 </Grid>
                 <Grid container item justify={'center'}>
-                    <Grid item xs={6} md={2}>
-                        <Button variant={'contained'} fullWidth onClick={onClickHowToPlay}>How To Play</Button>
+                    <Grid item xs={6} md={3}>
+                        <Button className={styles.button} fullWidth onClick={onClickHowToPlay}>How To Play</Button>
                     </Grid>
                 </Grid>
                 <Grid container item justify={'center'}>
-                    <Grid item xs={6} md={2}>
-                        <Button variant={'contained'} fullWidth onClick={onClickMyAchievements}>My Achievements</Button>
+                    <Grid item xs={6} md={3}>
+                        <Button className={styles.button} fullWidth onClick={onClickMyAchievements}>My
+                            Achievements</Button>
                     </Grid>
                 </Grid>
             </Grid>

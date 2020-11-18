@@ -81,7 +81,7 @@ const ResourceInArcade = (props) => {
 
     const [{isDragging}, drag] = useDrag({
         item: {
-            type: ItemTypes.ARCADE_RESOURCE,
+            type: ItemTypes.PRACTICE_RESOURCE,
             resource_id: props.resource_id
         },
         collect: (monitor) => ({
