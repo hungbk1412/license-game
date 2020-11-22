@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
     root: {
         'border': '1px solid black',
         'height': '100vh',
-        'backgroundImage': `url(${main_background})`,
-        'background-size': '100% 100%'
+        // 'backgroundImage': `url(${main_background})`,
+        // 'background-size': '100% 100%'
     }
 }));
 

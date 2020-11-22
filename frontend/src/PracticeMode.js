@@ -56,15 +56,20 @@ function PracticeMode(props) {
                 licenseArray.push(resources[i].license);
             }
         }
+        const token = window.accessToken || 'Example_token';
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token
+            },
             body: JSON.stringify({
                 type: props.mode,
                 clientLicenseAnswer: finalLicense,
                 licenseArray: licenseArray
             })
         };
+        console.log('requestOptions :', requestOptions);
         fetch('http://localhost:5000/', requestOptions).then(res => res.json()).then(res => alert('error: ' + res.error_message + '/ ' +'result: ' + res.result));
     };
 

@@ -1,13 +1,13 @@
 const express = require("express");
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const constants = require("./utils/constants");
 const utils = require("./utils/utils");
 
 const app = express();
+const router = express.Router();
 
-app.use(bodyParser.json());
-//support parsing of application/x-www-form-urlencoded post data
-app.use(bodyParser.urlencoded({extended: true}));
+const memoryStore = new session.MemoryStore();
 
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
@@ -23,7 +23,23 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.post("/", (req, res) => {
+app.use(bodyParser.json());
+//support parsing of application/x-www-form-urlencoded post data
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(session({
+    secret: 'some secret',
+    resave: false,
+    saveUninitialized: true,
+    store: memoryStore
+}));
+
+const keycloak = require('./utils/keycloak-config').initKeycloak(memoryStore);
+
+app.use(keycloak.middleware());
+
+router.post("/", keycloak.protect('user'), (req, res) => {
+    console.log('req : ', req.headers);
     const {type} = req.body;
     if (type.toLowerCase() === constants.TYPE.collage) {
         console.log(req.body);
