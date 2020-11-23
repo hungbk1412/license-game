@@ -18,7 +18,7 @@ import {main_background} from "./images";
 const useStyles = makeStyles((theme) => ({
     root: {
         'border': '1px solid black',
-        'height': '100vh',
+        'min-height': '100vh',
         // 'backgroundImage': `url(${main_background})`,
         // 'background-size': '100% 100%'
     }

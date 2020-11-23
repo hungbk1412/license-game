@@ -6,7 +6,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {
-    CC_0,
+    CC_ZERO,
     CC_BY,
     CC_BY_SA,
     CC_BY_NC,
@@ -19,7 +19,7 @@ import {
     video
 } from './images';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     close_button: {
         'position': 'absolute',
         'top': '-20px',
@@ -28,17 +28,38 @@ const useStyles = makeStyles({
         'color': 'white',
         'transform': 'scale(0.5)'
     },
-    container: {
+    resource_and_close_button: {
         'position': 'relative'
+    },
+    images: {
+        'max-width': '100%',
+        [theme.breakpoints.up('sm')]: {
+            'max-height': (props) => {
+                if (props.inside_the_result_box) {
+                    return '50px';
+                } else {
+                    return '70px';
+                }
+            }
+        },
+        [theme.breakpoints.up('xl')]: {
+            'max-height': (props) => {
+                if (props.inside_the_result_box) {
+                    return '90px';
+                } else {
+                    return '120px';
+                }
+            }
+        }
     }
-});
+}));
 const ResourceInArcade = (props) => {
     const styles = useStyles();
     let resource_type;
     let license;
     switch (props.license) {
-        case 'CC_0':
-            license = CC_0;
+        case 'CC_ZERO':
+            license = CC_ZERO;
             break;
         case 'CC_BY':
             license = CC_BY;
@@ -89,35 +110,32 @@ const ResourceInArcade = (props) => {
         })
     });
 
-    if (props.display_remove_button) {
+    if (props.inside_the_result_box) {
         return (
-            <Grid container item direction={'column'} alignItems={'center'} ref={drag}
-                  style={{width: props.width}}
+            <Grid container item direction={'row'} alignItems={'center'} ref={drag}
                   xs={3}
-                  justify={'center'}>
-                <Grid item className={styles.container}>
-                    <IconButton className={styles.close_button} size={'small'}
-                                onClick={() => props.onClickRemoveResource(props.resource_id)}>
-                        <CancelIcon/>
-                    </IconButton>
-                    <img src={resource_type} width={props.width} height={props.height}/>
-                </Grid>
-                <Grid item>
-                    <img src={license} width={props.width}/>
+                  justify={'center'}
+            >
+                <Grid container item direction={'row'} ref={drag} xs={6} justify={'center'}>
+                    <Grid item className={styles.resource_and_close_button}>
+                        <IconButton className={styles.close_button} size={'small'}
+                                    onClick={() => props.onClickRemoveResource(props.resource_id)}>
+                            <CancelIcon/>
+                        </IconButton>
+                        <img className={styles.images} src={resource_type}/>
+                    </Grid>
+                    <img className={styles.images} src={license}/>
                 </Grid>
             </Grid>
         );
     } else {
         return (
-            <Grid container item direction={'column'} alignItems={'center'} ref={drag}
-                  style={{width: props.width}}
+            <Grid container item direction={'row'} alignItems={'flex-end'}
                   xs={3}
                   justify={'center'}>
-                <Grid item className={styles.container}>
-                    <img src={resource_type} width={props.width} height={props.height}/>
-                </Grid>
-                <Grid item>
-                    <img src={license} width={props.width}/>
+                <Grid container item direction={'row'} ref={drag} xs={6} justify={'center'}>
+                    <img className={styles.images} src={resource_type}/>
+                    <img className={styles.images} src={license}/>
                 </Grid>
             </Grid>
         );

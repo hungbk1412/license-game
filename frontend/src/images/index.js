@@ -1,4 +1,4 @@
-export const CC_0 = require ('./licenses/CC_0.png');
+export const CC_ZERO = require ('./licenses/CC_ZERO.png');
 export const CC_BY = require ('./licenses/CC_BY.png');
 export const CC_BY_SA = require ('./licenses/CC_BY_SA.png');
 export const CC_BY_NC = require ('./licenses/CC_BY_NC.png');

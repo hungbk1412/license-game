@@ -11,28 +11,49 @@ import Paper from '@material-ui/core/Paper';
 import Form from 'react-bootstrap/Form';
 import challengeGenerator from './challenge_generator/Arcade';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     result_box: {
-        'border': '1px solid black',
-        'height': '200px',
-        'margin-top': '100px'
+        [theme.breakpoints.up('sm')]: {
+            'border': '1px solid black',
+            'height': '280px',
+            'margin-top': '50px'
+        },
+        [theme.breakpoints.up('xl')]: {
+            'border': '1px solid black',
+            'height': '350px',
+            'margin-top': '50px'
+        }
     },
     submit_button: {
-        'margin-top': '100px'
+        [theme.breakpoints.up('sm')]: {
+            'margin-top': '40px'
+        },
+        [theme.breakpoints.up('xl')]: {
+            'margin-top': '90px'
+        }
     },
     pop_up: {
-        'position': 'absolute',
-        'width': '400px',
-        'height': '200px',
-        'top': '50%',
-        'left': '50%',
-        'transform': 'translate(-50%,-50%)'
+        [theme.breakpoints.up('sm')]: {
+            'position': 'absolute',
+            'width': '400px',
+            'height': '200px',
+            'top': '50%',
+            'left': '50%',
+            'transform': 'translate(-50%,-50%)'
+        },
+        [theme.breakpoints.up('xl')]: {
+            'position': 'absolute',
+            'width': '400px',
+            'height': '200px',
+            'top': '50%',
+            'left': '50%',
+            'transform': 'translate(-50%,-50%)'
+        }
     }
-});
+}));
 
 function PracticeMode(props) {
     const styles = useStyles();
-    console.log(styles.result_box);
     const [resources, setResources] = useState(challengeGenerator());
     const [isSubmitDialogOpening, setIsSubmitDialogOpening] = useState(false);
     const [finalLicense, setFinalLicense] = useState('CC');
@@ -61,7 +82,7 @@ function PracticeMode(props) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token
+                'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify({
                 type: props.mode,
@@ -69,8 +90,10 @@ function PracticeMode(props) {
                 licenseArray: licenseArray
             })
         };
-        console.log('requestOptions :', requestOptions);
-        fetch('http://localhost:5000/', requestOptions).then(res => res.json()).then(res => alert('error: ' + res.error_message + '/ ' +'result: ' + res.result));
+        fetch('http://localhost:5000/', requestOptions)
+            .then(res => res.json())
+            .then(res => alert('error: ' + res.error_message + '/ ' + 'result: ' + res.result))
+            .catch(e => console.log(e));
     };
 
     const onClickRemoveResource = (resource_id) => {
@@ -123,7 +146,7 @@ function PracticeMode(props) {
             </Modal>
             <Grid container item justify={'center'}>
                 <Grid container item direction={'row'} justify={'space-around'} alignItems={'center'}
-                      className={styles.result_box} xs={8} ref={drop}>
+                      className={styles.result_box} xs={9} ref={drop}>
                     {
                         resources.map((resource) => {
                             if (resource.has_been_chosen) {
@@ -136,7 +159,7 @@ function PracticeMode(props) {
                                                       license={resource.license}
                                                       resource_id={resource.resource_id}
                                                       onClickRemoveResource={onClickRemoveResource}
-                                                      display_remove_button={true}
+                                                      inside_the_result_box={true}
                                     />
                                 );
                             }
