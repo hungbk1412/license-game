@@ -16,11 +16,15 @@ import {HTML5Backend} from 'react-dnd-html5-backend';
 import {main_background} from "./images";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+    game: {
         'border': '1px solid black',
         'min-height': '100vh',
+        'background-color': 'white'
         // 'backgroundImage': `url(${main_background})`,
         // 'background-size': '100% 100%'
+    },
+    root: {
+        'background-color': '#6d3003'
     }
 }));
 
@@ -29,8 +33,8 @@ function App() {
     return (
         <DndProvider backend={HTML5Backend}>
             <Router>
-                <Grid container justify={'center'}>
-                    <Grid container item direction={'column'} alignItems={'center'} className={styles.root} xs={12}
+                <Grid container justify={'center'} className={styles.root}>
+                    <Grid container item direction={'column'} alignItems={'center'} className={styles.game} xs={12}
                           md={6}>
                         <NavBar/>
                         <Switch>
