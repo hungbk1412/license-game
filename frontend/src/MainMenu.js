@@ -26,13 +26,10 @@ const useStyles = makeStyles((theme) => ({
 
 function MainMenu() {
     const styles = useStyles();
-    const [to_arcade, set_to_arcade] = useState(false);
+    const [to_arcade] = useState(false);
     const [to_story, set_to_story] = useState(false);
     const [to_instruction, set_to_instruction] = useState(false);
     const [to_achievements, set_to_achievements] = useState(false);
-    const onClickPractice = () => {
-        set_to_arcade(true)
-    };
 
     const onClickStory = () => {
         set_to_story(true)
@@ -65,11 +62,6 @@ function MainMenu() {
     } else {
         return (
             <Grid container direction={'column'} spacing={10} className={styles.root}>
-                <Grid container item justify={'center'}>
-                    <Grid item xs={6} md={3}>
-                        <Button className={styles.button} fullWidth onClick={onClickPractice}>Practice</Button>
-                    </Grid>
-                </Grid>
                 <Grid container item justify={'center'}>
                     <Grid item xs={6} md={3}>
                         <Button className={styles.button} fullWidth onClick={onClickStory}>Story Mode</Button>

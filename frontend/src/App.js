@@ -5,9 +5,8 @@ import {
     Route
 } from 'react-router-dom';
 import MainMenu from './MainMenu';
-import CompositionOrCollage from './CompositionOrCollage';
 import AchievementsTable from './AchievementsTable';
-import StoryMode from "./StoryMode";
+import StoryMode from "./playground/StoryMode";
 import Grid from '@material-ui/core/Grid';
 import NavBar from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
@@ -15,18 +14,18 @@ import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
 import {main_background} from "./images";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
     game: {
         'border': '1px solid black',
         'min-height': '100vh',
-        'background-color': 'white'
+        'background-color': 'white',
         // 'backgroundImage': `url(${main_background})`,
         // 'background-size': '100% 100%'
     },
     root: {
         'background-color': '#6d3003'
     }
-}));
+});
 
 function App() {
     const styles = useStyles();
@@ -38,9 +37,19 @@ function App() {
                           md={6}>
                         <NavBar/>
                         <Switch>
-                            <Route path={'/practice'} component={CompositionOrCollage}/>
                             <Route path={'/achievements'} component={AchievementsTable}/>
-                            <Route path={'/story'} component={StoryMode}/>
+                            <Route path={'/story'} component={
+                                () => (
+                                    <StoryMode storyLevel={1} practiceLevel={
+                                        {
+                                            type: 'THEORY',
+                                            level: 1
+                                        }
+                                    }
+                                    />
+                                )
+                            }
+                            />
                             <Route path={'/'} component={MainMenu}/>
                         </Switch>
                     </Grid>

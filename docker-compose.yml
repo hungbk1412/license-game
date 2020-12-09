@@ -10,6 +10,16 @@ services:
       - KEYCLOAK_IMPORT=/tmp/realm-export.json
     volumes:
       - ./realm-export.json:/tmp/realm-export.json
+  mongo_db:
+    image: "mongo:4.2-bionic"
+    ports:
+      - "27017:27017"
+  mongo_db_web_interface:
+    image: "mongo-express"
+    ports:
+      - "4000:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo_db
 #
 #  backend:
 #    image: "node:12.19.1-alpine"

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const constants = require("./utils/constants");
 const utils = require("./utils/utils");
 const cors = require('cors');
+const mongoose = require('mongoose');
 const app = express();
 
 const memoryStore = new session.MemoryStore();
@@ -45,6 +46,9 @@ app.post("/", keycloak.checkSso(), (req, res) => {
     }
 });
 
-app.listen(5000, () => {
-    console.log("App listening on port 5000");
-});
+mongoose.connect('mongodb://localhost:27017/license_game', {useNewUrlParser: true, useUnifiedTopology: true}).then(res => {
+    console.log('connected to mongoDB');
+    app.listen(5000, () => {
+        console.log("App listening on port 5000");
+    });
+}).catch(err => console.log(err));
