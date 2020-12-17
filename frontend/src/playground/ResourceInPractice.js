@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import ItemTypes from "../ItemTypes";
+import {itemTypes, licenseTypes, resourceTypes} from "../Types";
 import {useDrag} from 'react-dnd';
 import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
@@ -58,25 +58,25 @@ const ResourceInPractice = (props) => {
     let resource_type;
     let license;
     switch (props.license) {
-        case 'CC_ZERO':
+        case licenseTypes.CC_ZERO:
             license = CC_ZERO;
             break;
-        case 'CC_BY':
+        case licenseTypes.CC_BY:
             license = CC_BY;
             break;
-        case 'CC_BY_SA':
+        case licenseTypes.CC_BY_SA:
             license = CC_BY_SA;
             break;
-        case 'CC_BY_NC':
+        case licenseTypes.CC_BY_NC:
             license = CC_BY_NC;
             break;
-        case 'CC_BY_NC_SA':
+        case licenseTypes.CC_BY_NC_SA:
             license = CC_BY_NC_SA;
             break;
-        case 'CC_BY_ND':
+        case licenseTypes.CC_BY_ND:
             license = CC_BY_ND;
             break;
-        case 'CC_BY_NC_ND':
+        case licenseTypes.CC_BY_NC_ND:
             license = CC_BY_NC_ND;
             break;
         default:
@@ -84,16 +84,16 @@ const ResourceInPractice = (props) => {
     }
 
     switch (props.resource_type) {
-        case 'audio':
+        case resourceTypes.AUDIO:
             resource_type = audio;
             break;
-        case 'document':
+        case resourceTypes.DOCUMENT:
             resource_type = document;
             break;
-        case 'picture':
+        case resourceTypes.PICTURE:
             resource_type = picture;
             break;
-        case 'video':
+        case resourceTypes.VIDEO:
             resource_type = video;
             break;
         default:
@@ -102,7 +102,7 @@ const ResourceInPractice = (props) => {
 
     const [{isDragging}, drag] = useDrag({
         item: {
-            type: ItemTypes.PRACTICE_RESOURCE,
+            type: itemTypes.PRACTICE_RESOURCE,
             resource_id: props.resource_id
         },
         collect: (monitor) => ({

@@ -27,16 +27,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function SubmitDialogInPracticeEditing (props) {
+function ChooseLicenseDialog (props) {
     const styles = useStyles();
     return (
         <Modal open={props.isSubmitDialogOpening}
-               onClose={props.closeSubmitDialog}>
+               onClose={props.closeChooseLicenseDialog}>
             <Paper className={styles.pop_up}>
                 <Form onSubmit={props.clickOnSubmitButton}>
                     <Grid container direction={'column'} alignItems={'center'}>
                         <Form.Group controlId="exampleForm.SelectCustom">
-                            <Form.Label>Now, please license your content</Form.Label>
+                            <Form.Label>{props.message}</Form.Label>
                             <Form.Control as="select" value={props.finalLicense} onChange={props.selectFinalLicense}>
                                 <option value={'none'}>Not combinable</option>
                                 <option value={'CC_ZERO'}>CC</option>
@@ -58,4 +58,4 @@ function SubmitDialogInPracticeEditing (props) {
     );
 }
 
-export default SubmitDialogInPracticeEditing;
+export default ChooseLicenseDialog;

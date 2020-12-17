@@ -12,6 +12,7 @@ import NavBar from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
+import {practiceTypes} from "./Types";
 import {main_background} from "./images";
 
 const useStyles = makeStyles({
@@ -40,12 +41,14 @@ function App() {
                             <Route path={'/achievements'} component={AchievementsTable}/>
                             <Route path={'/story'} component={
                                 () => (
-                                    <StoryMode storyLevel={1} practiceLevel={
-                                        {
-                                            type: 'THEORY',
-                                            level: 1
-                                        }
-                                    }
+                                    <StoryMode story_level={0} practiceLevel={
+                                        // {
+                                        //     type: practiceTypes.EDITING,
+                                        //     level: 1
+                                        // }
+                                        null
+
+                                                                            }
                                     />
                                 )
                             }
