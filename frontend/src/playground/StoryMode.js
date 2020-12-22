@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
@@ -77,26 +77,22 @@ const useStyles = makeStyles((theme) => ({
 
 function StoryMode(props) {
     const styles = useStyles();
-    const [challenge, setChallenge] = useState(challengeGenerator(props.story_level));
+    const [challenge, setChallenge] = useState(challengeGenerator(2));
     const [isSubmitDialogOpening, setIsSubmitDialogOpening] = useState(false);
     const [finalLicense, setFinalLicense] = useState('');
     const [resultsOfLevels, setResultsOfLevels] = useState({});
     const [message, setMessage] = useState('');
     // Only used for questions requiring players to choose many answer (choices)
     const [selectedChoices, setSelectedChoices] = useState([]);
+    const choice0Ref = useRef(null);
+    const choice1Ref = useRef(null);
+    const choice2Ref = useRef(null);
+    const choice3Ref = useRef(null);
 
-    useEffect(() => {
-        if (challenge.require_result_of_levels != null
-            && challenge.require_result_of_levels.length !== 0
-            && challenge.oer_resources.length === 0
-        ) {
-            let newChallenge = lodash.cloneDeep(challenge);
-            challenge.require_result_of_levels.forEach(level => {
-                newChallenge.oer_resources.push(resultsOfLevels[level]);
-            });
-            setChallenge(newChallenge);
-        }
-    });
+    /*
+        Open the dialog, in which players choose a license as their final answer
+        @param [int] choiceNumbers
+     */
     const openChooseLicenseDialog = (choiceNumbers) => {
         let newChallenge = lodash.cloneDeep(challenge);
         let newMessage = challenge.oer_resources[0];
@@ -113,26 +109,36 @@ function StoryMode(props) {
         setFinalLicense(e.target.value)
     };
 
-    const removeSelectedChoices = (removeAll = false, choiceNumber = null) => {
-        if (removeAll) {
-            selectedChoices.forEach(choice => {
-                if (selectedChoices.includes(choice)) {
-                    document.getElementById('story-choice-' + choice).classList.remove(styles.chosen_choice);
-                    let newSelectedChoices = [...selectedChoices];
-                    newSelectedChoices = newSelectedChoices.filter(elem => elem !== choice);
-                    setSelectedChoices(newSelectedChoices);
+    /*
+        Unset the selected choices
+        @params [int] choiceNumbers
+     */
+    const unselectSelectedChoices = (choiceNumbers) => {
+        choiceNumbers.forEach(choiceNumber => {
+            if ([0, 1, 2, 3].includes(choiceNumber)) {
+                switch (choiceNumber) {
+                    case 0:
+                        choice0Ref.current.classList.remove(styles.chosen_choice);
+                        break;
+                    case 1:
+                        choice1Ref.current.classList.remove(styles.chosen_choice);
+                        break;
+                    case 2:
+                        choice2Ref.current.classList.remove(styles.chosen_choice);
+                        break;
+                    case 3:
+                        choice3Ref.current.classList.remove(styles.chosen_choice);
+                        break;
+                    default:
+                        break;
                 }
-            })
-        } else if (choiceNumber !== null) {
-            if (selectedChoices.includes(choiceNumber)) {
-                document.getElementById('story-choice-' + choiceNumber).classList.remove(styles.chosen_choice);
                 let newSelectedChoices = [...selectedChoices];
                 newSelectedChoices = newSelectedChoices.filter(elem => elem !== choiceNumber);
                 setSelectedChoices(newSelectedChoices);
+            } else {
+                console.log('wrong choice number');
             }
-        } else {
-            console.log('provided choice number is not valid!!');
-        }
+        });
     };
 
     const closeChooseLicenseDialog = () => {
@@ -150,7 +156,7 @@ function StoryMode(props) {
                         [challenge.level]: finalLicense
                     });
                     setFinalLicense('');
-                    removeSelectedChoices(true);
+                    unselectSelectedChoices(selectedChoices);
                     goToNextLevel();
                 } else {
                     alert(res.error_message);
@@ -169,9 +175,24 @@ function StoryMode(props) {
             openChooseLicenseDialog([choiceNumber]);
         } else if (challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES) {
             if (selectedChoices.includes(choiceNumber)) {
-                removeSelectedChoices(false, choiceNumber);
+                unselectSelectedChoices([choiceNumber]);
             } else if (selectedChoices.length <= 1) {
-                document.getElementById('story-choice-' + choiceNumber).classList.add(styles.chosen_choice);
+                switch (choiceNumber) {
+                    case 0:
+                        choice0Ref.current.classList.add(styles.chosen_choice);
+                        break;
+                    case 1:
+                        choice1Ref.current.classList.add(styles.chosen_choice);
+                        break;
+                    case 2:
+                        choice2Ref.current.classList.add(styles.chosen_choice);
+                        break;
+                    case 3:
+                        choice3Ref.current.classList.add(styles.chosen_choice);
+                        break;
+                    default:
+                        break;
+                }
                 let newSelectedChoices = [...selectedChoices];
                 newSelectedChoices.push(choiceNumber);
                 setSelectedChoices(newSelectedChoices);
@@ -193,9 +214,37 @@ function StoryMode(props) {
         }
     };
 
-    if (challenge.attached_practice != null && props.finished_practice_for_level !== challenge.level) {
-        return <PracticeMode story_level={challenge.level} practice_type={challenge.attached_practice.type}
-                             practice_level={challenge.attached_practice.level}/>
+    const finishPractice = (id) => {
+        let finishedPracticeIndex = challenge.practices.findIndex(practice => practice.id === id);
+        let newChallenge = lodash.cloneDeep(challenge);
+        newChallenge.practices[finishedPracticeIndex].finished = true;
+        setChallenge(newChallenge);
+    };
+
+    const getNextUnfinishedPractice = (practices) => {
+        for (let i = 0; i < practices.length; i++) {
+            if (!practices[i].finished) {
+                return practices[i];
+            }
+        }
+        return null;
+    };
+
+    useEffect(() => {
+        if (challenge.require_result_of_levels != null
+            && challenge.require_result_of_levels.length !== 0
+            && challenge.oer_resources.length === 0
+        ) {
+            let newChallenge = lodash.cloneDeep(challenge);
+            challenge.require_result_of_levels.forEach(level => {
+                newChallenge.oer_resources.push(resultsOfLevels[level]);
+            });
+            setChallenge(newChallenge);
+        }
+    });
+
+    if (challenge.practices != null && getNextUnfinishedPractice(challenge.practices) !== null) {
+        return <PracticeMode finishPractice={finishPractice} practice={getNextUnfinishedPractice(challenge.practices)}/>
     } else {
         return (
             <Grid container item direction={'row'} justify={'center'} alignItems={'center'}>
@@ -224,18 +273,21 @@ function StoryMode(props) {
                           alignItems={'center'} xs={11}>{challenge.question}</Grid>
                     <Grid container item xs={12} justify={'space-between'}>
                         <Grid container item xs={5} className={styles.choice}><Button variant={'contained'}
-                                                                                      id={'story-choice-0'}
+                                                                                      ref={choice0Ref}
                                                                                       fullWidth
                                                                                       onClick={() => clickOnAChoice(0)}>{challenge.choices[0].display_text}</Button></Grid>
                         <Grid container item xs={5} className={styles.choice}><Button variant={'contained'}
+                                                                                      ref={choice1Ref}
                                                                                       id={'story-choice-1'}
                                                                                       fullWidth
                                                                                       onClick={() => clickOnAChoice(1)}>{challenge.choices[1].display_text}</Button></Grid>
                         <Grid container item xs={5} className={styles.choice}><Button variant={'contained'}
+                                                                                      ref={choice2Ref}
                                                                                       id={'story-choice-2'}
                                                                                       fullWidth
                                                                                       onClick={() => clickOnAChoice(2)}>{challenge.choices[2].display_text}</Button></Grid>
                         <Grid container item xs={5} className={styles.choice}><Button variant={'contained'}
+                                                                                      ref={choice3Ref}
                                                                                       id={'story-choice-3'}
                                                                                       fullWidth
                                                                                       onClick={() => clickOnAChoice(3)}>{challenge.choices[3].display_text}</Button></Grid>

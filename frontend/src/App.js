@@ -39,20 +39,7 @@ function App() {
                         <NavBar/>
                         <Switch>
                             <Route path={'/achievements'} component={AchievementsTable}/>
-                            <Route path={'/story'} component={
-                                () => (
-                                    <StoryMode story_level={0} practiceLevel={
-                                        // {
-                                        //     type: practiceTypes.EDITING,
-                                        //     level: 1
-                                        // }
-                                        null
-
-                                                                            }
-                                    />
-                                )
-                            }
-                            />
+                            <Route path={'/story'} component={() => <StoryMode start_level={0}/>}/>
                             <Route path={'/'} component={MainMenu}/>
                         </Switch>
                     </Grid>

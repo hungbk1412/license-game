@@ -58,15 +58,17 @@ const containOnlyNDLicenses = (generated_result) => {
     return true;
 };
 
-const generatePracticeEditingLevel0 = () => {
+const generatePracticeEditingLevel0 = (type) => {
     const resource_types = [resourceTypes.AUDIO, resourceTypes.DOCUMENT, resourceTypes.VIDEO, resourceTypes.PICTURE];
     const licenses = [licenseTypes.CC_ZERO, licenseTypes.CC_BY, licenseTypes.CC_BY_SA, licenseTypes.CC_BY_NC, licenseTypes.CC_BY_NC_SA, licenseTypes.CC_BY_ND, licenseTypes.CC_BY_NC_ND];
     let result = {
-        type: practiceTypes.EDITING,
+        type: type,
         level: 0,
+        description: `Pick two resources and drop into the rectangle ${type}`,
         resources: []
     };
-    for (let i = 0; i < 8; i++) {
+
+    for (let i = 0; i < 3; i++) {
         const resource = resource_types[Math.floor(Math.random() * 4)];
         const license = licenses[Math.floor(Math.random() * 7)];
         result.resources.push({
@@ -76,22 +78,26 @@ const generatePracticeEditingLevel0 = () => {
             resource_id: i
         });
     }
+
     if (containOnlyNDLicenses(result.resources)) {
         return generatePracticeEditingLevel0();
     }
+
     return result;
 };
 
-const generatePracticeEditingLevel1 = () => {
+const generatePracticeEditingLevel1 = (type) => {
     const resource_types = [resourceTypes.AUDIO, resourceTypes.DOCUMENT, resourceTypes.VIDEO, resourceTypes.PICTURE];
     const licenses = [licenseTypes.CC_ZERO, licenseTypes.CC_BY, licenseTypes.CC_BY_SA, licenseTypes.CC_BY_NC, licenseTypes.CC_BY_NC_SA, licenseTypes.CC_BY_ND, licenseTypes.CC_BY_NC_ND];
 
     let result = {
-        type: practiceTypes.EDITING,
+        type: type,
         level: 1,
+        description: `Pick three resources and drop into the rectangle ${type}`,
         resources: []
     };
-    for (let i = 0; i < 8; i++) {
+
+    for (let i = 0; i < 4; i++) {
         const resource = resource_types[Math.floor(Math.random() * 4)];
         const license = licenses[Math.floor(Math.random() * 7)];
         result.resources.push({
@@ -101,34 +107,11 @@ const generatePracticeEditingLevel1 = () => {
             resource_id: i
         });
     }
+
     if (containOnlyNDLicenses(result.resources)) {
         return generatePracticeEditingLevel1();
     }
-    return result;
-};
 
-const generatePracticeEditingLevel2 = () => {
-    const resource_types = [resourceTypes.AUDIO, resourceTypes.DOCUMENT, resourceTypes.VIDEO, resourceTypes.PICTURE];
-    const licenses = [licenseTypes.CC_ZERO, licenseTypes.CC_BY, licenseTypes.CC_BY_SA, licenseTypes.CC_BY_NC, licenseTypes.CC_BY_NC_SA, licenseTypes.CC_BY_ND, licenseTypes.CC_BY_NC_ND];
-
-    let result = {
-        type: practiceTypes.EDITING,
-        level: 2,
-        resources: []
-    };
-    for (let i = 0; i < 8; i++) {
-        const resource = resource_types[Math.floor(Math.random() * 4)];
-        const license = licenses[Math.floor(Math.random() * 7)];
-        result.resources.push({
-            resource_type: resource,
-            license: license,
-            has_been_chosen: false,
-            resource_id: i
-        });
-    }
-    if (containOnlyNDLicenses(result.resources)) {
-        return generatePracticeEditingLevel2();
-    }
     return result;
 };
 
@@ -145,14 +128,12 @@ const practiceTheoryGenerator = (level) => {
     }
 };
 
-const practiceEditingGenerator = (level) => {
+const practiceEditingGenerator = (level, type) => {
     switch (level) {
         case 0:
-            return generatePracticeEditingLevel0();
+            return generatePracticeEditingLevel0(type);
         case 1:
-            return generatePracticeEditingLevel1();
-        case 2:
-            return generatePracticeEditingLevel2();
+            return generatePracticeEditingLevel1(type);
         default:
             return null;
     }

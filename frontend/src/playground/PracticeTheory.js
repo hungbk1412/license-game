@@ -35,103 +35,64 @@ const useStyles = makeStyles((theme) => ({
         'transform': 'scale(0.5)'
     }
 }));
-const initFinishPracticeArray = (practice_levels) => {
-    let result = [];
-    practice_levels.forEach(level => {
-        result.push({
-            level: level,
-            finished: false
-        });
-    });
-    return result;
-};
-
-const getNextUnfinishedPractice = (finishPractice) => {
-    for (let i = 0; i < finishPractice.length; i++) {
-        if (!finishPractice[i].finished) {
-            return finishPractice[i].level;
-        }
-    }
-    return null;
-};
 
 function PracticeTheory(props) {
     const styles = useStyles();
-    const [finishPractice, setFinishPractice] = useState(initFinishPracticeArray(props.practice_level));
-    const [practice, setPractice] = useState(practiceTheoryGenerator(props.practice_level[0]));
+    const practice = props.practice;
     const helper_array = [...Array(practice.numberOfMatches).keys()];
-
-    useEffect(() => {
-        let current = finishPractice.findIndex(elem => {
-            return elem.level === practice.level;
-        });
-        if (finishPractice[current].finished && getNextUnfinishedPractice(finishPractice) !== null) {
-            setPractice(practiceTheoryGenerator(getNextUnfinishedPractice(finishPractice)));
-        }
-    });
+    const finishPractice = props.finishPractice;
 
     const clickOnSkip = (e) => {
         e.preventDefault();
-        let newFinishPractice = lodash.cloneDeep(finishPractice);
-        setFinishPractice(newFinishPractice.map(level => {
-            if (level.level === practice.level) {
-                level.finished = true;
-            }
-            return level;
-        }));
+        finishPractice(props.practice_id);
     };
-
-    if (getNextUnfinishedPractice(finishPractice) === null) {
-        return <StoryMode story_level={props.story_level} finished_practice_for_level={props.story_level}/>
-    } else {
-        return (
-            <Grid container item direction={'row'} justify={'center'} xs={10}>
-                <PracticeTheoryCanvas/>
-                <Grid container item direction={'row'} className={styles.hint_box} xs={10} justify={'center'}
-                      alignItems={'center'}>
-                    <Grid item>Match the CC licences with the corresponding definitions</Grid>
-                </Grid>
-                <Grid container item direction={'row'}>
-                    {
-                        helper_array.map(index => {
-                            return (
-                                <Grid container item xs={12}
-                                      key={practice.symbols[index] + '_' + practice.meanings[index]}
-                                      className={styles.match_row}>
-                                    <Grid container item xs={6}>
-                                        <Grid container item justify={'flex-start'} xs={6}>
-                                            {practice.symbols[index]}
-                                        </Grid>
-                                        <Grid container item justify={'flex-start'} xs={6}>
-                                            <FiberManualRecordOutlinedIcon fontSize={'small'}
-                                                                           className={styles.connecting_dot}/>
-                                        </Grid>
+    return (
+        <Grid container item direction={'row'} justify={'center'} xs={10}>
+            <PracticeTheoryCanvas/>
+            <Grid container item direction={'row'} className={styles.hint_box} xs={10} justify={'center'}
+                  alignItems={'center'}>
+                <Grid item>Match the CC licences with the corresponding definitions</Grid>
+            </Grid>
+            <Grid container item direction={'row'}>
+                {
+                    helper_array.map(index => {
+                        return (
+                            <Grid container item xs={12}
+                                  key={practice.symbols[index] + '_' + practice.meanings[index]}
+                                  className={styles.match_row}>
+                                <Grid container item xs={6}>
+                                    <Grid container item justify={'flex-start'} xs={6}>
+                                        {practice.symbols[index]}
                                     </Grid>
-                                    <Grid container item xs={6}>
-                                        <Grid container item justify={'flex-start'} xs={2}>
-                                            <FiberManualRecordOutlinedIcon fontSize={'small'}
-                                                                           className={styles.connecting_dot}/>
-                                        </Grid>
-                                        <Grid container item justify={'flex-start'} xs={10}>
-                                            {practice.meanings[index]}
-                                        </Grid>
+                                    <Grid container item justify={'flex-start'} xs={6}>
+                                        <FiberManualRecordOutlinedIcon fontSize={'small'}
+                                                                       className={styles.connecting_dot}/>
                                     </Grid>
                                 </Grid>
-                            );
-                        })
-                    }
+                                <Grid container item xs={6}>
+                                    <Grid container item justify={'flex-start'} xs={2}>
+                                        <FiberManualRecordOutlinedIcon fontSize={'small'}
+                                                                       className={styles.connecting_dot}/>
+                                    </Grid>
+                                    <Grid container item justify={'flex-start'} xs={10}>
+                                        {practice.meanings[index]}
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        );
+                    })
+                }
+            </Grid>
+            <Grid container item xs={12} justify={'space-around'} className={styles.buttons}>
+                <Grid container item xs={3} justify={'center'}>
+                    <Button variant={"contained"} fullWidth color={"primary"}>Submit</Button>
                 </Grid>
-                <Grid container item xs={12} justify={'space-around'} className={styles.buttons}>
-                    <Grid container item xs={3} justify={'center'}>
-                        <Button variant={"contained"} fullWidth color={"primary"}>Submit</Button>
-                    </Grid>
-                    <Grid container item xs={3} justify={'center'}>
-                        <Button variant={"contained"} fullWidth onClick={clickOnSkip}>Skip</Button>
-                    </Grid>
+                <Grid container item xs={3} justify={'center'}>
+                    <Button variant={"contained"} fullWidth onClick={clickOnSkip}>Skip</Button>
                 </Grid>
             </Grid>
-        )
-    }
+        </Grid>
+    )
 }
 
 export default PracticeTheory;

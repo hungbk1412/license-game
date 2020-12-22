@@ -21,7 +21,8 @@ const resourceTypes = {
 
 const practiceTypes = {
     THEORY: 'theory',
-    EDITING: 'editing'
+    EDITING_COMPOSITION: 'editing_composition',
+    EDITING_COLLAGE: 'editing_collage'
 };
 
 const questionTypes = {

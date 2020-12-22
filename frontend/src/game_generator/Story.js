@@ -8,16 +8,26 @@ const generateLevel0 = () => {
     return {
         type: questionTypes.MULTIPLE_CHOICE,
         level: 0,
-        attached_practice:
-            {
-                type: practiceTypes.THEORY,
-                level: [0, 1]
-            }
+        practices:
+            [
+                {
+                    id: 0,
+                    type: practiceTypes.THEORY,
+                    level: 0,
+                    finished: false
+                },
+                {
+                    id: 1,
+                    type: practiceTypes.THEORY,
+                    level: 1,
+                    finished: false
+                }
+            ]
         ,
         context: 'Nowadays, swords are often made from steel',
         description_image: iron_ore,
         question: `Steel is an alloy of carbon and a mysterious metal X. Given that X
-                    is associated with a CC license, which does not allow any commercial usages. What is X?`,
+                   is associated with a CC license, which does not allow any commercial usages. What is X?`,
         choices: [
             {
                 display_text: 'Aluminium (CC-BY)',
@@ -44,10 +54,20 @@ const generateLevel1 = () => {
     return {
         type: questionTypes.MULTIPLE_CHOICE,
         level: 1,
-        attached_practice: {
-            type: practiceTypes.THEORY,
-            level: [2]
-        },
+        practices: [
+            {
+                id: 0,
+                finished: false,
+                type: practiceTypes.THEORY,
+                level: 2
+            },
+            {
+                id: 1,
+                finished: false,
+                type: practiceTypes.EDITING_COLLAGE,
+                level: 0
+            }
+        ],
         context: `Ok, so to make steel, we need to mix iron and carbon, but at which ratio?
                   Too little carbon makes the sword soft, too much carbon makes the sword can be broken easily`,
         description_image: iron_ore,
@@ -79,10 +99,20 @@ const generateLevel2 = () => {
     return {
         type: questionTypes.MULTIPLE_CHOICE,
         level: 2,
-        attached_practice: {
-            type: practiceTypes.EDITING,
-            level: [0]
-        },
+        practices: [
+            {
+                id: 0,
+                finished: false,
+                type: practiceTypes.EDITING_COMPOSITION,
+                level: 0
+            },
+            {
+                id: 1,
+                finished: false,
+                type: practiceTypes.EDITING_COMPOSITION,
+                level: 1
+            }
+        ],
         context: `A royal gift has to be flawless. Iron and carbon are not enough. The king want the sword to last after decades.
                   Therefore, we will put a secret substance into our steel. This small addition is what make you the best blacksmith of the country`,
         description_image: iron_ore,
