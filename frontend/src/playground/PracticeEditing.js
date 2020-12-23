@@ -1,7 +1,5 @@
-import React, {useState} from 'react';
-import lodash from 'lodash';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import {practiceEditingGenerator} from "../game_generator/Practice";
 import {useDrop} from "react-dnd";
 import {itemTypes} from "../Types";
 import Grid from "@material-ui/core/Grid";
@@ -59,15 +57,22 @@ function PracticeEditing(props) {
     const practice = props.practice;
     const [isSubmitDialogOpening, setIsSubmitDialogOpening] = useState(false);
     const [finalLicense, setFinalLicense] = useState('CC');
-    //   const [practice, setPractice] = useState(practiceEditingGenerator(props.practice.level, props.practice.type));
     const [chosenResourcesArray, setChosenResourcesArray] = useState(initChosenResourcesArray(practice.resources));
-    console.log(practice);
-    console.log(chosenResourcesArray);
     const finishPractice = props.finishPractice;
+
+    useEffect(() => {
+        if (practice.resources.length !== chosenResourcesArray.length) {
+            setChosenResourcesArray(initChosenResourcesArray(practice.resources));
+        }
+    });
 
     const hasResourcesBeenChosen = (resource_id) => {
         const resource = chosenResourcesArray.find(element => element.resource_id === resource_id);
-        return resource.has_been_chosen;
+        if (resource) {
+            return resource.has_been_chosen;
+        }
+        // it does not matter if the following line return true or false.
+        return false;
     };
 
     const openChooseLicenseDialog = () => {
@@ -102,32 +107,25 @@ function PracticeEditing(props) {
     };
 
     const onClickRemoveResource = (resource_id) => {
-        // let new_practice = lodash.cloneDeep(practice);
-        // new_practice.resources[resource_id].has_been_chosen = false;
-        // setPractice(new_practice);
-        let new_practice = chosenResourcesArray.map (resource => {
+        let new_resources = chosenResourcesArray.map(resource => {
             if (resource.resource_id === resource_id) {
                 resource.has_been_chosen = false;
             }
             return resource
         });
-        setChosenResourcesArray(new_practice);
+        setChosenResourcesArray(new_resources);
     };
 
     const [{isOver}, drop] = useDrop({
         accept: itemTypes.PRACTICE_RESOURCE,
         drop: (item, monitor) => {
-            // const position = practice.resources.findIndex(resource => resource.resource_id === item.resource_id);
-            // let new_practice = lodash.cloneDeep(practice);
-            // new_practice.resources[position].has_been_chosen = true;
-            // setPractice(new_practice);
-            let new_practice = chosenResourcesArray.map (resource => {
+            let new_resources = chosenResourcesArray.map(resource => {
                 if (resource.resource_id === item.resource_id) {
                     resource.has_been_chosen = true;
                 }
                 return resource
             });
-            setChosenResourcesArray(new_practice);
+            setChosenResourcesArray(new_resources);
         },
         collect: monitor => ({
             isOver: !!monitor.isOver()

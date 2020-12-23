@@ -1,13 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import lodash from 'lodash';
+import React, {useEffect} from 'react';
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
 import FiberManualRecordOutlinedIcon from '@material-ui/icons/FiberManualRecordOutlined';
-import {practiceTheoryGenerator} from "../game_generator/Practice";
 import PracticeTheoryCanvas from "./PracticeTheoryCanvas";
-import StoryMode from "./StoryMode";
-import {practiceTypes} from "../Types";
 
 const useStyles = makeStyles((theme) => ({
     b: {
@@ -46,6 +42,11 @@ function PracticeTheory(props) {
         e.preventDefault();
         finishPractice(props.practice_id);
     };
+
+    let test;
+    useEffect(() => {
+       test = document.getElementById('cac-0');
+    });
     return (
         <Grid container item direction={'row'} justify={'center'} xs={10}>
             <PracticeTheoryCanvas/>
@@ -66,7 +67,8 @@ function PracticeTheory(props) {
                                     </Grid>
                                     <Grid container item justify={'flex-start'} xs={6}>
                                         <FiberManualRecordOutlinedIcon fontSize={'small'}
-                                                                       className={styles.connecting_dot}/>
+                                                                       className={styles.connecting_dot}
+                                        id={'cac-'+index}/>
                                     </Grid>
                                 </Grid>
                                 <Grid container item xs={6}>

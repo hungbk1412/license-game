@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 
 function StoryMode(props) {
     const styles = useStyles();
-    const [challenge, setChallenge] = useState(challengeGenerator(2));
+    const [challenge, setChallenge] = useState(challengeGenerator(props.start_level));
     const [isSubmitDialogOpening, setIsSubmitDialogOpening] = useState(false);
     const [finalLicense, setFinalLicense] = useState('');
     const [resultsOfLevels, setResultsOfLevels] = useState({});
