@@ -6,13 +6,12 @@ import {
 } from 'react-router-dom';
 import MainMenu from './MainMenu';
 import AchievementsTable from './AchievementsTable';
-import StoryMode from "./playground/StoryMode";
+import StoryMode from "./playground/story/StoryMode";
 import Grid from '@material-ui/core/Grid';
 import NavBar from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
-import {practiceTypes} from "./Types";
 import {main_background} from "./images";
 
 const useStyles = makeStyles({

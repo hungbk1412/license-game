@@ -1,47 +1,43 @@
 import {licenseTypes, resourceTypes, practiceTypes} from "../Types";
 
 const generatePracticeTheoryLevel0 = () => {
-    const licenses = [licenseTypes.CC_ZERO, licenseTypes.CC_BY, licenseTypes.CC_BY_SA, licenseTypes.CC_BY_NC];
-    const definitions = [
-        `No constraints`,
-        `Original authors must be credited`,
-        `Original authors must be credited; redistribution with the exact same license`,
-        `Original authors must be credited; commercial use is NOT allowed`
+    let data = [
+        {[licenseTypes.CC_ZERO]: `No constraints`},
+        {[licenseTypes.CC_BY]: `Original authors must be credited`},
+        {[licenseTypes.CC_BY_SA]: `Original authors must be credited; redistribution with the exact same license`},
+        {[licenseTypes.CC_BY_NC]: `Original authors must be credited; commercial use is NOT allowed`}
     ];
     return {
         type: practiceTypes.THEORY,
         level: 0,
-        symbols: licenses,
-        meanings: definitions,
+        data: data,
         numberOfMatches: 4
     };
 };
 
 const generatePracticeTheoryLevel1 = () => {
-    const licenses = [licenseTypes.CC_BY_NC_SA, licenseTypes.CC_BY_ND, licenseTypes.CC_BY_NC_ND];
-    const definitions = [
-        `Original authors must be credited; commercial use is NOT allowed; redistribution with the exact same license`,
-        `Original authors must be credited; modification is NOT allowed`,
-        `Original authors must be credited; modification is NOT allowed; commercial use is NOT allowed`
+    let data = [
+        {[licenseTypes.CC_BY_NC_SA]: `Original authors must be credited; commercial use is NOT allowed; redistribution with the exact same license`},
+        {[licenseTypes.CC_BY_ND]: `Original authors must be credited; modification is NOT allowed`},
+        {[licenseTypes.CC_BY_NC_ND]: `Original authors must be credited; modification is NOT allowed; commercial use is NOT allowed`},
     ];
     return {
         type: practiceTypes.THEORY,
         level: 1,
-        symbols: licenses,
-        meanings: definitions,
+        data: data,
         numberOfMatches: 3
     };
 };
 
 const generatePracticeTheoryLevel2 = () => {
+    let data = [
+        {Composition: 'Resources are blended into the other and cannot be differentiated from each other'},
+        {Collage: 'Resources can be clearly differentiated from each other'}
+    ];
     return {
         type: practiceTypes.THEORY,
         level: 2,
-        symbols: ['Composition', 'Collage'],
-        meanings: [
-            'Resources are blended into the other and cannot be differentiated from each other',
-            'Resources can be clearly differentiated from each other'
-        ],
+        data: data,
         numberOfMatches: 2
     }
 };
@@ -75,7 +71,7 @@ const generatePracticeEditingLevel0 = (type) => {
             resource_type: resource,
             license: license,
             has_been_chosen: false,
-            resource_id: i
+            resource_id: i + '-' + resource + '-' + license
         });
     }
 
@@ -104,7 +100,7 @@ const generatePracticeEditingLevel1 = (type) => {
             resource_type: resource,
             license: license,
             has_been_chosen: false,
-            resource_id: i
+            resource_id: i + '-' + resource + '-' + license
         });
     }
 

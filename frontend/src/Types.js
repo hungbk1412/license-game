@@ -1,5 +1,6 @@
 const itemTypes = {
-    PRACTICE_RESOURCE: 'practice_resource'
+    PRACTICE_RESOURCE: 'practice_resource',
+    PRACTICE_THEORY: 'practice_theory'
 };
 
 const licenseTypes = {

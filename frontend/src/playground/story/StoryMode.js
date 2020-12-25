@@ -3,12 +3,12 @@ import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import {blacksmith_image} from "../images";
-import challengeGenerator from "../game_generator/Story";
-import {questionTypes} from "../Types";
-import PracticeMode from "./PracticeMode";
-import ChooseLicenseDialog from "./dialog/ChooseLicenseDialog";
-import {checkCompatible} from "../Requests";
+import {blacksmith_image} from "../../images";
+import challengeGenerator from "../../game_generator/Story";
+import {questionTypes} from "../../Types";
+import PracticeMode from "../practice/PracticeMode";
+import ChooseLicenseDialog from "../dialog/ChooseLicenseDialog";
+import {checkCompatible} from "../../Requests";
 
 const LAST_LEVEL = 6;
 

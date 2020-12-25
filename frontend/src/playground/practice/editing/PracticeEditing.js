@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import {useDrop} from "react-dnd";
-import {itemTypes} from "../Types";
+import {itemTypes} from "../../../Types";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ResourceInPractice from "./ResourceInPractice";
-import ChooseLicenseDialog from "./dialog/ChooseLicenseDialog";
-import {checkCompatible} from "../Requests";
+import ChooseLicenseDialog from "../../dialog/ChooseLicenseDialog";
+import {checkCompatible} from "../../../Requests";
 
 const useStyles = makeStyles((theme) => ({
     hint_box: {
@@ -98,7 +98,7 @@ function PracticeEditing(props) {
         checkCompatible(window.accessToken, 'composition', licenseArray, finalLicense)
             .then(res => {
                 if (res.result) {
-                    finishPractice(props.practice.id);
+                    finishPractice(props.id_within_story);
                 } else {
                     alert(res.error_message);
                 }
@@ -134,7 +134,7 @@ function PracticeEditing(props) {
 
     const clickOnSkip = (e) => {
         e.preventDefault();
-        finishPractice(props.practice_id);
+        finishPractice(props.id_within_story);
     };
 
     return (
