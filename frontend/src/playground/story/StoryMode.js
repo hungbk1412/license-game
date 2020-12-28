@@ -3,80 +3,82 @@ import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import {blacksmith_image} from "../../images";
 import challengeGenerator from "../../game_generator/Story";
-import {questionTypes} from "../../Types";
+import {licenseTypes, questionTypes} from "../../Types";
 import PracticeMode from "../practice/PracticeMode";
 import ChooseLicenseDialog from "../dialog/ChooseLicenseDialog";
 import {checkCompatible} from "../../Requests";
+import Choice from "./Choice";
+import {story_description_image_container, story_talk_box, story_question, story_smith} from "../../images";
 
 const LAST_LEVEL = 6;
 
 const useStyles = makeStyles((theme) => ({
-    border: {
-        'border': '1px solid black'
-    },
     hints: {
-        'margin-top': '50px',
+        'padding-top': '40px',
         'padding-left': '10px',
         'padding-right': '10px',
+        'backgroundImage': `url(${story_talk_box})`,
+        'background-size': '100% 100%',
         [theme.breakpoints.up('sm')]: {
-            'height': '120px'
+            'height': '180px'
         },
         [theme.breakpoints.up('xl')]: {
             'height': '150px'
         }
     },
     picture: {
-        'margin-top': '35px',
+        'margin-top': '65px',
         [theme.breakpoints.up('sm')]: {
-            'height': '200px'
+            'height': '150px'
         },
         [theme.breakpoints.up('xl')]: {
             'height': '300px'
-        },
-        'background-color': 'black'
+        }
     },
     question: {
+        'z-index': '1',
         'margin-top': '50px',
-        'padding-left': '10px',
-        'padding-right': '10px',
+        'padding-left': '40px',
+        'padding-right': '40px',
+        'backgroundImage': `url(${story_question})`,
+        'background-size': '100% 100%',
+        'color': '#BFB7AF',
         [theme.breakpoints.up('sm')]: {
-            'height': '125px'
+            'height': '200px'
         },
         [theme.breakpoints.up('xl')]: {
             'height': '175px'
         }
     },
-    choice: {
-        'margin-top': '35px',
-        'padding-left': '10px',
-        'padding-right': '10px',
-        [theme.breakpoints.up('sm')]: {
-            'height': '50px'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'height': '75px'
-        }
+    image_container: {
+        'position': 'absolute',
+        'max-width': '14%'
     },
-    images: {
-        'max-width': '95%',
-        'max-height': '95%'
+    image: {
+        'position': 'absolute',
+        'max-width': '10%',
+        'max-height': '10%'
     },
     submit_button: {
         'margin-top': '20px'
     },
-    chosen_choice: {
-        'background-color': '#AAF38D'
-    },
     go_button: {
         'margin-top': '20px',
         'background-color': 'brown'
+    },
+    smith: {
+        'z-index': '0',
+        'position': 'absolute',
+        'max-width': '25%',
+        'margin-left': '270px',
+        'margin-top': '120px'
     }
 }));
 
 function StoryMode(props) {
     const styles = useStyles();
+    const changeToStoryBackground = props.changeToStoryBackground;
     const [challenge, setChallenge] = useState(challengeGenerator(props.start_level));
     const [isSubmitDialogOpening, setIsSubmitDialogOpening] = useState(false);
     const [finalLicense, setFinalLicense] = useState('');
@@ -84,10 +86,6 @@ function StoryMode(props) {
     const [message, setMessage] = useState('');
     // Only used for questions requiring players to choose many answer (choices)
     const [selectedChoices, setSelectedChoices] = useState([]);
-    const choice0Ref = useRef(null);
-    const choice1Ref = useRef(null);
-    const choice2Ref = useRef(null);
-    const choice3Ref = useRef(null);
 
     /*
         Open the dialog, in which players choose a license as their final answer
@@ -114,31 +112,11 @@ function StoryMode(props) {
         @params [int] choiceNumbers
      */
     const unselectSelectedChoices = (choiceNumbers) => {
+        let newSelectedChoices = lodash.cloneDeep(selectedChoices);
         choiceNumbers.forEach(choiceNumber => {
-            if ([0, 1, 2, 3].includes(choiceNumber)) {
-                switch (choiceNumber) {
-                    case 0:
-                        choice0Ref.current.classList.remove(styles.chosen_choice);
-                        break;
-                    case 1:
-                        choice1Ref.current.classList.remove(styles.chosen_choice);
-                        break;
-                    case 2:
-                        choice2Ref.current.classList.remove(styles.chosen_choice);
-                        break;
-                    case 3:
-                        choice3Ref.current.classList.remove(styles.chosen_choice);
-                        break;
-                    default:
-                        break;
-                }
-                let newSelectedChoices = [...selectedChoices];
-                newSelectedChoices = newSelectedChoices.filter(elem => elem !== choiceNumber);
-                setSelectedChoices(newSelectedChoices);
-            } else {
-                console.log('wrong choice number');
-            }
+            newSelectedChoices = newSelectedChoices.filter(elem => elem !== choiceNumber);
         });
+        setSelectedChoices(newSelectedChoices);
     };
 
     const closeChooseLicenseDialog = () => {
@@ -177,22 +155,6 @@ function StoryMode(props) {
             if (selectedChoices.includes(choiceNumber)) {
                 unselectSelectedChoices([choiceNumber]);
             } else if (selectedChoices.length <= 1) {
-                switch (choiceNumber) {
-                    case 0:
-                        choice0Ref.current.classList.add(styles.chosen_choice);
-                        break;
-                    case 1:
-                        choice1Ref.current.classList.add(styles.chosen_choice);
-                        break;
-                    case 2:
-                        choice2Ref.current.classList.add(styles.chosen_choice);
-                        break;
-                    case 3:
-                        choice3Ref.current.classList.add(styles.chosen_choice);
-                        break;
-                    default:
-                        break;
-                }
                 let newSelectedChoices = [...selectedChoices];
                 newSelectedChoices.push(choiceNumber);
                 setSelectedChoices(newSelectedChoices);
@@ -230,6 +192,7 @@ function StoryMode(props) {
         return null;
     };
 
+
     useEffect(() => {
         if (challenge.require_result_of_levels != null
             && challenge.require_result_of_levels.length !== 0
@@ -241,6 +204,33 @@ function StoryMode(props) {
             });
             setChallenge(newChallenge);
         }
+
+        // special case, just for the 6th level
+        if (challenge.level === LAST_LEVEL && challenge.choices[challenge.correctAnswer].CC_license === null) {
+            checkCompatible(window.accessToken, challenge.combination_type, challenge.oer_resources, 'check')
+                .then(res => {
+                    if (res.correctAnswer) {
+                        let newChallenge = lodash.cloneDeep(challenge);
+                        newChallenge.choices[challenge.correctAnswer].CC_license = res.correctAnswer;
+                        newChallenge.choices[challenge.correctAnswer].display_text = res.correctAnswer;
+                        let availableLicenses = Object.values(licenseTypes).filter (elem => elem !== res.correctAnswer);
+                        newChallenge.choices = newChallenge.choices.map (license => {
+                            if (license.CC_license === null) {
+                                let randomLicense = availableLicenses[Math.floor(Math.random() * availableLicenses.length)];
+                                license.CC_license = randomLicense;
+                                license.display_text = randomLicense;
+                                availableLicenses = availableLicenses.filter (elem => elem !== randomLicense);
+                                return license;
+                            } else {
+                                return license;
+                            }
+                        });
+                        setChallenge(newChallenge);
+                    }
+                })
+                .catch(e => console.log(e));
+        }
+        changeToStoryBackground();
     });
 
     if (challenge.practices != null && getNextUnfinishedPractice(challenge.practices) !== null) {
@@ -253,48 +243,38 @@ function StoryMode(props) {
                                      clickOnSubmitButton={clickOnSubmitButton}
                                      selectFinalLicense={selectFinalLicense}
                                      finalLicense={finalLicense}
-                                     message={message}/>
-                <Grid container item direction={'row'} justify={'center'} xs={10}>
-                    <Grid container item xs={12} justify={'flex-end'}>
-                        <Grid container item xs={10} className={styles.border + ' ' + styles.hints}
-                              alignItems={'center'}
+                                     message={message}
+                                     licenses_to_be_excluded_from_answer={challenge.licenses_to_be_excluded_from_answer}/>
+                <Grid container item direction={'row'} justify={'center'} xs={11}>
+                    <img className={styles.smith} src={story_smith}/>
+                    <Grid container item xs={12} justify={'flex-start'}>
+                        <Grid container item xs={11} className={styles.hints}
                               justify={'center'}>{challenge.context}</Grid>
                     </Grid>
                     <Grid container item xs={12} justify={'flex-start'}>
-                        <Grid container item xs={7} className={styles.border + ' ' + styles.picture} justify={'center'}
+                        <Grid container item xs={7} className={styles.picture} justify={'center'}
                               alignItems={'center'}>
-                            <img className={styles.images} src={challenge.description_image}/>
-                        </Grid>
-                        <Grid container item xs={5}>
-                            <img className={styles.images} src={blacksmith_image}/>
+                            <img className={styles.image_container} src={story_description_image_container}/>
+                            <img className={styles.image} src={challenge.description_image}/>
                         </Grid>
                     </Grid>
-                    <Grid container item className={styles.border + ' ' + styles.question} justify={'center'}
+                    <Grid container item className={styles.question} justify={'center'}
                           alignItems={'center'} xs={11}>{challenge.question}</Grid>
                     <Grid container item xs={12} justify={'space-between'}>
-                        <Grid container item xs={5} className={styles.choice}><Button variant={'contained'}
-                                                                                      ref={choice0Ref}
-                                                                                      fullWidth
-                                                                                      onClick={() => clickOnAChoice(0)}>{challenge.choices[0].display_text}</Button></Grid>
-                        <Grid container item xs={5} className={styles.choice}><Button variant={'contained'}
-                                                                                      ref={choice1Ref}
-                                                                                      id={'story-choice-1'}
-                                                                                      fullWidth
-                                                                                      onClick={() => clickOnAChoice(1)}>{challenge.choices[1].display_text}</Button></Grid>
-                        <Grid container item xs={5} className={styles.choice}><Button variant={'contained'}
-                                                                                      ref={choice2Ref}
-                                                                                      id={'story-choice-2'}
-                                                                                      fullWidth
-                                                                                      onClick={() => clickOnAChoice(2)}>{challenge.choices[2].display_text}</Button></Grid>
-                        <Grid container item xs={5} className={styles.choice}><Button variant={'contained'}
-                                                                                      ref={choice3Ref}
-                                                                                      id={'story-choice-3'}
-                                                                                      fullWidth
-                                                                                      onClick={() => clickOnAChoice(3)}>{challenge.choices[3].display_text}</Button></Grid>
+                        {
+                            [...Array(4).keys()].map(choiceNumber => {
+                                return (
+                                    <Choice key={'storymode-choice-' + choiceNumber} clickOnAChoice={clickOnAChoice}
+                                            display_text={challenge.choices[choiceNumber].display_text}
+                                            choice_number={choiceNumber}
+                                            is_selected={selectedChoices.includes(choiceNumber)}/>
+                                )
+                            })
+                        }
                     </Grid>
                     {
                         challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES &&
-                        <Grid container item xs={12} justify={'center'} id={'story-go-button'}>
+                        <Grid container item xs={12} justify={'center'}>
                             <Grid container item xs={4}>
                                 <Button variant={'contained'} fullWidth className={styles.go_button}
                                         onClick={clickOnGoButton}>Go!!!</Button>

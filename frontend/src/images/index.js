@@ -14,8 +14,13 @@ export const main_background = require('./other/main_background.png');
 export const menu_button_background = require('./other/menu_button_background.png');
 
 //story_mode folder
-export const blacksmith_image = require('./story_mode/blacksmith.png');
 export const iron_ore = require('./story_mode/iron_ore.png');
+export const story_background = require('./story_mode/background.png');
+export const story_smith = require('./story_mode/smith.png');
+export const story_choice = require('./story_mode/choice.png');
+export const story_description_image_container = require('./story_mode/description.png');
+export const story_question = require('./story_mode/question.png');
+export const story_talk_box = require('./story_mode/talk_box.png');
 
 // oer_resources folder
 export const audio = require ('./oer_resources/audio.png');

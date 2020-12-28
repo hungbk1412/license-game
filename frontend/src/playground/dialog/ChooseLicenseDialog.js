@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
+import {licenseTypes} from "../../Types";
 
 const useStyles = makeStyles((theme) => ({
     pop_up: {
@@ -27,8 +28,25 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ChooseLicenseDialog (props) {
+function ChooseLicenseDialog(props) {
     const styles = useStyles();
+    const licenses_to_be_excluded_from_answer = props.licenses_to_be_excluded_from_answer;
+
+    const getToBeDisplayedLicenses = () => {
+        if (!licenses_to_be_excluded_from_answer) {
+            return Object.values(licenseTypes);
+        }
+        let result = [];
+        for (const license in licenseTypes) {
+            if (licenseTypes.hasOwnProperty(license)) {
+                if (!licenses_to_be_excluded_from_answer.includes(licenseTypes[license])) {
+                    result.push(licenseTypes[license]);
+                }
+            }
+        }
+        return result;
+    };
+
     return (
         <Modal open={props.isSubmitDialogOpening}
                onClose={props.closeChooseLicenseDialog}>
@@ -39,13 +57,14 @@ function ChooseLicenseDialog (props) {
                             <Form.Label>{props.message}</Form.Label>
                             <Form.Control as="select" value={props.finalLicense} onChange={props.selectFinalLicense}>
                                 <option value={'none'}>Not combinable</option>
-                                <option value={'CC_ZERO'}>CC</option>
-                                <option value={'CC_BY'}>CC-BY</option>
-                                <option value={'CC_BY_SA'}>CC-BY-SA</option>
-                                <option value={'CC_BY_NC'}>CC-BY-NC</option>
-                                <option value={'CC_BY_NC_SA'}>CC-BY-NC-SA</option>
-                                <option value={'CC_BY_ND'}>CC-BY-ND</option>
-                                <option value={'CC_BY_NC_ND'}>CC-BY-NC-ND</option>
+                                {
+                                    getToBeDisplayedLicenses().map(license => {
+                                        return (
+                                            <option value={license}
+                                                    key={'ChooseLicenseDialog-' + license}>{license}</option>
+                                        );
+                                    })
+                                }
                             </Form.Control>
                         </Form.Group>
                         <Button variant={'contained'} type={'submit'}>
