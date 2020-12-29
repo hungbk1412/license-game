@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import MainMenu from './MainMenu';
 import AchievementsTable from './AchievementsTable';
-import StoryMode from "./playground/story/StoryMode";
+import StoryMode from "./playground/StoryMode";
 import Grid from '@material-ui/core/Grid';
 import NavBar from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
