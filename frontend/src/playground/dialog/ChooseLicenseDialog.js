@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
 import {licenseTypes} from "../../Types";
+import Slide from '@material-ui/core/Slide';
 
 const useStyles = makeStyles((theme) => ({
     pop_up: {
@@ -55,7 +56,8 @@ function ChooseLicenseDialog(props) {
                     <Grid container direction={'column'} alignItems={'center'}>
                         <Form.Group controlId="exampleForm.SelectCustom">
                             <Form.Label>{props.message}</Form.Label>
-                            <Form.Control as="select" value={props.finalLicense} onChange={props.selectFinalLicense}>
+                            <Form.Control as="select" value={props.finalLicense}
+                                          onChange={props.selectFinalLicense}>
                                 <option value={'none'}>Not combinable</option>
                                 {
                                     getToBeDisplayedLicenses().map(license => {

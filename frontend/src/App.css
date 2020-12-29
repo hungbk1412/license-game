@@ -1,0 +1,17 @@
+.route-switch-enter {
+    transform: translateX(2000px);
+}
+
+.route-switch-enter-active {
+    transition: transform 500ms ease-out;
+    transform: translateX(0px);
+}
+
+.route-switch-exit {
+    transform: translateY(0px);
+}
+
+.route-switch-exit-active {
+    transition: transform 500ms ease-out;
+    transform: translateX(-2000px);
+}

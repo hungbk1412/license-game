@@ -44,7 +44,8 @@ const generateLevel0 = () => {
                 CC_license: licenseTypes.CC_ZERO
             }
         ],
-        correctAnswer: 2
+        correctAnswer: 2,
+        hint: 'Hint level 0'
     };
 };
 
@@ -89,7 +90,8 @@ const generateLevel1 = () => {
                 CC_license: licenseTypes.CC_ZERO
             }
         ],
-        correctAnswer: 0
+        correctAnswer: 0,
+        hint: 'Hint level 1'
     };
 };
 
@@ -134,7 +136,8 @@ const generateLevel2 = () => {
                 CC_license: licenseTypes.CC_ZERO
             }
         ],
-        correctAnswer: 1
+        correctAnswer: 1,
+        hint: 'Hint level 2'
     };
 };
 
@@ -168,6 +171,7 @@ const generateLevel3 = () => {
             }
         ],
         correctAnswer: null,
+        hint: 'Hint level 3',
         oer_resources: [blade_license]
     };
 };
@@ -198,6 +202,7 @@ const generateLevel4 = () => {
             }
         ],
         correctAnswer: null,
+        hint: 'Hint level 4',
         oer_resources: [],
         combination_type: 'composition',
         require_result_of_levels: [3],
@@ -232,6 +237,7 @@ const generateLevel5 = () => {
             }
         ],
         correctAnswer: 1,
+        hint: 'Hint level 5',
         oer_resources: []
     };
 };
@@ -262,6 +268,7 @@ const generateLevel6 = () => {
             }
         ],
         correctAnswer: 0,
+        hint: 'Hint level 6',
         oer_resources: [],
         require_result_of_levels: [4, 5],
         combination_type: 'collage'
@@ -293,7 +300,7 @@ const challengeGenerator = (level) => {
             result = generateLevel6();
             break;
         default:
-            break;
+            return null;
     }
 
     return result;

@@ -9,6 +9,9 @@ import ChooseLicenseDialog from "../../dialog/ChooseLicenseDialog";
 import {checkCompatible} from "../../../Requests";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+      position: 'absolute'
+    },
     hint_box: {
         [theme.breakpoints.up('sm')]: {
             'border': '1px solid black',
@@ -61,10 +64,8 @@ function PracticeEditing(props) {
     const finishPractice = props.finishPractice;
 
     useEffect(() => {
-        if (practice.resources.length !== chosenResourcesArray.length) {
-            setChosenResourcesArray(initChosenResourcesArray(practice.resources));
-        }
-    });
+        setChosenResourcesArray(initChosenResourcesArray(practice.resources));
+    }, [practice]);
 
     const hasResourcesBeenChosen = (resource_id) => {
         const resource = chosenResourcesArray.find(element => element.resource_id === resource_id);
@@ -138,7 +139,7 @@ function PracticeEditing(props) {
     };
 
     return (
-        <Grid container item direction={'column'} spacing={10}>
+        <Grid container item direction={'column'} spacing={10} className={styles.root}>
             <ChooseLicenseDialog isSubmitDialogOpening={isSubmitDialogOpening}
                                  closeChooseLicenseDialog={closeChooseLicenseDialog}
                                  clickOnSubmitButton={clickOnSubmitButton}
