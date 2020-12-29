@@ -10,6 +10,7 @@ import Slide from '@material-ui/core/Slide';
 
 const useStyles = makeStyles((theme) => ({
     pop_up: {
+        'background-color': 'white',
         [theme.breakpoints.up('sm')]: {
             'position': 'absolute',
             'width': '400px',
@@ -51,7 +52,7 @@ function ChooseLicenseDialog(props) {
     return (
         <Modal open={props.isSubmitDialogOpening}
                onClose={props.closeChooseLicenseDialog}>
-            <Paper className={styles.pop_up}>
+            <Grid className={styles.pop_up}>
                 <Form onSubmit={props.clickOnSubmitButton}>
                     <Grid container direction={'column'} alignItems={'center'}>
                         <Form.Group controlId="exampleForm.SelectCustom">
@@ -74,7 +75,7 @@ function ChooseLicenseDialog(props) {
                         </Button>
                     </Grid>
                 </Form>
-            </Paper>
+            </Grid>
         </Modal>
     );
 }

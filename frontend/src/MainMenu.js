@@ -54,7 +54,7 @@ function MainMenu(props) {
 
     if (to_story) {
         return (
-            <Redirect to={'/story'}/>
+            <Redirect to={'/play'}/>
         )
     } else if (to_instruction) {
         return (

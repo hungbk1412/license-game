@@ -4,11 +4,10 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
 import MatchRow from "./MatchRow";
 import lodash from 'lodash';
+import {menu_button_background} from "../../../images";
+import {color} from "../../../Types";
 
 const useStyles = makeStyles((theme) => ({
-    b: {
-        'border': '1px solid black'
-    },
     hint_box: {
         [theme.breakpoints.up('sm')]: {
             'border': '1px solid black',
@@ -24,11 +23,16 @@ const useStyles = makeStyles((theme) => ({
     match_row: {
         'margin-top': '80px'
     },
-    buttons: {
+    buttons_container: {
         'margin-top': '100px'
     },
-    connecting_dot: {
-        'transform': 'scale(0.5)'
+    button: {
+        'background-image': `url(${menu_button_background})`,
+        'background-size': '100% 100%',
+        'color': color.NORMAL_TEXT_WHITE
+    },
+    header: {
+        'color': color.NORMAL_TEXT_WHITE
     }
 }));
 
@@ -153,7 +157,7 @@ function PracticeTheory(props) {
         <Grid container item direction={'row'} justify={'center'} xs={10}>
             <Grid container item direction={'row'} className={styles.hint_box} xs={10} justify={'center'}
                   alignItems={'center'}>
-                <Grid item>Match the CC licences with the corresponding definitions</Grid>
+                <Grid item className={styles.header}>Match the CC licences with the corresponding definitions</Grid>
             </Grid>
             <Grid container item direction={'row'}>
                 {
@@ -167,13 +171,13 @@ function PracticeTheory(props) {
                     })
                 }
             </Grid>
-            <Grid container item xs={12} justify={'space-around'} className={styles.buttons}>
+            <Grid container item xs={12} justify={'space-around'} className={styles.buttons_container}>
                 <Grid container item xs={3} justify={'center'}>
-                    <Button variant={"contained"} fullWidth color={"primary"}
-                            onClick={clickOnSubmit}>Submit</Button>
+                    <Button fullWidth color={"primary"}
+                            onClick={clickOnSubmit} className={styles.button}>Submit</Button>
                 </Grid>
                 <Grid container item xs={3} justify={'center'}>
-                    <Button variant={"contained"} fullWidth onClick={clickOnSkip}>Skip</Button>
+                    <Button fullWidth onClick={clickOnSkip} className={styles.button}>Skip</Button>
                 </Grid>
             </Grid>
         </Grid>

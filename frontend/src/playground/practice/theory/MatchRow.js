@@ -2,10 +2,12 @@ import React, {useEffect, useRef} from 'react';
 import Grid from "@material-ui/core/Grid";
 import DropZone from "./DropZone";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import {color} from "../../../Types";
 
 const useStyles = makeStyles((theme) => ({
     b: {
-        'border': '1px solid black'
+        'border': '1px solid',
+        'border-color': color.NORMAL_TEXT_WHITE
     },
     match_row: {
         'margin-top': '80px'
@@ -15,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     },
     wrong_notification: {
         'background-color': '#F64A0A'
+    },
+    symbol: {
+        'color': color.NORMAL_TEXT_WHITE
     }
 }));
 
@@ -43,7 +48,7 @@ const MatchRow = (props) => {
               className={styles.match_row}
               ref={matchRow}>
             <Grid container item xs={6} className={styles.b}>
-                <Grid container item justify={'flex-start'} xs={6}>
+                <Grid container item justify={'flex-start'} xs={6} className={styles.symbol}>
                     {symbol}
                 </Grid>
             </Grid>

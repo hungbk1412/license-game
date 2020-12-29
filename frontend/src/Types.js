@@ -32,4 +32,8 @@ const questionTypes = {
     MULTIPLE_CHOICE: 'multiple_choice'
 };
 
-export {itemTypes, licenseTypes, resourceTypes, practiceTypes, questionTypes};
+const color = {
+    NORMAL_TEXT_WHITE: '#BFB7AF'
+};
+
+export {itemTypes, licenseTypes, resourceTypes, practiceTypes, questionTypes, color};

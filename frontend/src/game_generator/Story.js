@@ -276,6 +276,9 @@ const generateLevel6 = () => {
 };
 
 const challengeGenerator = (level) => {
+    if (typeof level === 'string') {
+        level = parseInt(level, 10);
+    }
     let result = {};
     switch (level) {
         case 0:

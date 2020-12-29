@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -8,6 +8,7 @@ import {
 import MainMenu from './MainMenu';
 import AchievementsTable from './AchievementsTable';
 import StoryMode from "./playground/StoryMode";
+import ChooseLevel from "./playground/ChooseLevel";
 import Grid from '@material-ui/core/Grid';
 import NavBar from './NavBar';
 import {makeStyles} from '@material-ui/core/styles';
@@ -60,10 +61,14 @@ function App() {
             <TransitionGroup component={null}>
                 <CSSTransition key={location.key} classNames={"route-switch"} timeout={1000}>
                     <Switch location={location}>
-                        <Route path={'/'} component={() => <MainMenu change_to_mainmenu_background={changeToMainMenuBackground}/>} exact/>
+                        <Route path={'/'}
+                               component={() => <MainMenu change_to_mainmenu_background={changeToMainMenuBackground}/>}
+                               exact/>
                         <Route path={'/achievements'} component={AchievementsTable}/>
-                        <Route path={'/story'} component={() => <StoryMode start_level={0}
-                                                                           change_to_story_background={changeToStoryBackground}/>}/>
+                        <Route path={'/play/:level'}
+                               component={() => <StoryMode change_to_story_background={changeToStoryBackground}/>}/>
+                        <Route path={'/play'} component={() => <ChooseLevel
+                            change_to_mainmenu_background={changeToMainMenuBackground} available_levels={[0,1,2,3]}/>} exact/>
                     </Switch>
                 </CSSTransition>
             </TransitionGroup>
@@ -84,4 +89,5 @@ function App() {
         </DndProvider>
     );
 }
+
 export default App;

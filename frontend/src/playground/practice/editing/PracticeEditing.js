@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import {useDrop} from "react-dnd";
-import {itemTypes} from "../../../Types";
+import {itemTypes, color} from "../../../Types";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ResourceInPractice from "./ResourceInPractice";
 import ChooseLicenseDialog from "../../dialog/ChooseLicenseDialog";
 import {checkCompatible} from "../../../Requests";
+import {menu_button_background} from "../../../images";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,13 +37,18 @@ const useStyles = makeStyles((theme) => ({
             'margin-top': '25px'
         }
     },
-    submit_button: {
+    button_container: {
         [theme.breakpoints.up('sm')]: {
             'margin-top': '25px'
         },
         [theme.breakpoints.up('xl')]: {
             'margin-top': '80px'
         }
+    },
+    button: {
+        'background-image': `url(${menu_button_background})`,
+        'background-size': '100% 100%',
+        'color': color.NORMAL_TEXT_WHITE
     }
 }));
 
@@ -193,12 +199,12 @@ function PracticeEditing(props) {
                     })
                 }
             </Grid>
-            <Grid container item justify={'space-around'} className={styles.submit_button}>
+            <Grid container item justify={'space-around'} className={styles.button_container}>
                 <Grid item xs={3}>
-                    <Button variant={'contained'} fullWidth onClick={openChooseLicenseDialog}>Next</Button>
+                    <Button fullWidth onClick={openChooseLicenseDialog} className={styles.button}>Next</Button>
                 </Grid>
                 <Grid container item xs={3} justify={'center'}>
-                    <Button variant={"contained"} fullWidth onClick={clickOnSkip}>Skip</Button>
+                    <Button fullWidth onClick={clickOnSkip} className={styles.button}>Skip</Button>
                 </Grid>
             </Grid>
         </Grid>

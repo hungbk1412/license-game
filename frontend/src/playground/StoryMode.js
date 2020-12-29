@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
@@ -9,8 +9,10 @@ import PracticeMode from './practice/PracticeMode';
 import ChooseLicenseDialog from './dialog/ChooseLicenseDialog';
 import {checkCompatible} from '../Requests';
 import Choice from './Choice';
-import {story_description_image_container, story_talk_box, story_question, story_smith} from '../images';
 import Slide from '@material-ui/core/Slide';
+import {useParams} from 'react-router-dom';
+import SuccessfullyCompleteALevel from "./dialog/SuccessfullyCompleteALevel";
+import {story_description_image_container, story_talk_box, story_question, story_smith} from '../images';
 
 const LAST_LEVEL = 6;
 
@@ -110,9 +112,11 @@ const useStyles = makeStyles((theme) => ({
 function StoryMode(props) {
     const styles = useStyles();
     const changeToStoryBackground = props.change_to_story_background;
-    const [challenge, setChallenge] = useState(challengeGenerator(props.start_level));
+    const {level} = useParams();
+    const [challenge, setChallenge] = useState(challengeGenerator(level));
     const nextChallenge = challengeGenerator(challenge.level + 1);
     const [isSubmitDialogOpening, setIsSubmitDialogOpening] = useState(false);
+    const [isFinishLevelDialogOpening, setIsFinishLevelDialogOpening] = useState(false);
     const [finalLicense, setFinalLicense] = useState('');
     const [resultsOfLevels, setResultsOfLevels] = useState({});
     const [hint, setHint] = useState('');
@@ -137,11 +141,10 @@ function StoryMode(props) {
             color: 'none'
         }
     ]);
-    const [showUp, setShowUp] = React.useState({
+    const [showUp, setShowUp] = useState({
         stable_content: true,
         unstable_content: true,
     });
-
 
     /*
         Open the dialog, in which players choose a license as their final answer
@@ -166,7 +169,7 @@ function StoryMode(props) {
     const getAllSelectedChoices = () => {
         let res = [];
         for (let i = 0; i < choices.length; i++) {
-            if(choices[i].is_selected) {
+            if (choices[i].is_selected) {
                 res.push(i);
             }
         }
@@ -189,6 +192,10 @@ function StoryMode(props) {
         setIsSubmitDialogOpening(false);
     };
 
+    const closeFinishLevelDialog = () => {
+        setIsFinishLevelDialogOpening(false);
+    };
+
     const clickOnSubmitButton = (e) => {
         e.preventDefault();
         checkCompatible(window.accessToken, challenge.combination_type, challenge.oer_resources, finalLicense)
@@ -201,7 +208,7 @@ function StoryMode(props) {
                     });
                     setFinalLicense('');
                     unselectSelectedChoices(getAllSelectedChoices());
-                    goToNextLevel();
+                    setIsFinishLevelDialogOpening(true);
                 } else {
                     alert(res.error_message);
                 }
@@ -240,7 +247,7 @@ function StoryMode(props) {
                 ...resultsOfLevels,
                 [challenge.level]: challenge.choices[challenge.correctAnswer].CC_license
             });
-            goToNextLevel();
+            setIsFinishLevelDialogOpening(true);
         } else {
             setFailTimes(failTimes + 1);
             // let newChoice = lodash.cloneDeep(choices);
@@ -286,6 +293,7 @@ function StoryMode(props) {
         } else {
             alert('Congratulation, end game');
         }
+        setIsFinishLevelDialogOpening(false);
 
     };
 
@@ -360,6 +368,7 @@ function StoryMode(props) {
         }
     });
 
+
     if (challenge.practices != null && getNextUnfinishedPractice(challenge.practices) !== null) {
         return <PracticeMode finishPractice={finishPractice} practice={getNextUnfinishedPractice(challenge.practices)}/>
     } else {
@@ -368,6 +377,9 @@ function StoryMode(props) {
                 <Slide direction={'left'} in={showUp.stable_content} mountOnEnter unmountOnExit>
                     <img className={styles.smith} src={story_smith}/>
                 </Slide>
+                <SuccessfullyCompleteALevel is_finish_level_dialog_opening={isFinishLevelDialogOpening}
+                                            close_finish_level_dialog={closeFinishLevelDialog}
+                                            go_to_next_level={goToNextLevel}/>
                 <ChooseLicenseDialog isSubmitDialogOpening={isSubmitDialogOpening}
                                      closeChooseLicenseDialog={closeChooseLicenseDialog}
                                      clickOnSubmitButton={clickOnSubmitButton}
