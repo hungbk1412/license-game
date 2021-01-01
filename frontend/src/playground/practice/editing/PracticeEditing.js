@@ -6,14 +6,15 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ResourceInPractice from "./ResourceInPractice";
 import ChooseLicenseDialog from "../../dialog/ChooseLicenseDialog";
+import ConfirmSubmission from "../../dialog/ConfirmSubmission";
 import {checkCompatible} from "../../../Requests";
 import {menu_button_background} from "../../../images";
 
+const SUCCESS_MESSAGE = 'Congratulation !!!';
+const FAIL_MESSAGE = 'Please try again';
+
 const useStyles = makeStyles((theme) => ({
-    root: {
-      position: 'absolute'
-    },
-    hint_box: {
+    header: {
         [theme.breakpoints.up('sm')]: {
             'border': '1px solid black',
             'height': '50px',
@@ -56,6 +57,7 @@ const initChosenResourcesArray = (arr) => {
     return arr.map((elem) => {
         return {
             resource_id: elem.resource_id,
+            license: elem.license,
             has_been_chosen: false
         }
     });
@@ -64,10 +66,21 @@ const initChosenResourcesArray = (arr) => {
 function PracticeEditing(props) {
     const styles = useStyles();
     const practice = props.practice;
-    const [isSubmitDialogOpening, setIsSubmitDialogOpening] = useState(false);
+    const [confirmSubmissionDialog, setConfirmSubmissionDialog] = useState({
+        is_opening: false,
+        correctness: false,
+        message: ''
+    });
+    const [isChooseLicenseDialogOpening, setIsChooseLicenseDialogOpening] = useState(false);
     const [finalLicense, setFinalLicense] = useState('CC');
     const [chosenResourcesArray, setChosenResourcesArray] = useState(initChosenResourcesArray(practice.resources));
     const finishPractice = props.finishPractice;
+
+    const closeConfirmSubmissionDialog = () => {
+        setConfirmSubmissionDialog(prevState => {
+            return {...prevState, is_opening: false}
+        });
+    };
 
     useEffect(() => {
         setChosenResourcesArray(initChosenResourcesArray(practice.resources));
@@ -83,11 +96,11 @@ function PracticeEditing(props) {
     };
 
     const openChooseLicenseDialog = () => {
-        setIsSubmitDialogOpening(true);
+        setIsChooseLicenseDialogOpening(true);
     };
 
     const closeChooseLicenseDialog = () => {
-        setIsSubmitDialogOpening(false);
+        setIsChooseLicenseDialogOpening(false);
     };
 
     const selectFinalLicense = (e) => {
@@ -97,17 +110,31 @@ function PracticeEditing(props) {
     const clickOnSubmitButton = (e) => {
         e.preventDefault();
         let licenseArray = [];
-        for (let i = 0; i < practice.resources.length; i++) {
-            if (practice.resources[i].has_been_chosen) {
-                licenseArray.push(practice.resources[i].license);
+        for (let i = 0; i < chosenResourcesArray.length; i++) {
+            if (chosenResourcesArray[i].has_been_chosen) {
+                licenseArray.push(chosenResourcesArray[i].license);
             }
         }
-        checkCompatible(window.accessToken, 'composition', licenseArray, finalLicense)
+        checkCompatible(window.accessToken, 'collage', licenseArray, finalLicense)
             .then(res => {
                 if (res.result) {
-                    finishPractice(props.id_within_story);
+                    setConfirmSubmissionDialog(prevState => {
+                        return {
+                            ...prevState,
+                            is_opening: true,
+                            correctness: true,
+                            message: SUCCESS_MESSAGE
+                        }
+                    });
                 } else {
-                    alert(res.error_message);
+                    setConfirmSubmissionDialog(prevState => {
+                        return {
+                            ...prevState,
+                            is_opening: true,
+                            correctness: false,
+                            message: FAIL_MESSAGE
+                        }
+                    });
                 }
             })
             .catch(e => console.log(e));
@@ -141,19 +168,36 @@ function PracticeEditing(props) {
 
     const clickOnSkip = (e) => {
         e.preventDefault();
+        goToNextLevel();
+    };
+
+    const goToNextLevel = () => {
+        setIsChooseLicenseDialogOpening(false);
+        setConfirmSubmissionDialog(prevState => {
+            return {
+                ...prevState,
+                is_opening: false
+            }
+        });
         finishPractice(props.id_within_story);
     };
 
     return (
         <Grid container item direction={'column'} spacing={10} className={styles.root}>
-            <ChooseLicenseDialog isSubmitDialogOpening={isSubmitDialogOpening}
+            <ChooseLicenseDialog isChooseLicenseDialogOpening={isChooseLicenseDialogOpening}
                                  closeChooseLicenseDialog={closeChooseLicenseDialog}
                                  clickOnSubmitButton={clickOnSubmitButton}
                                  selectFinalLicense={selectFinalLicense}
                                  finalLicense={finalLicense}
                                  message={':D'}/>
+            <ConfirmSubmission is_confirm_submission_dialog_opening={confirmSubmissionDialog.is_opening}
+                               close_confirm_submission_dialog={closeConfirmSubmissionDialog}
+                               go_to_next_level={goToNextLevel}
+                               correctness={confirmSubmissionDialog.correctness}
+                               message={confirmSubmissionDialog.message}
+                               set_confirm_submission_dialog={setConfirmSubmissionDialog}/>
             <Grid container item justify={'center'}>
-                <Grid container item direction={'row'} className={styles.hint_box} xs={10} justify={'center'}
+                <Grid container item direction={'row'} className={styles.header} xs={10} justify={'center'}
                       alignItems={'center'}>
                     <Grid item>{practice.description}</Grid>
                 </Grid>

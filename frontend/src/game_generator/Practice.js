@@ -70,7 +70,6 @@ const generatePracticeEditingLevel0 = (type) => {
         result.resources.push({
             resource_type: resource,
             license: license,
-            has_been_chosen: false,
             resource_id: i + '-' + resource + '-' + license
         });
     }
@@ -99,7 +98,6 @@ const generatePracticeEditingLevel1 = (type) => {
         result.resources.push({
             resource_type: resource,
             license: license,
-            has_been_chosen: false,
             resource_id: i + '-' + resource + '-' + license
         });
     }

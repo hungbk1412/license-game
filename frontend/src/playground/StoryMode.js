@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useReducer} from 'react';
 import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
@@ -11,23 +11,29 @@ import {checkCompatible} from '../Requests';
 import Choice from './Choice';
 import Slide from '@material-ui/core/Slide';
 import {useParams} from 'react-router-dom';
-import SuccessfullyCompleteALevel from "./dialog/SuccessfullyCompleteALevel";
+import ConfirmSubmission from "./dialog/ConfirmSubmission";
 import {story_description_image_container, story_talk_box, story_question, story_smith} from '../images';
 
 const LAST_LEVEL = 6;
+const SUCCESS_MESSAGE = 'Congratulation !!!';
+const FAIL_MESSAGE = 'Please try again';
+const ACTIONS = {
+    TO_NEXT_LEVEL: 'to_next_level',
+    PREPARE_OER_RESOURCES: 'prepare_oer_resources',
+    PREPARE_CHOICES_FOR_LAST_LEVEL: 'prepare_choices_for_last_level'
+};
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        'position': 'absolute',
-        'top': '50px'
+      'position': 'relative'
     },
-    hints: {
+    context: {
         'backgroundImage': `url(${story_talk_box})`,
         'background-size': '100% 100%',
         [theme.breakpoints.up('sm')]: {
             'padding-top': '40px',
-            'padding-left': '10px',
-            'padding-right': '10px',
+            'padding-left': '70px',
+            'padding-right': '30px',
             'height': '180px'
         },
         [theme.breakpoints.up('xl')]: {
@@ -67,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
         'background-size': '100% 100%',
         'color': '#BFB7AF',
         [theme.breakpoints.up('sm')]: {
-            'margin-top': '50px',
+            'margin-top': '20px',
             'padding-left': '40px',
             'padding-right': '40px',
             'height': '200px'
@@ -109,17 +115,57 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const challengeReducer = (state, action) => {
+    switch (action.type) {
+        case ACTIONS.TO_NEXT_LEVEL: {
+            return action.payload.nextChallenge;
+        }
+        case ACTIONS.PREPARE_OER_RESOURCES: {
+            let newChallenge = lodash.cloneDeep(state);
+            state.require_result_of_levels.forEach(level => {
+                newChallenge.oer_resources.push(action.payload.resultsOfLevels[level]);
+            });
+            return newChallenge;
+        }
+        case ACTIONS.PREPARE_CHOICES_FOR_LAST_LEVEL: {
+            let newChallenge = lodash.cloneDeep(state);
+            newChallenge.choices[state.correctAnswer].CC_license = action.payload.correctAnswer;
+            newChallenge.choices[state.correctAnswer].display_text = action.payload.correctAnswer;
+            let availableLicenses = Object.values(licenseTypes).filter(elem => elem !== action.payload.correctAnswer);
+            newChallenge.choices = newChallenge.choices.map(license => {
+                if (license.CC_license === null) {
+                    let randomLicense = availableLicenses[Math.floor(Math.random() * availableLicenses.length)];
+                    license.CC_license = randomLicense;
+                    license.display_text = randomLicense;
+                    availableLicenses = availableLicenses.filter(elem => elem !== randomLicense);
+                    return license;
+                } else {
+                    return license;
+                }
+            });
+            return newChallenge;
+        }
+        default:
+            return state;
+    }
+};
+
 function StoryMode(props) {
     const styles = useStyles();
     const changeToStoryBackground = props.change_to_story_background;
     const {level} = useParams();
-    const [challenge, setChallenge] = useState(challengeGenerator(level));
+    const [challenge, dispatchChallenge] = useReducer(challengeReducer, challengeGenerator(level));
+    const [chosenLicenses, setChosenLicenses] = useState([]);
+    const [practices, setPractices] = useState(challenge.practices);
     const nextChallenge = challengeGenerator(challenge.level + 1);
-    const [isSubmitDialogOpening, setIsSubmitDialogOpening] = useState(false);
-    const [isFinishLevelDialogOpening, setIsFinishLevelDialogOpening] = useState(false);
+    const [isChooseLicenseDialogOpening, setIsChooseLicenseDialogOpening] = useState(false);
+    const [confirmSubmissionDialog, setConfirmSubmissionDialog] = useState({
+        is_opening: false,
+        correctness: false,
+        message: ''
+    });
     const [finalLicense, setFinalLicense] = useState('');
     const [resultsOfLevels, setResultsOfLevels] = useState({});
-    const [hint, setHint] = useState('');
     const [failTimes, setFailTimes] = useState(0);
     const [message, setMessage] = useState('');
     // Only used for questions requiring players to choose many answer (choices)
@@ -151,15 +197,15 @@ function StoryMode(props) {
         @param [int] choiceNumbers
      */
     const openChooseLicenseDialog = (choiceNumbers) => {
-        let newChallenge = lodash.cloneDeep(challenge);
         let newMessage = challenge.oer_resources[0];
+        let newChosenLicenses = lodash.cloneDeep(chosenLicenses);
         choiceNumbers.forEach(choiceNumber => {
-            newChallenge.oer_resources.push(newChallenge.choices[choiceNumber].CC_license);
+            newChosenLicenses.push(challenge.choices[choiceNumber].CC_license);
             newMessage += '; ' + challenge.choices[choiceNumber].CC_license
         });
-        setChallenge(newChallenge);
+        setChosenLicenses(newChosenLicenses);
         setMessage(newMessage);
-        setIsSubmitDialogOpening(true);
+        setIsChooseLicenseDialogOpening(true);
     };
 
     const selectFinalLicense = (e) => {
@@ -189,28 +235,38 @@ function StoryMode(props) {
     };
 
     const closeChooseLicenseDialog = () => {
-        setIsSubmitDialogOpening(false);
+        setIsChooseLicenseDialogOpening(false);
     };
 
-    const closeFinishLevelDialog = () => {
-        setIsFinishLevelDialogOpening(false);
+    const closeConfirmSubmissionDialog = () => {
+        setConfirmSubmissionDialog(prevState => {
+            return {...prevState, is_opening: false}
+        });
     };
 
     const clickOnSubmitButton = (e) => {
         e.preventDefault();
-        checkCompatible(window.accessToken, challenge.combination_type, challenge.oer_resources, finalLicense)
+        checkCompatible(window.accessToken, challenge.combination_type, chosenLicenses.concat(challenge.oer_resources), finalLicense)
             .then(res => {
+                // Player correctly answered
                 if (res.result) {
-                    setIsSubmitDialogOpening(false);
+                    setIsChooseLicenseDialogOpening(false);
                     setResultsOfLevels({
                         ...resultsOfLevels,
                         [challenge.level]: finalLicense
                     });
                     setFinalLicense('');
                     unselectSelectedChoices(getAllSelectedChoices());
-                    setIsFinishLevelDialogOpening(true);
-                } else {
-                    alert(res.error_message);
+                    setConfirmSubmissionDialog(prevState => {
+                        return {...prevState, is_opening: true, correctness: true, message: SUCCESS_MESSAGE}
+                    });
+                }
+                // Wrong Answer
+                else {
+                    setConfirmSubmissionDialog(prevState => {
+                        const message = failTimes === 1 ? FAIL_MESSAGE : challenge.hint;
+                        return {...prevState, is_opening: true, correctness: false, message: message}
+                    });
                 }
             })
             .catch(e => console.log(e));
@@ -247,13 +303,20 @@ function StoryMode(props) {
                 ...resultsOfLevels,
                 [challenge.level]: challenge.choices[challenge.correctAnswer].CC_license
             });
-            setIsFinishLevelDialogOpening(true);
+            setConfirmSubmissionDialog(prevState => {
+                return {...prevState, is_opening: true, correctness: true, message: SUCCESS_MESSAGE}
+            });
         } else {
+            setConfirmSubmissionDialog(prevState => {
+                const message = failTimes < 2 ? FAIL_MESSAGE : challenge.hint;
+                return {
+                    ...prevState,
+                    is_opening: true,
+                    correctness: false,
+                    message: message
+                };
+            });
             setFailTimes(failTimes + 1);
-            // let newChoice = lodash.cloneDeep(choices);
-            // newChoice[choiceNumber].color = 'red';
-            // setChoices(newChoice);
-            // setTimeout(() => {},)
         }
     };
 
@@ -287,21 +350,29 @@ function StoryMode(props) {
             setTimeout((() => {
                 setTransition(nextChallenge, true);
                 setFailTimes(0);
-                setHint('');
-                setChallenge(nextChallenge);
+                setChosenLicenses([]);
+                setPractices(nextChallenge.practices);
+                dispatchChallenge(
+                    {
+                        type: ACTIONS.TO_NEXT_LEVEL,
+                        payload: {nextChallenge}
+                    }
+                );
             }), 500);
         } else {
             alert('Congratulation, end game');
         }
-        setIsFinishLevelDialogOpening(false);
+        setConfirmSubmissionDialog(prevState => {
+            return {...prevState, is_opening: false}
+        });
 
     };
 
     const finishPractice = (id) => {
-        let finishedPracticeIndex = challenge.practices.findIndex(practice => practice.id === id);
-        let newChallenge = lodash.cloneDeep(challenge);
-        newChallenge.practices[finishedPracticeIndex].finished = true;
-        setChallenge(newChallenge);
+        let finishedPracticeIndex = practices.findIndex(practice => practice.id === id);
+        let newPractices = lodash.cloneDeep(practices);
+        newPractices[finishedPracticeIndex].finished = true;
+        setPractices(newPractices);
     };
 
     const getNextUnfinishedPractice = (practices) => {
@@ -322,21 +393,10 @@ function StoryMode(props) {
             && challenge.require_result_of_levels.length !== 0
             && challenge.oer_resources.length === 0
         ) {
-            let newChallenge = lodash.cloneDeep(challenge);
-            challenge.require_result_of_levels.forEach(level => {
-                newChallenge.oer_resources.push(resultsOfLevels[level]);
+            dispatchChallenge({
+                type: ACTIONS.PREPARE_OER_RESOURCES,
+                payload: {resultsOfLevels}
             });
-            setChallenge(newChallenge);
-        }
-    });
-
-    useEffect(() => {
-        if (failTimes === 0 && hint === '') {
-            setHint(challenge.context);
-        } else if (failTimes === 1) {
-            setHint('That doesn\'t seem to be a wise choice, let\'s try again');
-        } else if (failTimes >= 2) {
-            setHint(challenge.hint);
         }
     });
 
@@ -346,22 +406,10 @@ function StoryMode(props) {
             checkCompatible(window.accessToken, challenge.combination_type, challenge.oer_resources, 'check')
                 .then(res => {
                     if (res.correctAnswer) {
-                        let newChallenge = lodash.cloneDeep(challenge);
-                        newChallenge.choices[challenge.correctAnswer].CC_license = res.correctAnswer;
-                        newChallenge.choices[challenge.correctAnswer].display_text = res.correctAnswer;
-                        let availableLicenses = Object.values(licenseTypes).filter(elem => elem !== res.correctAnswer);
-                        newChallenge.choices = newChallenge.choices.map(license => {
-                            if (license.CC_license === null) {
-                                let randomLicense = availableLicenses[Math.floor(Math.random() * availableLicenses.length)];
-                                license.CC_license = randomLicense;
-                                license.display_text = randomLicense;
-                                availableLicenses = availableLicenses.filter(elem => elem !== randomLicense);
-                                return license;
-                            } else {
-                                return license;
-                            }
+                        dispatchChallenge({
+                            type: ACTIONS.PREPARE_CHOICES_FOR_LAST_LEVEL,
+                            payload: {correctAnswer: res.correctAnswer}
                         });
-                        setChallenge(newChallenge);
                     }
                 })
                 .catch(e => console.log(e));
@@ -369,18 +417,21 @@ function StoryMode(props) {
     });
 
 
-    if (challenge.practices != null && getNextUnfinishedPractice(challenge.practices) !== null) {
-        return <PracticeMode finishPractice={finishPractice} practice={getNextUnfinishedPractice(challenge.practices)}/>
+    if (practices != null && getNextUnfinishedPractice(practices) !== null) {
+        return <PracticeMode finishPractice={finishPractice} practice={getNextUnfinishedPractice(practices)}/>
     } else {
         return (
             <Grid container item direction={'row'} justify={'center'} alignItems={'center'} className={styles.root}>
                 <Slide direction={'left'} in={showUp.stable_content} mountOnEnter unmountOnExit>
                     <img className={styles.smith} src={story_smith}/>
                 </Slide>
-                <SuccessfullyCompleteALevel is_finish_level_dialog_opening={isFinishLevelDialogOpening}
-                                            close_finish_level_dialog={closeFinishLevelDialog}
-                                            go_to_next_level={goToNextLevel}/>
-                <ChooseLicenseDialog isSubmitDialogOpening={isSubmitDialogOpening}
+                <ConfirmSubmission is_confirm_submission_dialog_opening={confirmSubmissionDialog.is_opening}
+                                   close_confirm_submission_dialog={closeConfirmSubmissionDialog}
+                                   go_to_next_level={goToNextLevel}
+                                   correctness={confirmSubmissionDialog.correctness}
+                                   message={confirmSubmissionDialog.message}
+                                   set_confirm_submission_dialog={setConfirmSubmissionDialog}/>
+                <ChooseLicenseDialog isChooseLicenseDialogOpening={isChooseLicenseDialogOpening}
                                      closeChooseLicenseDialog={closeChooseLicenseDialog}
                                      clickOnSubmitButton={clickOnSubmitButton}
                                      selectFinalLicense={selectFinalLicense}
@@ -390,9 +441,9 @@ function StoryMode(props) {
                 <Grid container item direction={'row'} justify={'center'} xs={11}>
                     <Grid container item xs={12} justify={'flex-start'}>
                         <Slide direction={'right'} in={showUp.stable_content} mountOnEnter unmountOnExit>
-                            <Grid container item xs={11} className={styles.hints}
+                            <Grid container item xs={11} className={styles.context}
                                   justify={'center'}>
-                                {hint}
+                                {challenge.context}
                             </Grid>
                         </Slide>
                     </Grid>

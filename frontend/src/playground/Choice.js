@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import {story_choice} from "../images";
 import Slide from "@material-ui/core/Slide";
+import {color} from "../Types";
 
 const useStyles = makeStyles((theme) => ({
     choice: {
@@ -18,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     chosen_choice: {
-        'background-color': '#AAF38D'
+        'background-color': color.NORMAL_TEXT_WHITE
     },
     choice_button: {
         'backgroundImage': `url(${story_choice})`,
         'background-size': '100% 100%',
-        'color': '#BFB7AF',
+        'color': color.NORMAL_TEXT_WHITE,
 
     }
 }));

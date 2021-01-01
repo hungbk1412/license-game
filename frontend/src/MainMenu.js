@@ -7,8 +7,6 @@ import {menu_button_background} from "./images";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        'position': 'absolute',
-        'top': '50px',
         'margin': '100px 0px 100px 0px',
         'width': '100%'
     },
