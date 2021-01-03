@@ -5,6 +5,8 @@ const constants = require("./utils/constants");
 const utils = require("./utils/utils");
 const cors = require('cors');
 const mongoose = require('mongoose');
+const jwt_decode = require('jwt-decode');
+
 const app = express();
 
 const memoryStore = new session.MemoryStore();
@@ -37,8 +39,11 @@ const keycloak = require('./utils/keycloak-config').initKeycloak(memoryStore);
 
 app.use(keycloak.middleware());
 
-app.post("/", keycloak.checkSso(), (req, res) => {
+app.post("/api/v1/check-compatible", keycloak.checkSso(), (req, res) => {
     const {type} = req.body;
+    const {bearer_token} = req.headers.Authorization;
+    const token = bearer_token.split(' ')[1];
+    console.log('req.body :>> ', req.body);
     if (type.toLowerCase() === constants.TYPE.collage) {
         res.send(utils.checkCompatibilityCollage(req.body))
     } else if (type.toLowerCase() === constants.TYPE.composition) {

@@ -198,6 +198,7 @@ function StoryMode(props) {
 
     const clickOnSubmitButton = (e) => {
         e.preventDefault();
+        console.log('clickOnSubmitButton :>> ', e);
         checkCompatible(window.accessToken, challenge.combination_type, challenge.oer_resources, finalLicense)
             .then(res => {
                 if (res.result) {
@@ -232,6 +233,10 @@ function StoryMode(props) {
     };
 
     const clickOnAChoice = (choiceNumber) => {
+        console.log('choiceNumber :>> ', choiceNumber);
+        console.log('challenge :>> ', challenge);
+        console.log('questionTypes :>> ', questionTypes);
+        console.log('choices :>> ', choices);
         if (challenge.type === questionTypes.SELF_GENERATED) {
             openChooseLicenseDialog([choiceNumber]);
         } else if (challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES) {
@@ -250,6 +255,7 @@ function StoryMode(props) {
             setIsFinishLevelDialogOpening(true);
         } else {
             setFailTimes(failTimes + 1);
+            console.log('failTimes :>> ', failTimes);
             // let newChoice = lodash.cloneDeep(choices);
             // newChoice[choiceNumber].color = 'red';
             // setChoices(newChoice);
