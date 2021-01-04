@@ -21,9 +21,19 @@ export const story_choice = require('./story_mode/choice.png');
 export const story_description_image_container = require('./story_mode/description.png');
 export const story_question = require('./story_mode/question.png');
 export const story_talk_box = require('./story_mode/talk_box.png');
+export const story_dialog= require('./story_mode/dialog/dialog_background.png');
+export const story_dialog_inner = require('./story_mode/dialog/dialog_background_inner.png');
+export const story_dialog_dropdown_background = require('./story_mode/dialog/dropdown_background.png');
+export const correct_symbol= require('./story_mode/dialog/correct_symbol.png');
+export const incorrect_symbol = require('./story_mode/dialog/incorrect_symbol.png');
 
 // oer_resources folder
 export const audio = require ('./oer_resources/audio.png');
 export const document = require ('./oer_resources/document.png');
 export const picture = require ('./oer_resources/picture.png');
 export const video = require ('./oer_resources/video.png');
+
+//navbar
+export const navbar_setting_button = require ('./navbar/setting_button.png');
+export const navbar_logout_button = require ('./navbar/logout_button.png');
+export const navbar_back_button = require ('./navbar/back_button.png');

@@ -6,6 +6,10 @@ import MatchRow from "./MatchRow";
 import lodash from 'lodash';
 import {menu_button_background} from "../../../images";
 import {color} from "../../../Types";
+import ConfirmSubmission from "../../dialog/ConfirmSubmission";
+
+const SUCCESS_MESSAGE = 'Congratulation !!!';
+const FAIL_MESSAGE = 'Please try again';
 
 const useStyles = makeStyles((theme) => ({
     hint_box: {
@@ -91,6 +95,11 @@ function PracticeTheory(props) {
     const {symbols, descriptions, numberOfMatches} = extractSymbolAndDescriptionFromData(practice.data);
     const helper_array = [...Array(numberOfMatches).keys()];
     const [orderedDescriptions, setOrderedDescriptions] = useState(initOrder(shuffle(descriptions)));
+    const [confirmSubmissionDialog, setConfirmSubmissionDialog] = useState({
+        is_opening: false,
+        correctness: false,
+        message: ''
+    });
     const finishPractice = props.finishPractice;
 
     const swap = (from, to) => {
@@ -116,14 +125,21 @@ function PracticeTheory(props) {
 
     const clickOnSkip = (e) => {
         e.preventDefault();
-        finishPractice(props.id_within_story);
+        goToNextLevel();
     };
 
     const clickOnSubmit = (e) => {
         e.preventDefault();
         let correctness = checkForCorrectness();
         if (correctness.result) {
-            finishPractice(props.id_within_story);
+            setConfirmSubmissionDialog(prevState => {
+                return {
+                    ...prevState,
+                    is_opening: true,
+                    correctness: true,
+                    message: SUCCESS_MESSAGE
+                };
+            });
         } else {
             let newOrderedDescriptions = lodash.cloneDeep(orderedDescriptions);
             for (let i = 0; i < correctness.details.length; i++) {
@@ -134,6 +150,14 @@ function PracticeTheory(props) {
                 }
             }
             setOrderedDescriptions(newOrderedDescriptions);
+            setConfirmSubmissionDialog(prevState => {
+                return {
+                    ...prevState,
+                    is_opening: true,
+                    correctness: false,
+                    message: FAIL_MESSAGE
+                };
+            });
         }
     };
 
@@ -153,8 +177,30 @@ function PracticeTheory(props) {
         return correctness;
     };
 
+    const closeConfirmSubmissionDialog = () => {
+        setConfirmSubmissionDialog(prevState => {
+            return {...prevState, is_opening: false}
+        });
+    };
+
+    const goToNextLevel = () => {
+        setConfirmSubmissionDialog(prevState => {
+            return {
+                ...prevState,
+                is_opening: false
+            }
+        });
+        finishPractice(props.id_within_story);
+    };
+
     return (
-        <Grid container item direction={'row'} justify={'center'} xs={10}>
+        <Grid container item direction={'row'} justify={'center'} xs={10} className={styles.root}>
+            <ConfirmSubmission is_confirm_submission_dialog_opening={confirmSubmissionDialog.is_opening}
+                               close_confirm_submission_dialog={closeConfirmSubmissionDialog}
+                               go_to_next_level={goToNextLevel}
+                               correctness={confirmSubmissionDialog.correctness}
+                               message={confirmSubmissionDialog.message}
+                               set_confirm_submission_dialog={setConfirmSubmissionDialog}/>
             <Grid container item direction={'row'} className={styles.hint_box} xs={10} justify={'center'}
                   alignItems={'center'}>
                 <Grid item className={styles.header}>Match the CC licences with the corresponding definitions</Grid>
