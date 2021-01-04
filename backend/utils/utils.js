@@ -1,89 +1,89 @@
 const self = this;
 
 exports.COMPATIBILITY_TABLE = {
-    "cc_zero": {
-        "cc_zero": "cc_zero",
-        "cc_by": "cc_by",
-        "cc_by_sa": "cc_by_sa",
-        "cc_by_nc": "cc_by_nc",
-        "cc_by_nd": false,
-        "cc_by_nc_sa": "cc_by_nc_sa",
-        "cc_by_nc_nd": false,
+    'cc_zero': {
+        'cc_zero': 'cc_zero',
+        'cc_by': 'cc_by',
+        'cc_by_sa': 'cc_by_sa',
+        'cc_by_nc': 'cc_by_nc',
+        'cc_by_nd': false,
+        'cc_by_nc_sa': 'cc_by_nc_sa',
+        'cc_by_nc_nd': false,
     },
-    "cc_by": {
-        "cc_zero": "cc_by",
-        "cc_by": "cc_by",
-        "cc_by_sa": "cc_by_sa",
-        "cc_by_nc": "cc_by_nc",
-        "cc_by_nd": false,
-        "cc_by_nc_sa": "cc_by_nc_sa",
-        "cc_by_nc_nd": false,
+    'cc_by': {
+        'cc_zero': 'cc_by',
+        'cc_by': 'cc_by',
+        'cc_by_sa': 'cc_by_sa',
+        'cc_by_nc': 'cc_by_nc',
+        'cc_by_nd': false,
+        'cc_by_nc_sa': 'cc_by_nc_sa',
+        'cc_by_nc_nd': false,
     },
-    "cc_by_sa": {
-        "cc_zero": "cc_by_sa",
-        "cc_by": "cc_by_sa",
-        "cc_by_sa": "cc_by_sa",
-        "cc_by_nc": false,
-        "cc_by_nd": false,
-        "cc_by_nc_sa": false,
-        "cc_by_nc_nd": false,
+    'cc_by_sa': {
+        'cc_zero': 'cc_by_sa',
+        'cc_by': 'cc_by_sa',
+        'cc_by_sa': 'cc_by_sa',
+        'cc_by_nc': false,
+        'cc_by_nd': false,
+        'cc_by_nc_sa': false,
+        'cc_by_nc_nd': false,
     },
-    "cc_by_nc": {
-        "cc_zero": "cc_by_nc",
-        "cc_by": "cc_by_nc",
-        "cc_by_sa": false,
-        "cc_by_nc": "cc_by_nc",
-        "cc_by_nd": false,
-        "cc_by_nc_sa": "cc_by_nc_sa",
-        "cc_by_nc_nd": false,
+    'cc_by_nc': {
+        'cc_zero': 'cc_by_nc',
+        'cc_by': 'cc_by_nc',
+        'cc_by_sa': false,
+        'cc_by_nc': 'cc_by_nc',
+        'cc_by_nd': false,
+        'cc_by_nc_sa': 'cc_by_nc_sa',
+        'cc_by_nc_nd': false,
     },
-    "cc_by_nd": {
-        "cc_zero": false,
-        "cc_by": false,
-        "cc_by_sa": false,
-        "cc_by_nc": false,
-        "cc_by_nd": false,
-        "cc_by_nc_sa": false,
-        "cc_by_nc_nd": false,
+    'cc_by_nd': {
+        'cc_zero': false,
+        'cc_by': false,
+        'cc_by_sa': false,
+        'cc_by_nc': false,
+        'cc_by_nd': false,
+        'cc_by_nc_sa': false,
+        'cc_by_nc_nd': false,
     },
-    "cc_by_nc_sa": {
-        "cc_zero": "cc_by_nc_sa",
-        "cc_by": "cc_by_nc_sa",
-        "cc_by_sa": false,
-        "cc_by_nc": "cc_by_nc",
-        "cc_by_nd": false,
-        "cc_by_nc_sa": "cc_by_nc_sa",
-        "cc_by_nc_nd": false,
+    'cc_by_nc_sa': {
+        'cc_zero': 'cc_by_nc_sa',
+        'cc_by': 'cc_by_nc_sa',
+        'cc_by_sa': false,
+        'cc_by_nc': 'cc_by_nc',
+        'cc_by_nd': false,
+        'cc_by_nc_sa': 'cc_by_nc_sa',
+        'cc_by_nc_nd': false,
     },
-    "cc_by_nc_nd": {
-        "cc_zero": false,
-        "cc_by": false,
-        "cc_by_sa": false,
-        "cc_by_nc": false,
-        "cc_by_nd": false,
-        "cc_by_nc_sa": false,
-        "cc_by_nc_nd": false,
+    'cc_by_nc_nd': {
+        'cc_zero': false,
+        'cc_by': false,
+        'cc_by_sa': false,
+        'cc_by_nc': false,
+        'cc_by_nd': false,
+        'cc_by_nc_sa': false,
+        'cc_by_nc_nd': false,
     },
 };
 
 exports.LICENSE_POWER_LEVEL = {
-    "cc_zero": 1,
-    "cc_by": 2,
-    "cc_by_sa": 3,
-    "cc_by_nc": 4,
-    "cc_by_nd": 5,
-    "cc_by_nc_sa": 6,
-    "cc_by_nc_nd": 7,
+    'cc_zero': 1,
+    'cc_by': 2,
+    'cc_by_sa': 3,
+    'cc_by_nc': 4,
+    'cc_by_nd': 5,
+    'cc_by_nc_sa': 6,
+    'cc_by_nc_nd': 7,
 };
 
 exports.checkCompatibilityComposition = ({licenseArray, clientLicenseAnswer}) => {
     clientLicenseAnswer = clientLicenseAnswer.toLowerCase();
     if (clientLicenseAnswer === 'none') {
         return {
-            error_message: "The answer cannot be none"
+            error_message: 'The answer cannot be none'
         }
     }
-    const NC_LICENSES = ["cc_by_nc", "cc_by_nc_nd", "cc_by_nc_sa"];
+    const NC_LICENSES = ['cc_by_nc', 'cc_by_nc_nd', 'cc_by_nc_sa'];
     let checker = false;
     let response = {
         error_message: null,
@@ -98,7 +98,7 @@ exports.checkCompatibilityComposition = ({licenseArray, clientLicenseAnswer}) =>
     }
 
     if (checker && !NC_LICENSES.includes(clientLicenseAnswer)) {
-        response.error_message = "The answer must contain NC license";
+        response.error_message = 'The answer must contain NC license';
         response.result = false;
     } else {
         response.result = true;

@@ -1,4 +1,4 @@
 exports.TYPE = {
-  composition: "composition",
-  collage: "collage"
+  composition: 'composition',
+  collage: 'collage'
 };
