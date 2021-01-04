@@ -4,38 +4,40 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
 import MatchRow from "./MatchRow";
 import lodash from 'lodash';
-import {menu_button_background} from "../../../images";
-import {color} from "../../../Types";
+import {menu_button_background, story_question} from "../../../images";
+import {color} from "../../../definitions/Types";
 import ConfirmSubmission from "../../dialog/ConfirmSubmission";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
 
 const useStyles = makeStyles((theme) => ({
-    hint_box: {
+    root: {
+        'margin-top': '20px'
+    },
+    header: {
+        'color': color.NORMAL_TEXT_WHITE
+    },
+    header_container: {
+        'background-image': `url(${story_question})`,
+        'background-size': '100% 100%',
         [theme.breakpoints.up('sm')]: {
-            'border': '1px solid black',
-            'height': '50px',
-            'margin-top': '50px'
+            'height': '90px',
+            'margin-bottom': '10px'
         },
         [theme.breakpoints.up('xl')]: {
-            'border': '1px solid black',
-            'height': '50px',
-            'margin-top': '50px'
-        }
-    },
-    match_row: {
-        'margin-top': '80px'
+            'height': '70px',
+            'margin-bottom': '10px'
+        },
     },
     buttons_container: {
-        'margin-top': '100px'
+        'position': 'absolute',
+        'bottom': '50px'
     },
     button: {
         'background-image': `url(${menu_button_background})`,
         'background-size': '100% 100%',
-        'color': color.NORMAL_TEXT_WHITE
-    },
-    header: {
+        'height': '50px',
         'color': color.NORMAL_TEXT_WHITE
     }
 }));
@@ -201,9 +203,9 @@ function PracticeTheory(props) {
                                correctness={confirmSubmissionDialog.correctness}
                                message={confirmSubmissionDialog.message}
                                set_confirm_submission_dialog={setConfirmSubmissionDialog}/>
-            <Grid container item direction={'row'} className={styles.hint_box} xs={10} justify={'center'}
+            <Grid container item direction={'row'} className={styles.header_container} xs={10} justify={'center'}
                   alignItems={'center'}>
-                <Grid item className={styles.header}>Match the CC licences with the corresponding definitions</Grid>
+                <Grid item className={styles.header}>{practice.description}</Grid>
             </Grid>
             <Grid container item direction={'row'}>
                 {
@@ -218,11 +220,11 @@ function PracticeTheory(props) {
                 }
             </Grid>
             <Grid container item xs={12} justify={'space-around'} className={styles.buttons_container}>
-                <Grid container item xs={3} justify={'center'}>
+                <Grid container item xs={4} justify={'center'}>
                     <Button fullWidth color={"primary"}
                             onClick={clickOnSubmit} className={styles.button}>Submit</Button>
                 </Grid>
-                <Grid container item xs={3} justify={'center'}>
+                <Grid container item xs={4} justify={'center'}>
                     <Button fullWidth onClick={clickOnSkip} className={styles.button}>Skip</Button>
                 </Grid>
             </Grid>

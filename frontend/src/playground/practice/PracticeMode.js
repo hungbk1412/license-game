@@ -1,7 +1,7 @@
 import React from 'react';
 import PracticeEditing from "./editing/PracticeEditing";
 import PracticeTheory from "./theory/PracticeTheory";
-import {practiceTypes} from "../../Types";
+import {practiceTypes} from "../../definitions/Types";
 import {practiceTheoryGenerator, practiceEditingGenerator} from "../../game_generator/Practice";
 
 function PracticeMode(props) {

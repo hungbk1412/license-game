@@ -1,4 +1,4 @@
-import {licenseTypes, questionTypes, practiceTypes} from '../Types';
+import {licenseTypes, questionTypes, practiceTypes} from '../definitions/Types';
 
 // For multiple_choice questions, declaring combination_type in the challenge is not necessary because the correct answer
 // is fixed. Hence no request to the server will be made.

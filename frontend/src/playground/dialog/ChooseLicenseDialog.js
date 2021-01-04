@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
-import {licenseTypes, color} from "../../Types";
+import {licenseTypes, color} from "../../definitions/Types";
 import {story_dialog, story_dialog_dropdown_background} from "../../images";
 
 const useStyles = makeStyles((theme) => ({

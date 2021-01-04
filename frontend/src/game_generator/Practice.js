@@ -1,8 +1,7 @@
-import {licenseTypes, resourceTypes, practiceTypes} from "../Types";
+import {licenseTypes, resourceTypes, practiceTypes} from "../definitions/Types";
 
 const generatePracticeTheoryLevel0 = () => {
     let data = [
-        {[licenseTypes.CC_ZERO]: `No constraints`},
         {[licenseTypes.CC_BY]: `Original authors must be credited`},
         {[licenseTypes.CC_BY_SA]: `Original authors must be credited; redistribution with the exact same license`},
         {[licenseTypes.CC_BY_NC]: `Original authors must be credited; commercial use is NOT allowed`}
@@ -11,7 +10,8 @@ const generatePracticeTheoryLevel0 = () => {
         type: practiceTypes.THEORY,
         level: 0,
         data: data,
-        numberOfMatches: 4
+        description: 'Match the CC licences with the corresponding definitions',
+        numberOfMatches: data.length
     };
 };
 
@@ -25,7 +25,8 @@ const generatePracticeTheoryLevel1 = () => {
         type: practiceTypes.THEORY,
         level: 1,
         data: data,
-        numberOfMatches: 3
+        description: 'Match the CC licences with the corresponding definitions',
+        numberOfMatches: data.length
     };
 };
 
@@ -38,7 +39,8 @@ const generatePracticeTheoryLevel2 = () => {
         type: practiceTypes.THEORY,
         level: 2,
         data: data,
-        numberOfMatches: 2
+        description: 'Match the CC licences with the corresponding definitions',
+        numberOfMatches: data.length
     }
 };
 

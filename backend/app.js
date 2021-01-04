@@ -99,7 +99,7 @@ app.post('/api/v1/progress/post', keycloak.checkSso(), (req, res) => {
                 });
                 return userDoc.save();
             } else {
-                userDoc.overwrite({...decoded_token, ...req.body})
+                userDoc.overwrite({...decoded_token, ...req.body});
                 return userDoc.save();
             }  
         })

@@ -1,54 +1,64 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import {useDrop} from "react-dnd";
-import {itemTypes, color} from "../../../Types";
+import {itemTypes, color} from "../../../definitions/Types";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ResourceInPractice from "./ResourceInPractice";
 import ChooseLicenseDialog from "../../dialog/ChooseLicenseDialog";
 import ConfirmSubmission from "../../dialog/ConfirmSubmission";
 import {checkCompatible} from "../../../Requests";
-import {menu_button_background} from "../../../images";
+import {menu_button_background, practice_lava_frame, story_question} from "../../../images";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+      'margin-top': '20px'
+    },
     header: {
+        'color': color.NORMAL_TEXT_WHITE
+    },
+    header_container: {
+        'background-image': `url(${story_question})`,
+        'background-size': '100% 100%',
         [theme.breakpoints.up('sm')]: {
-            'border': '1px solid black',
-            'height': '50px',
-            'margin-top': '50px'
+            'height': '90px',
+            'margin-bottom': '10px'
         },
         [theme.breakpoints.up('xl')]: {
-            'border': '1px solid black',
-            'height': '50px',
-            'margin-top': '50px'
-        }
+            'height': '70px',
+            'margin-bottom': '10px'
+        },
     },
     result_box: {
+        'background-image': `url(${practice_lava_frame})`,
+        'background-size': '100% 100%',
         [theme.breakpoints.up('sm')]: {
-            'border': '1px solid black',
-            'height': '150px',
+            'height': '200px',
             'margin-top': '25px'
         },
         [theme.breakpoints.up('xl')]: {
-            'border': '1px solid black',
             'height': '350px',
             'margin-top': '25px'
         }
     },
     button_container: {
+        'position': 'absolute',
         [theme.breakpoints.up('sm')]: {
-            'margin-top': '25px'
+            'margin-top': '25px',
+            'bottom': '50px'
         },
         [theme.breakpoints.up('xl')]: {
-            'margin-top': '80px'
+            'margin-top': '80px',
+            'bottom': '50px'
         }
     },
     button: {
         'background-image': `url(${menu_button_background})`,
         'background-size': '100% 100%',
+        'height': '50px',
         'color': color.NORMAL_TEXT_WHITE
     }
 }));
@@ -197,9 +207,9 @@ function PracticeEditing(props) {
                                message={confirmSubmissionDialog.message}
                                set_confirm_submission_dialog={setConfirmSubmissionDialog}/>
             <Grid container item justify={'center'}>
-                <Grid container item direction={'row'} className={styles.header} xs={10} justify={'center'}
+                <Grid container item direction={'row'} className={styles.header_container} xs={10} justify={'center'}
                       alignItems={'center'}>
-                    <Grid item>{practice.description}</Grid>
+                    <Grid item className={styles.header}>{practice.description}</Grid>
                 </Grid>
                 <Grid container item direction={'row'} justify={'space-around'} alignItems={'center'}
                       className={styles.result_box} xs={10} ref={drop}>
@@ -244,10 +254,10 @@ function PracticeEditing(props) {
                 }
             </Grid>
             <Grid container item justify={'space-around'} className={styles.button_container}>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                     <Button fullWidth onClick={openChooseLicenseDialog} className={styles.button}>Next</Button>
                 </Grid>
-                <Grid container item xs={3} justify={'center'}>
+                <Grid container item xs={4} justify={'center'}>
                     <Button fullWidth onClick={clickOnSkip} className={styles.button}>Skip</Button>
                 </Grid>
             </Grid>

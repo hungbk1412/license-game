@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import {menu_button_background} from "../images";
 import {Redirect} from "react-router-dom";
-import {color} from '../Types';
+import {color} from '../definitions/Types';
 
 const useStyles = makeStyles((theme) => ({
     root: {

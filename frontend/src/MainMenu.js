@@ -66,17 +66,17 @@ function MainMenu(props) {
         return (
             <Grid container direction={'column'} spacing={10} className={styles.root}>
                 <Grid container item justify={'center'}>
-                    <Grid item xs={6} md={3}>
+                    <Grid item xs={6} md={5}>
                         <Button className={styles.button} fullWidth onClick={onClickStory}>Play</Button>
                     </Grid>
                 </Grid>
                 <Grid container item justify={'center'}>
-                    <Grid item xs={6} md={3}>
+                    <Grid item xs={6} md={5}>
                         <Button className={styles.button} fullWidth onClick={onClickHowToPlay}>How To Play</Button>
                     </Grid>
                 </Grid>
                 <Grid container item justify={'center'}>
-                    <Grid item xs={6} md={3}>
+                    <Grid item xs={6} md={5}>
                         <Button className={styles.button} fullWidth onClick={onClickMyAchievements}>My
                             Achievements</Button>
                     </Grid>

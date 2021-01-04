@@ -5,7 +5,7 @@ import {navbar_back_button, navbar_setting_button, navbar_logout_button} from ".
 import Grid from '@material-ui/core/Grid';
 import SettingMenu from "./SettingMenu";
 import {makeStyles} from "@material-ui/core/styles";
-import {color} from "./Types";
+import {color} from "./definitions/Types";
 
 const useStyles = makeStyles((theme) => ({
     root: {

@@ -2,15 +2,15 @@ import React, {useEffect, useRef} from 'react';
 import Grid from "@material-ui/core/Grid";
 import DropZone from "./DropZone";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {color} from "../../../Types";
+import {color} from "../../../definitions/Types";
+import {practice_theory_symbol, practice_lava_frame} from "../../../images";
 
 const useStyles = makeStyles((theme) => ({
-    b: {
-        'border': '1px solid',
-        'border-color': color.NORMAL_TEXT_WHITE
-    },
-    match_row: {
-        'margin-top': '80px'
+    root: {
+        'height': '150px',
+        'margin-top': '30px',
+        'background-image': `url(${practice_lava_frame})`,
+        'background-size': '100% 100%'
     },
     correct_notification: {
         'background-color': '#AAF38D'
@@ -19,7 +19,10 @@ const useStyles = makeStyles((theme) => ({
         'background-color': '#F64A0A'
     },
     symbol: {
-        'color': color.NORMAL_TEXT_WHITE
+        'color': color.NORMAL_TEXT_WHITE,
+        'height': '90px',
+        'background-image': `url(${practice_theory_symbol})`,
+        'background-size': '100% 100%'
     }
 }));
 
@@ -45,10 +48,10 @@ const MatchRow = (props) => {
     });
     return (
         <Grid container item xs={12}
-              className={styles.match_row}
+              className={styles.root}
               ref={matchRow}>
-            <Grid container item xs={6} className={styles.b}>
-                <Grid container item justify={'flex-start'} xs={6} className={styles.symbol}>
+            <Grid container item xs={5} justify={'flex-end'} alignItems={'center'}>
+                <Grid container item justify={'center'} alignItems={'center'} xs={10} className={styles.symbol}>
                     {symbol}
                 </Grid>
             </Grid>

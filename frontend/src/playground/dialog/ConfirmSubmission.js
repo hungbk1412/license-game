@@ -4,7 +4,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import {story_dialog, menu_button_background, correct_symbol, incorrect_symbol} from '../../images';
-import {color} from "../../Types";
+import {color} from "../../definitions/Types";
 
 const useStyles = makeStyles((theme) => ({
     pop_up: {

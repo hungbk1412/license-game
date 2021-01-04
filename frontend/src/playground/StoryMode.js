@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import challengeGenerator from '../game_generator/Story';
-import {licenseTypes, questionTypes} from '../Types';
+import {licenseTypes, questionTypes, color} from '../definitions/Types';
 import PracticeMode from './practice/PracticeMode';
 import ChooseLicenseDialog from './dialog/ChooseLicenseDialog';
 import {checkCompatible, postProgress} from '../Requests';
@@ -12,7 +12,13 @@ import Choice from './Choice';
 import Slide from '@material-ui/core/Slide';
 import {useParams} from 'react-router-dom';
 import ConfirmSubmission from "./dialog/ConfirmSubmission";
-import {story_description_image_container, story_talk_box, story_question, story_smith} from '../images';
+import {
+    story_description_image_container,
+    story_talk_box,
+    story_question,
+    story_smith,
+    story_go_button
+} from '../images';
 
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
@@ -25,7 +31,7 @@ const ACTIONS = {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      'position': 'relative'
+        'position': 'relative'
     },
     context: {
         'backgroundImage': `url(${story_talk_box})`,
@@ -90,8 +96,17 @@ const useStyles = makeStyles((theme) => ({
             'margin-top': '20px'
         }
     },
+    go_button_container: {
+        'position': 'absolute',
+        'bottom': '35px',
+        'height': '130px',
+        'width': '130px',
+    },
     go_button: {
-        'background-color': 'brown',
+        'backgroundImage': `url(${story_go_button})`,
+        'background-size': '100% 100%',
+        'color': color.NORMAL_TEXT_WHITE,
+        'font-size': '20px',
         [theme.breakpoints.up('sm')]: {
             'margin-top': '20px'
         },
@@ -268,7 +283,7 @@ function StoryMode(props) {
                         return {...prevState, is_opening: true, correctness: false, message: message}
                     });
                 }
-            })
+            }).then(res => console.log(res))
             .catch(e => console.log(e));
     };
 
@@ -497,9 +512,9 @@ function StoryMode(props) {
                     {
                         challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES &&
                         <Grid container item xs={12} justify={'center'}>
-                            <Grid container item xs={4}>
-                                <Button variant={'contained'} fullWidth className={styles.go_button}
-                                        onClick={clickOnGoButton}>Go!!!</Button>
+                            <Grid container item className={styles.go_button_container}>
+                                <Button fullWidth className={styles.go_button}
+                                        onClick={clickOnGoButton}>Go</Button>
                             </Grid>
                         </Grid>
                     }

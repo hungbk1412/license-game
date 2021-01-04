@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import {itemTypes, licenseTypes, resourceTypes} from "../../../Types";
+import {itemTypes, licenseTypes, resourceTypes} from "../../../definitions/Types";
 import {useDrag} from 'react-dnd';
 import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';

@@ -18,14 +18,20 @@ export const iron_ore = require('./story_mode/iron_ore.png');
 export const story_background = require('./story_mode/background.png');
 export const story_smith = require('./story_mode/smith.png');
 export const story_choice = require('./story_mode/choice.png');
+export const story_go_button = require('./story_mode/go_button.png');
 export const story_description_image_container = require('./story_mode/description.png');
 export const story_question = require('./story_mode/question.png');
 export const story_talk_box = require('./story_mode/talk_box.png');
 export const story_dialog= require('./story_mode/dialog/dialog_background.png');
 export const story_dialog_inner = require('./story_mode/dialog/dialog_background_inner.png');
 export const story_dialog_dropdown_background = require('./story_mode/dialog/dropdown_background.png');
-export const correct_symbol= require('./story_mode/dialog/correct_symbol.png');
+export const correct_symbol = require('./story_mode/dialog/correct_symbol.png');
 export const incorrect_symbol = require('./story_mode/dialog/incorrect_symbol.png');
+
+//practice folder
+export const practice_theory_symbol = require('./practice/symbol.png');
+export const practice_theory_description = require('./practice/description.png');
+export const practice_lava_frame = require('./practice/lava_frame.png');
 
 // oer_resources folder
 export const audio = require ('./oer_resources/audio.png');
