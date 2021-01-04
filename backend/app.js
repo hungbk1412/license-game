@@ -40,7 +40,7 @@ const keycloak = require('./utils/keycloak-config').initKeycloak(memoryStore);
 
 app.use(keycloak.middleware());
 
-app.post('/api/v1/check-compatible', (req, res) => {
+app.post('/api/v1/check-compatible', keycloak.checkSso(), (req, res) => {
     const {type} = req.body;
     const bearer_token = req.headers.authorization;
     const token = bearer_token.split(' ')[1];
@@ -54,7 +54,7 @@ app.post('/api/v1/check-compatible', (req, res) => {
 });
 
 // getProgress
-app.get('/api/v1/progress/get', (req, res) => {
+app.get('/api/v1/progress/get', keycloak.checkSso(), (req, res) => {
     const bearer_token = req.headers.authorization;
     const token = bearer_token.split(' ')[1];
     const decoded_token = jwt_decode(token);
@@ -74,7 +74,7 @@ app.get('/api/v1/progress/get', (req, res) => {
 });
 
 // postProgress
-app.post('/api/v1/progress/post', (req, res) => {
+app.post('/api/v1/progress/post', keycloak.checkSso(), (req, res) => {
     const bearer_token = req.headers.authorization;
     const token = bearer_token.split(' ')[1];
     const decoded_token = jwt_decode(token);
@@ -96,7 +96,7 @@ app.post('/api/v1/progress/post', (req, res) => {
                 userDoc.set('level', {
                     ...userDoc.toJSON().level,
                     ...req.body.level
-                })
+                });
                 return userDoc.save();
             } else {
                 userDoc.overwrite({...decoded_token, ...req.body})
