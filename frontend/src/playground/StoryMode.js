@@ -7,7 +7,7 @@ import challengeGenerator from '../game_generator/Story';
 import {licenseTypes, questionTypes} from '../Types';
 import PracticeMode from './practice/PracticeMode';
 import ChooseLicenseDialog from './dialog/ChooseLicenseDialog';
-import {checkCompatible} from '../Requests';
+import {checkCompatible, postProgress} from '../Requests';
 import Choice from './Choice';
 import Slide from '@material-ui/core/Slide';
 import {useParams} from 'react-router-dom';
@@ -288,10 +288,10 @@ function StoryMode(props) {
     };
 
     const clickOnAChoice = (choiceNumber) => {
-        console.log('choiceNumber :>> ', choiceNumber);
-        console.log('challenge :>> ', challenge);
-        console.log('questionTypes :>> ', questionTypes);
-        console.log('choices :>> ', choices);
+        // console.log('choiceNumber :>> ', choiceNumber);
+        // console.log('challenge :>> ', challenge);
+        // console.log('questionTypes :>> ', questionTypes);
+        // console.log('choices :>> ', choices);
         if (challenge.type === questionTypes.SELF_GENERATED) {
             openChooseLicenseDialog([choiceNumber]);
         } else if (challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES) {
@@ -347,6 +347,21 @@ function StoryMode(props) {
     };
 
     const goToNextLevel = () => {
+        // console.log('nextChallenge :>> ', nextChallenge);
+        console.log('challenge :>> ', challenge);
+        postProgress(window.accessToken, {
+            [challenge.level]: {
+                choices: challenge.choices,
+                correctAnswer: challenge.correctAnswer,
+                failTimes
+            }
+        })
+            .then((res) => {
+                console.log('res :>> ', res);
+            })
+            .catch(err => {
+                console.log('err :>> ', err);
+            })
         if (nextChallenge !== null) {
             setTransition(nextChallenge, false);
 

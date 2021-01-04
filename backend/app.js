@@ -1,11 +1,12 @@
-const express = require("express");
+const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const constants = require("./utils/constants");
-const utils = require("./utils/utils");
+const constants = require('./utils/constants');
+const utils = require('./utils/utils');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const jwt_decode = require('jwt-decode');
+const UserModel = require('./models/user');
 
 const app = express();
 
@@ -39,10 +40,11 @@ const keycloak = require('./utils/keycloak-config').initKeycloak(memoryStore);
 
 app.use(keycloak.middleware());
 
-app.post("/api/v1/check-compatible", keycloak.checkSso(), (req, res) => {
+app.post('/api/v1/check-compatible', (req, res) => {
     const {type} = req.body;
-    const {bearer_token} = req.headers.Authorization;
+    const bearer_token = req.headers.authorization;
     const token = bearer_token.split(' ')[1];
+    const decoded_token = jwt_decode(token);
     console.log('req.body :>> ', req.body);
     if (type.toLowerCase() === constants.TYPE.collage) {
         res.send(utils.checkCompatibilityCollage(req.body))
@@ -51,9 +53,55 @@ app.post("/api/v1/check-compatible", keycloak.checkSso(), (req, res) => {
     }
 });
 
+// getProgress
+app.get('/api/v1/progress/get', (req, res) => {
+    const bearer_token = req.headers.authorization;
+    const token = bearer_token.split(' ')[1];
+    const decoded_token = jwt_decode(token);
+    UserModel
+        .findOne({email: decoded_token.email})
+        .then(userDoc => {
+            res.status(200).json(userDoc.toJSON());  
+        })
+});
+
+// postProgress
+app.post('/api/v1/progress/post', (req, res) => {
+    const bearer_token = req.headers.authorization;
+    const token = bearer_token.split(' ')[1];
+    const decoded_token = jwt_decode(token);
+    console.log('decoded_token :>> ', decoded_token);
+    console.log('req.body :>> ', req.body);
+    
+    UserModel
+        .findOne({email: decoded_token.email})
+        .then(userDoc => {
+            console.log('userDoc :>> ', userDoc);
+            if (!userDoc || userDoc.sub !== decoded_token.sub) {
+                const user = new UserModel({...decoded_token, ...req.body});
+                return user.save();
+            } else {
+                console.log('userDoc.level :>> ', userDoc.level);
+                console.log('userDoc level :>> ', userDoc.get('level'));
+                console.log('userDoc.toJSON :>> ', userDoc.toJSON());
+                console.log('object :>> ', {...userDoc, level: {...userDoc.get('level', {getters: false}), ...req.body.level}});
+                userDoc.set('level', {
+                    ...userDoc.toJSON().level,
+                    ...req.body.level
+                })
+                return userDoc.save();
+            }            
+        })
+        .then(result => {
+            res.status(200).json(result);
+        })
+});
+
+
+
 mongoose.connect('mongodb://localhost:27017/license_game', {useNewUrlParser: true, useUnifiedTopology: true}).then(res => {
     console.log('connected to mongoDB');
     app.listen(5000, () => {
-        console.log("App listening on port 5000");
+        console.log('App listening on port 5000');
     });
 }).catch(err => console.log(err));

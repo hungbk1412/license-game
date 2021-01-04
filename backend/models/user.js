@@ -3,10 +3,14 @@ const Schema = mongoose.Schema;
 
 const userModel = new Schema(
   {
-
+    sub: String,
+    name: String,
+    preferred_username: String,
+    email: String,
+    level: Map
   },
   {
-    timestamps : true,
+    timestamps: true,
   }
 )
 
