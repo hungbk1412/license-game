@@ -61,7 +61,15 @@ app.get('/api/v1/progress/get', (req, res) => {
     UserModel
         .findOne({email: decoded_token.email})
         .then(userDoc => {
-            res.status(200).json(userDoc.toJSON());  
+            if (userDoc.sub === decoded_token.sub) {
+                res.status(200).json(userDoc.toJSON());
+            } else {
+                res.status(200).json(null);
+            }            
+        })
+        .catch(err => {
+            console.log('err :>> ', err);
+            res.status(400).json("Failed");
         })
 });
 
@@ -77,10 +85,10 @@ app.post('/api/v1/progress/post', (req, res) => {
         .findOne({email: decoded_token.email})
         .then(userDoc => {
             console.log('userDoc :>> ', userDoc);
-            if (!userDoc || userDoc.sub !== decoded_token.sub) {
+            if (!userDoc) {
                 const user = new UserModel({...decoded_token, ...req.body});
                 return user.save();
-            } else {
+            } else if (userDoc.sub === decoded_token.sub) {
                 console.log('userDoc.level :>> ', userDoc.level);
                 console.log('userDoc level :>> ', userDoc.get('level'));
                 console.log('userDoc.toJSON :>> ', userDoc.toJSON());
@@ -90,10 +98,17 @@ app.post('/api/v1/progress/post', (req, res) => {
                     ...req.body.level
                 })
                 return userDoc.save();
-            }            
+            } else {
+                userDoc.overwrite({...decoded_token, ...req.body})
+                return userDoc.save();
+            }  
         })
         .then(result => {
             res.status(200).json(result);
+        })
+        .catch(err => {
+            console.log('err :>> ', err);
+            res.status(400).json("Failed");
         })
 });
 
