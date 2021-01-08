@@ -23,7 +23,7 @@ const checkCompatible = (token, combinationType, licenseArray, finalLicense) => 
         });
 };
 
-const getProgress = (token, level) => {
+const getProgress = (token) => {
     const requestOptions = {
         method: 'GET',
         headers: {
@@ -32,9 +32,7 @@ const getProgress = (token, level) => {
         },
     };
     return fetch(BASE_URL_API + API_PATH.PROGRESS_GET, requestOptions)
-        .then(res => {
-            return res;
-        })
+        .then(res => res.json())
         .catch(e => {
             throw (e);
         });
@@ -51,7 +49,7 @@ const postProgress = (token, level) => {
             level
         })
     };
-    console.log('requestOptions :>> ', requestOptions);
+
     return fetch(BASE_URL_API + API_PATH.PROGRESS_POST, requestOptions)
         .then(res => {
             return res;

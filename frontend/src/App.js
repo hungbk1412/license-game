@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => {
         },
         root: {
             'background-color': '#6d3003',
-            'overflow-x': 'hidden'
+            'overflow': 'hidden'
         }
     }
 });

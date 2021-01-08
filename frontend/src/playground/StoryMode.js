@@ -7,7 +7,7 @@ import challengeGenerator from '../game_generator/Story';
 import {licenseTypes, questionTypes, color} from '../definitions/Types';
 import PracticeMode from './practice/PracticeMode';
 import ChooseLicenseDialog from './dialog/ChooseLicenseDialog';
-import {checkCompatible, postProgress} from '../Requests';
+import {checkCompatible, getProgress, postProgress} from '../Requests';
 import Choice from './Choice';
 import Slide from '@material-ui/core/Slide';
 import {useParams} from 'react-router-dom';
@@ -264,13 +264,12 @@ function StoryMode(props) {
         checkCompatible(window.accessToken, challenge.combination_type, chosenLicenses.concat(challenge.oer_resources), finalLicense)
             .then(res => {
                 // Player correctly answered
-                if (res.result) {
+                if (res.hasOwnProperty('result') && res.result) {
                     setIsChooseLicenseDialogOpening(false);
                     setResultsOfLevels({
                         ...resultsOfLevels,
                         [challenge.level]: finalLicense
                     });
-                    setFinalLicense('');
                     unselectSelectedChoices(getAllSelectedChoices());
                     setConfirmSubmissionDialog(prevState => {
                         return {...prevState, is_opening: true, correctness: true, message: SUCCESS_MESSAGE}
@@ -303,10 +302,6 @@ function StoryMode(props) {
     };
 
     const clickOnAChoice = (choiceNumber) => {
-        // console.log('choiceNumber :>> ', choiceNumber);
-        // console.log('challenge :>> ', challenge);
-        // console.log('questionTypes :>> ', questionTypes);
-        // console.log('choices :>> ', choices);
         if (challenge.type === questionTypes.SELF_GENERATED) {
             openChooseLicenseDialog([choiceNumber]);
         } else if (challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES) {
@@ -362,21 +357,18 @@ function StoryMode(props) {
     };
 
     const goToNextLevel = () => {
-        // console.log('nextChallenge :>> ', nextChallenge);
-        console.log('challenge :>> ', challenge);
         postProgress(window.accessToken, {
             [challenge.level]: {
-                choices: challenge.choices,
-                correctAnswer: challenge.correctAnswer,
+                answer: challenge.correctAnswer === null ? finalLicense : challenge.choices[challenge.correctAnswer].CC_license,
                 failTimes
             }
         })
             .then((res) => {
-                console.log('res :>> ', res);
+
             })
             .catch(err => {
                 console.log('err :>> ', err);
-            })
+            });
         if (nextChallenge !== null) {
             setTransition(nextChallenge, false);
 
@@ -450,6 +442,27 @@ function StoryMode(props) {
         }
     });
 
+    useEffect(() => {
+        let mounted = true;
+        if (lodash.isEmpty(resultsOfLevels)) {
+            getProgress(window.accessToken).then(res => {
+                if (res.hasOwnProperty('level')) {
+                    let newResultOfLevels = {};
+                    let keys = Object.keys(res.level);
+                    keys = keys.filter(key => res.level.hasOwnProperty(key));
+                    keys.forEach(key => {
+                        newResultOfLevels[key] = res['level'][key]['answer']
+                    });
+                    if (mounted) {
+                        setResultsOfLevels(newResultOfLevels);
+                    }
+                }
+            });
+        }
+        return () => {
+            mounted = false;
+        }
+    });
 
     if (practices != null && getNextUnfinishedPractice(practices) !== null) {
         return <PracticeMode finishPractice={finishPractice} practice={getNextUnfinishedPractice(practices)}/>

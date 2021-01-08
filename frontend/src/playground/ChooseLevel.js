@@ -5,6 +5,8 @@ import {makeStyles} from "@material-ui/core/styles";
 import {menu_button_background} from "../images";
 import {Redirect} from "react-router-dom";
 import {color} from '../definitions/Types';
+import {getProgress} from "../Requests";
+import StoryMode from "./StoryMode";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,19 +47,36 @@ const useStyles = makeStyles((theme) => ({
 const ChooseLevel = (props) => {
     const styles = useStyles();
     const changeToMainMenuBackground = props.change_to_mainmenu_background;
-    const availableLevels = props.available_levels;
-    const [redirect, setRedirect] = useState(-1);
+    const [availableLevels, setAvailableLevels] = useState([0]);
+    const [level, setLevel] = useState(-1);
     const helper_arr = [...Array(7).keys()];
 
-    const onClickLevel = (level, e) => {
-        console.log(e);
-        setRedirect(level);
+    const onClickLevel = (level) => {
+        setLevel(level);
     };
+
+    useEffect(() => {
+        let mounted = true;
+        getProgress(window.accessToken).then(res => {
+            if (res.hasOwnProperty('level')) {
+                let keys = Object.keys(res.level);
+                keys = keys.filter(key => res.level.hasOwnProperty(key));
+                keys = keys.map(key => parseInt(key));
+                keys.push((keys.length));
+                if (mounted) {
+                    setAvailableLevels([...keys]);
+                }
+            }
+        });
+        return () => {
+            mounted = false
+        }
+    });
 
     useEffect(() => {
         changeToMainMenuBackground();
     });
-    if (redirect === -1) {
+    if (level === -1) {
         return (
             <Grid container direction={'column'} spacing={1} className={styles.root}>
                 <Grid container item justify={'center'}>
@@ -91,7 +110,7 @@ const ChooseLevel = (props) => {
         );
     } else {
         return (
-            <Redirect to={'/play/' + redirect}/>
+            <Redirect to={'/play/' + level}/>
         );
     }
 };

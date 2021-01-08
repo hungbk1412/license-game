@@ -78,21 +78,14 @@ app.post('/api/v1/progress/post', keycloak.checkSso(), (req, res) => {
     const bearer_token = req.headers.authorization;
     const token = bearer_token.split(' ')[1];
     const decoded_token = jwt_decode(token);
-    console.log('decoded_token :>> ', decoded_token);
-    console.log('req.body :>> ', req.body);
     
     UserModel
         .findOne({email: decoded_token.email})
         .then(userDoc => {
-            console.log('userDoc :>> ', userDoc);
             if (!userDoc) {
                 const user = new UserModel({...decoded_token, ...req.body});
                 return user.save();
             } else if (userDoc.sub === decoded_token.sub) {
-                console.log('userDoc.level :>> ', userDoc.level);
-                console.log('userDoc level :>> ', userDoc.get('level'));
-                console.log('userDoc.toJSON :>> ', userDoc.toJSON());
-                console.log('object :>> ', {...userDoc, level: {...userDoc.get('level', {getters: false}), ...req.body.level}});
                 userDoc.set('level', {
                     ...userDoc.toJSON().level,
                     ...req.body.level
