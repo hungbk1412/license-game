@@ -36,4 +36,9 @@ const color = {
     NORMAL_TEXT_WHITE: '#BFB7AF'
 };
 
-export {itemTypes, licenseTypes, resourceTypes, practiceTypes, questionTypes, color};
+const background = {
+    MAIN_MENU: 'main_menu',
+    IN_GAME: 'in_game'
+};
+
+export {itemTypes, licenseTypes, resourceTypes, practiceTypes, questionTypes, color, background};

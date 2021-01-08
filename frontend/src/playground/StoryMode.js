@@ -1,16 +1,15 @@
-import React, {useState, useEffect, useReducer} from 'react';
+import React, {useState, useEffect, useReducer, useContext} from 'react';
 import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import challengeGenerator from '../game_generator/Story';
-import {licenseTypes, questionTypes, color} from '../definitions/Types';
+import {licenseTypes, questionTypes, color, background} from '../definitions/Types';
 import PracticeMode from './practice/PracticeMode';
 import ChooseLicenseDialog from './dialog/ChooseLicenseDialog';
 import {checkCompatible, getProgress, postProgress} from '../Requests';
 import Choice from './Choice';
 import Slide from '@material-ui/core/Slide';
-import {useParams} from 'react-router-dom';
 import ConfirmSubmission from "./dialog/ConfirmSubmission";
 import {
     story_description_image_container,
@@ -19,6 +18,7 @@ import {
     story_smith,
     story_go_button
 } from '../images';
+import {GameContext} from "../App";
 
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
@@ -167,9 +167,8 @@ const challengeReducer = (state, action) => {
 
 function StoryMode(props) {
     const styles = useStyles();
-    const changeToStoryBackground = props.change_to_story_background;
-    const {level} = useParams();
-    const [challenge, dispatchChallenge] = useReducer(challengeReducer, challengeGenerator(level));
+    const game_context = useContext(GameContext);
+    const [challenge, dispatchChallenge] = useReducer(challengeReducer, challengeGenerator(props.level));
     const [chosenLicenses, setChosenLicenses] = useState([]);
     const [practices, setPractices] = useState(challenge.practices);
     const nextChallenge = challengeGenerator(challenge.level + 1);
@@ -411,7 +410,10 @@ function StoryMode(props) {
     };
 
     useEffect(() => {
-        changeToStoryBackground();
+        if (game_context.background.current_background !== background.IN_GAME) {
+            game_context.background.current_background = background.IN_GAME;
+            game_context.background.set_background(background.IN_GAME);
+        }
     });
 
     useEffect(() => {

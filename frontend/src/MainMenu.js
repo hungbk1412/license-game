@@ -1,9 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Grid from "@material-ui/core/Grid";
 import Button from '@material-ui/core/Button';
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect} from 'react-router-dom';
 import {menu_button_background} from "./images";
+import {GameContext} from "./App";
+import {background} from "./definitions/Types";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,6 +32,7 @@ function MainMenu(props) {
     const [to_story, set_to_story] = useState(false);
     const [to_instruction, set_to_instruction] = useState(false);
     const [to_achievements, set_to_achievements] = useState(false);
+    const game_context = useContext(GameContext);
 
     const onClickStory = (e) => {
         e.preventDefault();
@@ -47,7 +50,10 @@ function MainMenu(props) {
     };
 
     useEffect(() => {
-        changeToMainMenuBackground();
+        if (game_context.background.current_background !== background.MAIN_MENU) {
+            game_context.background.current_background = background.MAIN_MENU;
+            game_context.background.set_background(background.MAIN_MENU);
+        }
     });
 
     if (to_story) {

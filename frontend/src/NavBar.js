@@ -36,11 +36,14 @@ const useStyles = makeStyles((theme) => ({
     },
     player_name: {
         color: color.NORMAL_TEXT_WHITE
+    },
+    score: {
+        color: color.NORMAL_TEXT_WHITE
     }
 }));
 
 
-const NavBar = () => {
+const NavBar = (props) => {
     let history = useHistory();
     const styles = useStyles();
     // true means open, false means close
@@ -61,9 +64,12 @@ const NavBar = () => {
     return (
         <Grid container item className={styles.root}>
             <SettingMenu settingStatus={settingStatus} handleCloseSetting={handleCloseSetting}/>
-            <Grid container item xs={6} justify={'flex-start'}>
+            <Grid container item xs={5} justify={'flex-start'}>
                 <Button onClick={() => click_on_back_button()} className={styles.back_button}>
                 </Button>
+            </Grid>
+            <Grid container item xs={1} justify={'center'} className={styles.score}>
+                {props.score}
             </Grid>
             <Grid container item justify={'flex-end'} xs={6}>
                 <Grid container item justify={'space-between'} xs={6}>

@@ -93,8 +93,9 @@ function PracticeEditing(props) {
     };
 
     useEffect(() => {
+        if (practice.resources.length !== chosenResourcesArray.length)
         setChosenResourcesArray(initChosenResourcesArray(practice.resources));
-    }, [practice]);
+    });
 
     const hasResourcesBeenChosen = (resource_id) => {
         const resource = chosenResourcesArray.find(element => element.resource_id === resource_id);

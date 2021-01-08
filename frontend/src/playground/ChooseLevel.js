@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import {menu_button_background} from "../images";
 import {Redirect} from "react-router-dom";
-import {color} from '../definitions/Types';
+import {GameContext} from "../App";
+import {color, background} from '../definitions/Types';
 import {getProgress} from "../Requests";
 import StoryMode from "./StoryMode";
 
@@ -46,36 +47,43 @@ const useStyles = makeStyles((theme) => ({
 
 const ChooseLevel = (props) => {
     const styles = useStyles();
-    const changeToMainMenuBackground = props.change_to_mainmenu_background;
     const [availableLevels, setAvailableLevels] = useState([0]);
     const [level, setLevel] = useState(-1);
     const helper_arr = [...Array(7).keys()];
-
+    const [fetchAvailableLevels, setFetchAvailableLevel] = useState(false);
+    const game_context = useContext(GameContext);
     const onClickLevel = (level) => {
         setLevel(level);
     };
-
+    console.log(level);
     useEffect(() => {
         let mounted = true;
-        getProgress(window.accessToken).then(res => {
-            if (res.hasOwnProperty('level')) {
-                let keys = Object.keys(res.level);
-                keys = keys.filter(key => res.level.hasOwnProperty(key));
-                keys = keys.map(key => parseInt(key));
-                keys.push((keys.length));
-                if (mounted) {
-                    setAvailableLevels([...keys]);
+        if (!fetchAvailableLevels) {
+            getProgress(window.accessToken).then(res => {
+                if (res.hasOwnProperty('level')) {
+                    let keys = Object.keys(res.level);
+                    keys = keys.filter(key => res.level.hasOwnProperty(key));
+                    keys = keys.map(key => parseInt(key));
+                    keys.push((keys.length));
+                    if (mounted) {
+                        setAvailableLevels([...keys]);
+                        setFetchAvailableLevel(true);
+                    }
                 }
-            }
-        });
+            });
+        }
         return () => {
             mounted = false
         }
     });
 
     useEffect(() => {
-        changeToMainMenuBackground();
+        if (game_context.background.current_background !== background.MAIN_MENU) {
+            game_context.background.current_background = background.MAIN_MENU;
+            game_context.background.set_background(background.MAIN_MENU);
+        }
     });
+
     if (level === -1) {
         return (
             <Grid container direction={'column'} spacing={1} className={styles.root}>
@@ -110,7 +118,7 @@ const ChooseLevel = (props) => {
         );
     } else {
         return (
-            <Redirect to={'/play/' + level}/>
+            <StoryMode change_to_story_background={props.change_to_story_background} level={level}/>
         );
     }
 };
