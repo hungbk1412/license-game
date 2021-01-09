@@ -1,4 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
+import {useDispatch} from "react-redux";
+import {set_story_level} from "../playground/choose_level/CurrentStoryLevelSlice";
 import Grid from "@material-ui/core/Grid";
 import Button from '@material-ui/core/Button';
 import {makeStyles} from "@material-ui/core/styles";
@@ -26,9 +28,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function MainMenu(props) {
+function MainMenu() {
     const styles = useStyles();
-    const changeToMainMenuBackground = props.change_to_mainmenu_background;
+    const dispatch = useDispatch();
     const [to_story, set_to_story] = useState(false);
     const [to_instruction, set_to_instruction] = useState(false);
     const [to_achievements, set_to_achievements] = useState(false);
@@ -48,6 +50,10 @@ function MainMenu(props) {
         e.preventDefault();
         set_to_achievements(true)
     };
+
+    useEffect(() => {
+        dispatch(set_story_level(-1));
+    });
 
     useEffect(() => {
         if (game_context.background.current_background !== background.MAIN_MENU) {

@@ -12,14 +12,12 @@ const generateLevel0 = () => {
                 {
                     id: 0,
                     type: practiceTypes.THEORY,
-                    level: 0,
-                    finished: false
+                    level: 0
                 },
                 {
                     id: 1,
                     type: practiceTypes.THEORY,
-                    level: 1,
-                    finished: false
+                    level: 1
                 }
             ],
         context: 'Nowadays, swords are often made from steel',
@@ -56,13 +54,11 @@ const generateLevel1 = () => {
         practices: [
             {
                 id: 0,
-                finished: false,
                 type: practiceTypes.THEORY,
                 level: 2
             },
             {
                 id: 1,
-                finished: false,
                 type: practiceTypes.EDITING_COLLAGE,
                 level: 0
             }
@@ -102,13 +98,11 @@ const generateLevel2 = () => {
         practices: [
             {
                 id: 0,
-                finished: false,
                 type: practiceTypes.EDITING_COMPOSITION,
                 level: 0
             },
             {
                 id: 1,
-                finished: false,
                 type: practiceTypes.EDITING_COMPOSITION,
                 level: 1
             }

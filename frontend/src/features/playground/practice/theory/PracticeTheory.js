@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {useDispatch} from "react-redux";
+import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
@@ -93,6 +95,7 @@ const shuffle = (array) => {
 
 function PracticeTheory(props) {
     const styles = useStyles();
+    const dispatch = useDispatch();
     const practice = props.practice;
     const {symbols, descriptions, numberOfMatches} = extractSymbolAndDescriptionFromData(practice.data);
     const helper_array = [...Array(numberOfMatches).keys()];
@@ -102,7 +105,6 @@ function PracticeTheory(props) {
         correctness: false,
         message: ''
     });
-    const finishPractice = props.finishPractice;
 
     const swap = (from, to) => {
         const source = orderedDescriptions[from];
@@ -192,7 +194,7 @@ function PracticeTheory(props) {
                 is_opening: false
             }
         });
-        finishPractice(props.id_within_story);
+        dispatch(finish_a_practice(props.id_within_story));
     };
 
     return (

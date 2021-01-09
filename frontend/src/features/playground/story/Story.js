@@ -6,7 +6,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import challengeGenerator from '../../../utils/game_generator/Story';
 import {to_next_level, to_level, prepare_choice_for_last_level, prepare_oer_resources} from "./CurrentChallangeSlice";
-import {set_story_level} from '../choose_level/CurrentStoryLevelSlice'
+import {set_story_level} from '../choose_level/CurrentStoryLevelSlice';
+import {set_practices_list} from "./CurrentPracticesListSlice";
 import {questionTypes, color, background} from '../../../definitions/Types';
 import PracticeMode from '../practice/PracticeMode';
 import ChooseLicenseDialog from '../dialog/ChooseLicenseDialog';
@@ -140,7 +141,8 @@ function Story() {
     const challenge = useSelector(state => state.current_challenge);
     const dispatch = useDispatch();
     const [chosenLicenses, setChosenLicenses] = useState([]);
-    const [practices, setPractices] = useState(challenge.practices);
+    // const [practices, setPractices] = useState(challenge.practices);
+    const current_practices_list = useSelector(state => state.current_practices_list);
     const nextChallenge = challengeGenerator(challenge.level + 1);
     const [isChooseLicenseDialogOpening, setIsChooseLicenseDialogOpening] = useState(false);
     const [confirmSubmissionDialog, setConfirmSubmissionDialog] = useState({
@@ -346,7 +348,9 @@ function Story() {
                 setTransition( true);
                 setFailTimes(0);
                 setChosenLicenses([]);
-                setPractices(nextChallenge.practices);
+                if (nextChallenge.hasOwnProperty('practices')) {
+                    dispatch(set_practices_list(nextChallenge.practices));
+                }
                 dispatch(set_story_level(current_story_level + 1));
             }), 500);
         } else {
@@ -358,13 +362,6 @@ function Story() {
 
     };
 
-    const finishPractice = (id) => {
-        let finishedPracticeIndex = practices.findIndex(practice => practice.id === id);
-        let newPractices = lodash.cloneDeep(practices);
-        newPractices[finishedPracticeIndex].finished = true;
-        setPractices(newPractices);
-    };
-
     const getNextUnfinishedPractice = (practices) => {
         for (let i = 0; i < practices.length; i++) {
             if (!practices[i].finished) {
@@ -373,6 +370,13 @@ function Story() {
         }
         return null;
     };
+
+    useEffect(() => {
+        if (lodash.isEmpty(current_practices_list) && challenge.hasOwnProperty('practices')) {
+            dispatch(set_practices_list(challenge.practices));
+        }
+    });
+
     useEffect(() => {
         if (challenge.level !== current_story_level) {
             dispatch(to_level(current_story_level));
@@ -430,8 +434,8 @@ function Story() {
         }
     });
 
-    if (practices != null && getNextUnfinishedPractice(practices) !== null) {
-        return <PracticeMode finishPractice={finishPractice} practice={getNextUnfinishedPractice(practices)}/>
+    if (current_practices_list != null && getNextUnfinishedPractice(current_practices_list) !== null) {
+        return <PracticeMode practice={getNextUnfinishedPractice(current_practices_list)}/>
     } else {
         return (
             <Grid container item direction={'row'} justify={'center'} alignItems={'center'} className={styles.root}>

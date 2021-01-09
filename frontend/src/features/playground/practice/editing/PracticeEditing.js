@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDrop} from "react-dnd";
 import {itemTypes, color} from "../../../../definitions/Types";
@@ -9,6 +10,7 @@ import ChooseLicenseDialog from "../../dialog/ChooseLicenseDialog";
 import ConfirmSubmission from "../../dialog/ConfirmSubmission";
 import {checkCompatible} from "../../../../utils/Requests";
 import {menu_button_background, practice_lava_frame, story_question} from "../../../../images";
+import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -75,6 +77,7 @@ const initChosenResourcesArray = (arr) => {
 
 function PracticeEditing(props) {
     const styles = useStyles();
+    const dispatch = useDispatch();
     const practice = props.practice;
     const [confirmSubmissionDialog, setConfirmSubmissionDialog] = useState({
         is_opening: false,
@@ -84,7 +87,6 @@ function PracticeEditing(props) {
     const [isChooseLicenseDialogOpening, setIsChooseLicenseDialogOpening] = useState(false);
     const [finalLicense, setFinalLicense] = useState('CC');
     const [chosenResourcesArray, setChosenResourcesArray] = useState(initChosenResourcesArray(practice.resources));
-    const finishPractice = props.finishPractice;
 
     const closeConfirmSubmissionDialog = () => {
         setConfirmSubmissionDialog(prevState => {
@@ -190,7 +192,7 @@ function PracticeEditing(props) {
                 is_opening: false
             }
         });
-        finishPractice(props.id_within_story);
+        dispatch(finish_a_practice(props.id_within_story));
     };
 
     return (
