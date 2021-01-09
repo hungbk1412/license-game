@@ -306,7 +306,7 @@ function Story() {
     /*
         @param bool enter enter = true means sliding in, enter = false means sliding out
      */
-    const setTransition = (nextChallenge, enter) => {
+    const setTransition = (enter) => {
         if (nextChallenge.hasOwnProperty('practices')) {
             setShowUp(prevState => (
                 {
@@ -339,11 +339,11 @@ function Story() {
                 console.log('err :>> ', err);
             });
         if (nextChallenge !== null) {
-            setTransition(nextChallenge, false);
+            setTransition( false);
 
             // time out is required for exiting animation
             setTimeout((() => {
-                setTransition(nextChallenge, true);
+                setTransition( true);
                 setFailTimes(0);
                 setChosenLicenses([]);
                 setPractices(nextChallenge.practices);
