@@ -1,15 +1,15 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {set_level} from "./currentStoryLevelSlice";
+import {set_level} from "./CurrentStoryLevelSlice";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import {menu_button_background} from "../images";
+import {menu_button_background} from "../../../images";
 import {Redirect} from "react-router-dom";
-import {GameContext} from "../App";
-import {color, background} from '../definitions/Types';
-import {getProgress} from "../Requests";
-import StoryMode from "./StoryMode";
+import {GameContext} from "../../../App";
+import {color, background} from '../../../definitions/Types';
+import {getProgress} from "../../../utils/Requests";
+import Story from "../story/Story";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -120,7 +120,7 @@ const ChooseLevel = (props) => {
         );
     } else {
         return (
-            <StoryMode change_to_story_background={props.change_to_story_background}/>
+            <Story change_to_story_background={props.change_to_story_background}/>
         );
     }
 };

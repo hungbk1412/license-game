@@ -1,4 +1,4 @@
-import currentStoryLevelReducer from './playground/currentStoryLevelSlice';
+import currentStoryLevelReducer from './features/playground/choose_level/CurrentStoryLevelSlice';
 import { combineReducers } from '@reduxjs/toolkit'
 
 const rootReducer = combineReducers({

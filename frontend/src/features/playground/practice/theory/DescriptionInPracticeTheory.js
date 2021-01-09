@@ -1,9 +1,9 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import {useDrag} from "react-dnd";
-import {itemTypes, color} from "../../../definitions/Types";
+import {itemTypes, color} from "../../../../definitions/Types";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {practice_theory_description} from "../../../images";
+import {practice_theory_description} from "../../../../images";
 
 const useStyles = makeStyles((theme) => ({
     root: {

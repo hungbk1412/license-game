@@ -4,8 +4,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
 import MatchRow from "./MatchRow";
 import lodash from 'lodash';
-import {menu_button_background, story_question} from "../../../images";
-import {color} from "../../../definitions/Types";
+import {menu_button_background, story_question} from "../../../../images";
+import {color} from "../../../../definitions/Types";
 import ConfirmSubmission from "../../dialog/ConfirmSubmission";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';

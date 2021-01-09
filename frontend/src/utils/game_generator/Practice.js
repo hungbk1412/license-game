@@ -1,4 +1,4 @@
-import {licenseTypes, resourceTypes, practiceTypes} from "../definitions/Types";
+import {licenseTypes, resourceTypes, practiceTypes} from "../../definitions/Types";
 
 const generatePracticeTheoryLevel0 = () => {
     let data = [

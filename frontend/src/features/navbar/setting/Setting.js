@@ -20,7 +20,7 @@ const useStyles = makeStyles({
         'padding-left': '10px'
     }
 });
-const SettingMenu = (props) => {
+const Setting = (props) => {
     const styles = useStyles();
     const [gameSound, setGameSound] = useState(true);
     const [gameMusic, setGameMusic] = useState(true);
@@ -51,4 +51,4 @@ const SettingMenu = (props) => {
     );
 };
 
-export default SettingMenu;
+export default Setting;

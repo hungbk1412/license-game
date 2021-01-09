@@ -5,11 +5,11 @@ import {
     Route,
     withRouter
 } from 'react-router-dom';
-import MainMenu from './MainMenu';
+import MainMenu from './features/mainmenu/MainMenu';
 import AchievementsTable from './AchievementsTable';
-import ChooseLevel from "./playground/ChooseLevel";
+import ChooseLevel from "./features/playground/choose_level/ChooseLevel";
 import Grid from '@material-ui/core/Grid';
-import NavBar from './NavBar';
+import NavBar from './features/navbar/NavBar';
 import {makeStyles} from '@material-ui/core/styles';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';

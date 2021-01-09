@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import {useDrop} from "react-dnd";
-import {itemTypes, color} from "../../../definitions/Types";
+import {itemTypes, color} from "../../../../definitions/Types";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ResourceInPractice from "./ResourceInPractice";
 import ChooseLicenseDialog from "../../dialog/ChooseLicenseDialog";
 import ConfirmSubmission from "../../dialog/ConfirmSubmission";
-import {checkCompatible} from "../../../Requests";
-import {menu_button_background, practice_lava_frame, story_question} from "../../../images";
+import {checkCompatible} from "../../../../utils/Requests";
+import {menu_button_background, practice_lava_frame, story_question} from "../../../../images";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';

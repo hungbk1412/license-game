@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = -1;
 
-const currentStoryLevelSlice = createSlice({
+const CurrentStoryLevelSlice = createSlice({
     name: 'current_story_level',
     initialState,
     reducers: {
@@ -10,7 +10,7 @@ const currentStoryLevelSlice = createSlice({
     }
 });
 
-const { actions, reducer } = currentStoryLevelSlice;
+const { actions, reducer } = CurrentStoryLevelSlice;
 export const {set_level} = actions;
 
 export default reducer

@@ -3,9 +3,9 @@ import Grid from "@material-ui/core/Grid";
 import Button from '@material-ui/core/Button';
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect} from 'react-router-dom';
-import {menu_button_background} from "./images";
-import {GameContext} from "./App";
-import {background} from "./definitions/Types";
+import {menu_button_background} from "../../images";
+import {GameContext} from "../../App";
+import {background} from "../../definitions/Types";
 
 const useStyles = makeStyles((theme) => ({
     root: {

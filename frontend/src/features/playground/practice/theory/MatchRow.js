@@ -2,8 +2,8 @@ import React, {useEffect, useRef} from 'react';
 import Grid from "@material-ui/core/Grid";
 import DropZone from "./DropZone";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {color} from "../../../definitions/Types";
-import {practice_theory_symbol, practice_lava_frame} from "../../../images";
+import {color} from "../../../../definitions/Types";
+import {practice_theory_symbol, practice_lava_frame} from "../../../../images";
 
 const useStyles = makeStyles((theme) => ({
     root: {

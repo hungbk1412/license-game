@@ -1,5 +1,5 @@
-import { BASE_URL_API } from './definitions/config';
-import { API_PATH } from './definitions/api';
+import { BASE_URL_API } from '../definitions/config';
+import { API_PATH } from '../definitions/api';
 
 const checkCompatible = (token, combinationType, licenseArray, finalLicense) => {
     const requestOptions = {

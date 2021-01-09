@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {useHistory} from "react-router-dom";
 import Button from '@material-ui/core/Button';
-import {navbar_back_button, navbar_setting_button, navbar_logout_button} from "./images";
+import {navbar_back_button, navbar_setting_button, navbar_logout_button} from "../../images";
 import Grid from '@material-ui/core/Grid';
-import SettingMenu from "./SettingMenu";
+import Setting from "./setting/Setting";
 import {makeStyles} from "@material-ui/core/styles";
-import {color} from "./definitions/Types";
+import {color} from "../../definitions/Types";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -63,7 +63,7 @@ const NavBar = (props) => {
 
     return (
         <Grid container item className={styles.root}>
-            <SettingMenu settingStatus={settingStatus} handleCloseSetting={handleCloseSetting}/>
+            <Setting settingStatus={settingStatus} handleCloseSetting={handleCloseSetting}/>
             <Grid container item xs={5} justify={'flex-start'}>
                 <Button onClick={() => click_on_back_button()} className={styles.back_button}>
                 </Button>

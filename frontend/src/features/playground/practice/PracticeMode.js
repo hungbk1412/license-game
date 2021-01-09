@@ -1,8 +1,8 @@
 import React from 'react';
 import PracticeEditing from "./editing/PracticeEditing";
 import PracticeTheory from "./theory/PracticeTheory";
-import {practiceTypes} from "../../definitions/Types";
-import {practiceTheoryGenerator, practiceEditingGenerator} from "../../game_generator/Practice";
+import {practiceTypes} from "../../../definitions/Types";
+import {practiceTheoryGenerator, practiceEditingGenerator} from "../../../utils/game_generator/Practice";
 
 function PracticeMode(props) {
     if (props.practice.type === practiceTypes.THEORY) {

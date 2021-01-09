@@ -4,22 +4,22 @@ import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import challengeGenerator from '../game_generator/Story';
-import {licenseTypes, questionTypes, color, background} from '../definitions/Types';
-import PracticeMode from './practice/PracticeMode';
-import ChooseLicenseDialog from './dialog/ChooseLicenseDialog';
-import {checkCompatible, getProgress, postProgress} from '../Requests';
-import Choice from './Choice';
+import challengeGenerator from '../../../utils/game_generator/Story';
+import {licenseTypes, questionTypes, color, background} from '../../../definitions/Types';
+import PracticeMode from '../practice/PracticeMode';
+import ChooseLicenseDialog from '../dialog/ChooseLicenseDialog';
+import {checkCompatible, getProgress, postProgress} from '../../../utils/Requests';
+import Choice from './choice/Choice';
 import Slide from '@material-ui/core/Slide';
-import ConfirmSubmission from "./dialog/ConfirmSubmission";
+import ConfirmSubmission from "../dialog/ConfirmSubmission";
 import {
     story_description_image_container,
     story_talk_box,
     story_question,
     story_smith,
     story_go_button
-} from '../images';
-import {GameContext} from "../App";
+} from '../../../images';
+import {GameContext} from "../../../App";
 
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
@@ -166,7 +166,7 @@ const challengeReducer = (state, action) => {
     }
 };
 
-function StoryMode(props) {
+function Story(props) {
     const styles = useStyles();
     const game_context = useContext(GameContext);
     const current_story_level = useSelector(state => state.current_story_level);
@@ -541,4 +541,4 @@ function StoryMode(props) {
     }
 }
 
-export default StoryMode;
+export default Story;
