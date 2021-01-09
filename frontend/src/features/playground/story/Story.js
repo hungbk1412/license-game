@@ -1,11 +1,13 @@
 import React, {useState, useEffect, useReducer, useContext} from 'react';
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import challengeGenerator from '../../../utils/game_generator/Story';
-import {licenseTypes, questionTypes, color, background} from '../../../definitions/Types';
+import {to_next_level, to_level, prepare_choice_for_last_level, prepare_oer_resources} from "./CurrentChallangeSlice";
+import {set_story_level} from '../choose_level/CurrentStoryLevelSlice'
+import {questionTypes, color, background} from '../../../definitions/Types';
 import PracticeMode from '../practice/PracticeMode';
 import ChooseLicenseDialog from '../dialog/ChooseLicenseDialog';
 import {checkCompatible, getProgress, postProgress} from '../../../utils/Requests';
@@ -131,46 +133,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const challengeReducer = (state, action) => {
-    switch (action.type) {
-        case ACTIONS.TO_NEXT_LEVEL: {
-            return action.payload.nextChallenge;
-        }
-        case ACTIONS.PREPARE_OER_RESOURCES: {
-            let newChallenge = lodash.cloneDeep(state);
-            state.require_result_of_levels.forEach(level => {
-                newChallenge.oer_resources.push(action.payload.resultsOfLevels[level]);
-            });
-            return newChallenge;
-        }
-        case ACTIONS.PREPARE_CHOICES_FOR_LAST_LEVEL: {
-            let newChallenge = lodash.cloneDeep(state);
-            newChallenge.choices[state.correctAnswer].CC_license = action.payload.correctAnswer;
-            newChallenge.choices[state.correctAnswer].display_text = action.payload.correctAnswer;
-            let availableLicenses = Object.values(licenseTypes).filter(elem => elem !== action.payload.correctAnswer);
-            newChallenge.choices = newChallenge.choices.map(license => {
-                if (license.CC_license === null) {
-                    let randomLicense = availableLicenses[Math.floor(Math.random() * availableLicenses.length)];
-                    license.CC_license = randomLicense;
-                    license.display_text = randomLicense;
-                    availableLicenses = availableLicenses.filter(elem => elem !== randomLicense);
-                    return license;
-                } else {
-                    return license;
-                }
-            });
-            return newChallenge;
-        }
-        default:
-            return state;
-    }
-};
-
-function Story(props) {
+function Story() {
     const styles = useStyles();
     const game_context = useContext(GameContext);
     const current_story_level = useSelector(state => state.current_story_level);
-    const [challenge, dispatchChallenge] = useReducer(challengeReducer, challengeGenerator(current_story_level));
+    const challenge = useSelector(state => state.current_challenge);
+    const dispatch = useDispatch();
     const [chosenLicenses, setChosenLicenses] = useState([]);
     const [practices, setPractices] = useState(challenge.practices);
     const nextChallenge = challengeGenerator(challenge.level + 1);
@@ -379,12 +347,7 @@ function Story(props) {
                 setFailTimes(0);
                 setChosenLicenses([]);
                 setPractices(nextChallenge.practices);
-                dispatchChallenge(
-                    {
-                        type: ACTIONS.TO_NEXT_LEVEL,
-                        payload: {nextChallenge}
-                    }
-                );
+                dispatch(set_story_level(current_story_level + 1));
             }), 500);
         } else {
             alert('Congratulation, end game');
@@ -410,6 +373,11 @@ function Story(props) {
         }
         return null;
     };
+    useEffect(() => {
+        if (challenge.level !== current_story_level) {
+            dispatch(to_level(current_story_level));
+        }
+    });
 
     useEffect(() => {
         if (game_context.background.current_background !== background.IN_GAME) {
@@ -423,10 +391,7 @@ function Story(props) {
             && challenge.require_result_of_levels.length !== 0
             && challenge.oer_resources.length === 0
         ) {
-            dispatchChallenge({
-                type: ACTIONS.PREPARE_OER_RESOURCES,
-                payload: {resultsOfLevels}
-            });
+            dispatch(prepare_oer_resources({resultsOfLevels}));
         }
     });
 
@@ -435,11 +400,8 @@ function Story(props) {
         if (challenge.level === LAST_LEVEL && challenge.choices[challenge.correctAnswer].CC_license === null) {
             checkCompatible(window.accessToken, challenge.combination_type, challenge.oer_resources, 'check')
                 .then(res => {
-                    if (res.correctAnswer) {
-                        dispatchChallenge({
-                            type: ACTIONS.PREPARE_CHOICES_FOR_LAST_LEVEL,
-                            payload: {correctAnswer: res.correctAnswer}
-                        });
+                    if (res.hasOwnProperty('correctAnswer') && res.correctAnswer) {
+                        dispatch(prepare_choice_for_last_level({correctAnswer: res.correctAnswer}))
                     }
                 })
                 .catch(e => console.log(e));
