@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useReducer, useContext} from 'react';
+import {useSelector} from "react-redux";
 import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
@@ -168,7 +169,8 @@ const challengeReducer = (state, action) => {
 function StoryMode(props) {
     const styles = useStyles();
     const game_context = useContext(GameContext);
-    const [challenge, dispatchChallenge] = useReducer(challengeReducer, challengeGenerator(props.level));
+    const current_story_level = useSelector(state => state.current_story_level);
+    const [challenge, dispatchChallenge] = useReducer(challengeReducer, challengeGenerator(current_story_level));
     const [chosenLicenses, setChosenLicenses] = useState([]);
     const [practices, setPractices] = useState(challenge.practices);
     const nextChallenge = challengeGenerator(challenge.level + 1);

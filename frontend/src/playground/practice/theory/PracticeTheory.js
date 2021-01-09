@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
@@ -7,7 +7,6 @@ import lodash from 'lodash';
 import {menu_button_background, story_question} from "../../../images";
 import {color} from "../../../definitions/Types";
 import ConfirmSubmission from "../../dialog/ConfirmSubmission";
-import {GameContext} from "../../../App";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -104,7 +103,6 @@ function PracticeTheory(props) {
         message: ''
     });
     const finishPractice = props.finishPractice;
-    const game_context = useContext(GameContext);
 
     const swap = (from, to) => {
         const source = orderedDescriptions[from];
@@ -130,7 +128,6 @@ function PracticeTheory(props) {
     const clickOnSkip = (e) => {
         e.preventDefault();
         goToNextLevel();
-        // game_context.score.set_score(prev => prev + 1);
     };
 
     const clickOnSubmit = (e) => {

@@ -1,4 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {set_level} from "./currentStoryLevelSlice";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
@@ -48,14 +50,14 @@ const useStyles = makeStyles((theme) => ({
 const ChooseLevel = (props) => {
     const styles = useStyles();
     const [availableLevels, setAvailableLevels] = useState([0]);
-    const [level, setLevel] = useState(-1);
+    const dispatch = useDispatch();
+    const current_story_level = useSelector(state => state.current_story_level);
     const helper_arr = [...Array(7).keys()];
     const [fetchAvailableLevels, setFetchAvailableLevel] = useState(false);
     const game_context = useContext(GameContext);
     const onClickLevel = (level) => {
-        setLevel(level);
+        dispatch(set_level(level));
     };
-    console.log(level);
     useEffect(() => {
         let mounted = true;
         if (!fetchAvailableLevels) {
@@ -84,7 +86,7 @@ const ChooseLevel = (props) => {
         }
     });
 
-    if (level === -1) {
+    if (current_story_level === -1) {
         return (
             <Grid container direction={'column'} spacing={1} className={styles.root}>
                 <Grid container item justify={'center'}>
@@ -118,7 +120,7 @@ const ChooseLevel = (props) => {
         );
     } else {
         return (
-            <StoryMode change_to_story_background={props.change_to_story_background} level={level}/>
+            <StoryMode change_to_story_background={props.change_to_story_background}/>
         );
     }
 };
