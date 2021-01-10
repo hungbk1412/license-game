@@ -1,5 +1,5 @@
 import {licenseTypes, questionTypes, practiceTypes} from '../../definitions/Types';
-
+import {practiceTheoryGenerator, practiceEditingGenerator} from "./Practice";
 // For multiple_choice questions, declaring combination_type in the challenge is not necessary because the correct answer
 // is fixed. Hence no request to the server will be made.
 
@@ -11,13 +11,11 @@ const generateLevel0 = () => {
             [
                 {
                     id: 0,
-                    type: practiceTypes.THEORY,
-                    level: 0
+                    ...practiceTheoryGenerator(0)
                 },
                 {
                     id: 1,
-                    type: practiceTypes.THEORY,
-                    level: 1
+                    ...practiceTheoryGenerator(1)
                 }
             ],
         context: 'Nowadays, swords are often made from steel',
@@ -54,13 +52,11 @@ const generateLevel1 = () => {
         practices: [
             {
                 id: 0,
-                type: practiceTypes.THEORY,
-                level: 2
+                ...practiceTheoryGenerator(2)
             },
             {
                 id: 1,
-                type: practiceTypes.EDITING_COLLAGE,
-                level: 0
+                ...practiceEditingGenerator(0, practiceTypes.EDITING_COLLAGE)
             }
         ],
         context: `Ok, so to make steel, we need to mix iron and carbon, but at which ratio?
@@ -98,13 +94,11 @@ const generateLevel2 = () => {
         practices: [
             {
                 id: 0,
-                type: practiceTypes.EDITING_COMPOSITION,
-                level: 0
+                ...practiceEditingGenerator(0, practiceTypes.EDITING_COMPOSITION)
             },
             {
                 id: 1,
-                type: practiceTypes.EDITING_COMPOSITION,
-                level: 1
+                ...practiceEditingGenerator(1, practiceTypes.EDITING_COMPOSITION)
             }
         ],
         context: `A royal gift has to be flawless. Iron and carbon are not enough. The king want the sword to last after decades.

@@ -2,15 +2,13 @@ import React from 'react';
 import PracticeEditing from "./editing/PracticeEditing";
 import PracticeTheory from "./theory/PracticeTheory";
 import {practiceTypes} from "../../../definitions/Types";
-import {practiceTheoryGenerator, practiceEditingGenerator} from "../../../utils/game_generator/Practice";
 
 function PracticeMode(props) {
-    if (props.practice.type === practiceTypes.THEORY) {
-        const practice = practiceTheoryGenerator(props.practice.level);
-        return <PracticeTheory practice={practice} id_within_story={props.practice.id}/>
-    } else if (props.practice.type === practiceTypes.EDITING_COLLAGE || props.practice.type === practiceTypes.EDITING_COMPOSITION) {
-        const practice = practiceEditingGenerator(props.practice.level, props.practice.type);
-        return <PracticeEditing practice={practice} id_within_story={props.practice.id}/>
+    const practice = props.practice;
+    if (practice.type === practiceTypes.THEORY) {
+        return <PracticeTheory practice={practice}/>
+    } else if (practice.type === practiceTypes.EDITING_COLLAGE || practice.type === practiceTypes.EDITING_COMPOSITION) {
+        return <PracticeEditing practice={practice}/>
     } else {
         return <div>Loi roi</div>;
     }

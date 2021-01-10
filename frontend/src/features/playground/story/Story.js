@@ -133,6 +133,14 @@ const useStyles = makeStyles((theme) => ({
         }
     }
 }));
+const get_current_practice = (practices) => {
+    for (let i = 0; i < practices.length; i++) {
+        if (!practices[i].finished) {
+            return practices[i];
+        }
+    }
+    return null;
+};
 
 function Story() {
     const styles = useStyles();
@@ -141,8 +149,8 @@ function Story() {
     const challenge = useSelector(state => state.current_challenge);
     const dispatch = useDispatch();
     const [chosenLicenses, setChosenLicenses] = useState([]);
-    // const [practices, setPractices] = useState(challenge.practices);
     const current_practices_list = useSelector(state => state.current_practices_list);
+    const current_practice = get_current_practice(current_practices_list);
     const nextChallenge = challengeGenerator(challenge.level + 1);
     const [isChooseLicenseDialogOpening, setIsChooseLicenseDialogOpening] = useState(false);
     const [confirmSubmissionDialog, setConfirmSubmissionDialog] = useState({
@@ -362,15 +370,6 @@ function Story() {
 
     };
 
-    const getNextUnfinishedPractice = (practices) => {
-        for (let i = 0; i < practices.length; i++) {
-            if (!practices[i].finished) {
-                return practices[i];
-            }
-        }
-        return null;
-    };
-
     useEffect(() => {
         if (lodash.isEmpty(current_practices_list) && challenge.hasOwnProperty('practices')) {
             dispatch(set_practices_list(challenge.practices));
@@ -434,8 +433,8 @@ function Story() {
         }
     });
 
-    if (current_practices_list != null && getNextUnfinishedPractice(current_practices_list) !== null) {
-        return <PracticeMode practice={getNextUnfinishedPractice(current_practices_list)}/>
+    if (current_practices_list != null && current_practice !== null) {
+        return <PracticeMode practice={current_practice}/>
     } else {
         return (
             <Grid container item direction={'row'} justify={'center'} alignItems={'center'} className={styles.root}>

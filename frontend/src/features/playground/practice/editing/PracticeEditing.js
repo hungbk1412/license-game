@@ -192,7 +192,7 @@ function PracticeEditing(props) {
                 is_opening: false
             }
         });
-        dispatch(finish_a_practice(props.id_within_story));
+        dispatch(finish_a_practice(practice.id));
     };
 
     return (
