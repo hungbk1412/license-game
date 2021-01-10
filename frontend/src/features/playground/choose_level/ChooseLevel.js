@@ -1,14 +1,12 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {set_story_level} from "./CurrentStoryLevelSlice";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import {menu_button_background} from "../../../images";
-import {Redirect} from "react-router-dom";
 import {GameContext} from "../../../App";
 import {color, background} from '../../../definitions/Types';
-import {getProgress} from "../../../utils/Requests";
 import Story from "../story/Story";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,37 +47,17 @@ const useStyles = makeStyles((theme) => ({
 
 const ChooseLevel = (props) => {
     const styles = useStyles();
-    const [availableLevels, setAvailableLevels] = useState([0]);
     const dispatch = useDispatch();
+    const game_progress = useSelector(state => state.game_progress);
     const current_story_level = useSelector(state => state.current_story_level);
     const helper_arr = [...Array(7).keys()];
-    const [fetchAvailableLevels, setFetchAvailableLevel] = useState(false);
     const game_context = useContext(GameContext);
+    const number_of_unlocked_level = Object.keys(game_progress).length;
 
     const onClickLevel = (level) => {
         dispatch(set_story_level(level));
     };
 
-    useEffect(() => {
-        let mounted = true;
-        if (!fetchAvailableLevels) {
-            getProgress(window.accessToken).then(res => {
-                if (res.hasOwnProperty('level')) {
-                    let keys = Object.keys(res.level);
-                    keys = keys.filter(key => res.level.hasOwnProperty(key));
-                    keys = keys.map(key => parseInt(key));
-                    keys.push((keys.length));
-                    if (mounted) {
-                        setAvailableLevels([...keys]);
-                        setFetchAvailableLevel(true);
-                    }
-                }
-            });
-        }
-        return () => {
-            mounted = false
-        }
-    });
 
     useEffect(() => {
         if (game_context.background.current_background !== background.MAIN_MENU) {
@@ -98,7 +76,7 @@ const ChooseLevel = (props) => {
                 </Grid>
                 {
                     helper_arr.map(index => {
-                        if (availableLevels.includes(index)) {
+                        if (index <= number_of_unlocked_level) {
                             return (
                                 <Grid container item justify={'center'} key={'choose-level-' + index}>
                                     <Grid item xs={6} md={3}>
