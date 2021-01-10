@@ -18,6 +18,7 @@ import {
     close_choose_license_dialog,
     set_licenses_to_be_excluded_from_answer
 } from "../dialog/choose_license_dialog/ChooseLicenseDialogSlice";
+import {set_result_for_level} from "./GameProgressSlice";
 import {questionTypes, color, background} from '../../../definitions/Types';
 import PracticeMode from '../practice/PracticeMode';
 import ChooseLicenseDialog from '../dialog/choose_license_dialog/ChooseLicenseDialog';
@@ -150,19 +151,17 @@ const get_current_practice = (practices) => {
 function Story() {
     const styles = useStyles();
     const game_context = useContext(GameContext);
+    const dispatch = useDispatch();
     const current_story_level = useSelector(state => state.current_story_level);
     const current_challenge = useSelector(state => state.current_challenge);
     const choose_license_dialog = useSelector(state => state.choose_license_dialog);
-    const dispatch = useDispatch();
     const [chosenLicenses, setChosenLicenses] = useState([]);
     const current_practices_list = useSelector(state => state.current_practices_list);
     const current_practice = get_current_practice(current_practices_list);
     const nextChallenge = challengeGenerator(current_challenge.level + 1);
-    // const [isChooseLicenseDialogOpening, setIsChooseLicenseDialogOpening] = useState(false);
+    const game_progress = useSelector(state => state.game_progress);
     const [finalLicense, setFinalLicense] = useState('');
-    const [resultsOfLevels, setResultsOfLevels] = useState({});
     const [failTimes, setFailTimes] = useState(0);
-    // const [message, setMessage] = useState('');
     // Only used for questions requiring players to choose many answer (choices)
     const [choices, setChoices] = useState([
         {
@@ -235,10 +234,7 @@ function Story() {
                 // Player correctly answered
                 if (res.hasOwnProperty('result') && res.result) {
                     dispatch(close_choose_license_dialog());
-                    setResultsOfLevels({
-                        ...resultsOfLevels,
-                        [current_challenge.level]: user_answer
-                    });
+                    dispatch(set_result_for_level({level: current_challenge.level, result: user_answer}));
                     unselectSelectedChoices(getAllSelectedChoices());
                     setFinalLicense(user_answer);
                     dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
@@ -279,10 +275,10 @@ function Story() {
                 setChoices(newChoices);
             }
         } else if (current_challenge.correctAnswer === choiceNumber) {
-            setResultsOfLevels({
-                ...resultsOfLevels,
-                [current_challenge.level]: current_challenge.choices[current_challenge.correctAnswer].CC_license
-            });
+            dispatch(set_result_for_level({
+                level: current_challenge.level,
+                result: current_challenge.choices[current_challenge.correctAnswer]
+            }));
             dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
         } else {
             const message = failTimes < 2 ? FAIL_MESSAGE : current_challenge.hint;
@@ -376,12 +372,14 @@ function Story() {
      */
     useEffect(() => {
         if (current_challenge.hasOwnProperty('require_result_of_levels')) {
-            dispatch(prepare_oer_resources({resultsOfLevels}));
+            dispatch(prepare_oer_resources(game_progress));
         }
     }, [current_challenge.level]);
 
+    /*
+    special case, just for the 6th level
+     */
     useEffect(() => {
-        // special case, just for the 6th level
         if (current_challenge.level === LAST_LEVEL && current_challenge.choices[current_challenge.correctAnswer].CC_license === null) {
             checkCompatible(window.accessToken, current_challenge.combination_type, current_challenge.oer_resources, 'check')
                 .then(res => {
@@ -390,28 +388,6 @@ function Story() {
                     }
                 })
                 .catch(e => console.log(e));
-        }
-    });
-
-    useEffect(() => {
-        let mounted = true;
-        if (lodash.isEmpty(resultsOfLevels)) {
-            getProgress(window.accessToken).then(res => {
-                if (res.hasOwnProperty('level')) {
-                    let newResultOfLevels = {};
-                    let keys = Object.keys(res.level);
-                    keys = keys.filter(key => res.level.hasOwnProperty(key));
-                    keys.forEach(key => {
-                        newResultOfLevels[key] = res['level'][key]['answer']
-                    });
-                    if (mounted) {
-                        setResultsOfLevels(newResultOfLevels);
-                    }
-                }
-            });
-        }
-        return () => {
-            mounted = false;
         }
     });
 

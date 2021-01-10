@@ -42,7 +42,7 @@ const CurrentChallengeSlice = createSlice({
         },
         prepare_oer_resources: (current_challenge, action) => {
             current_challenge.require_result_of_levels.forEach(level => {
-                current_challenge.oer_resources.push(action.payload.resultsOfLevels[level]);
+                current_challenge.oer_resources.push(action.payload[level]);
             });
             return current_challenge;
         },

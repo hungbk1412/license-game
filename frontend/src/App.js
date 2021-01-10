@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -17,6 +17,8 @@ import {main_background, story_background} from "./images";
 import {background} from "./definitions/Types";
 import {TransitionGroup, CSSTransition} from "react-transition-group";
 import './App.css';
+import {useDispatch, useSelector} from "react-redux";
+import {init_fetch_game_progress} from "./features/playground/story/GameProgressSlice";
 
 const useStyles = makeStyles(theme => {
     return {
@@ -44,6 +46,7 @@ export const GameContext = React.createContext(null);
 
 function App() {
     const styles = useStyles();
+    const dispatch = useDispatch();
     const game = useRef(null);
     const [score, set_score] = useState(0);
 
@@ -79,6 +82,13 @@ function App() {
                 </CSSTransition>
             </TransitionGroup>
         );
+    });
+
+    /*
+    Initializing to fetch game progress from data base
+     */
+    useEffect(() => {
+        dispatch(init_fetch_game_progress());
     });
 
     return (
