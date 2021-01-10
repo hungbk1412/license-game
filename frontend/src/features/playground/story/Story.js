@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useReducer, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
@@ -8,13 +8,14 @@ import challengeGenerator from '../../../utils/game_generator/Story';
 import {to_next_level, to_level, prepare_choice_for_last_level, prepare_oer_resources} from "./CurrentChallangeSlice";
 import {set_story_level} from '../choose_level/CurrentStoryLevelSlice';
 import {set_practices_list} from "./CurrentPracticesListSlice";
+import {open_confirm_submission_dialog, close_confirm_submission_dialog} from "../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
 import {questionTypes, color, background} from '../../../definitions/Types';
 import PracticeMode from '../practice/PracticeMode';
-import ChooseLicenseDialog from '../dialog/ChooseLicenseDialog';
+import ChooseLicenseDialog from '../dialog/choose_license_dialog/ChooseLicenseDialog';
 import {checkCompatible, getProgress, postProgress} from '../../../utils/Requests';
 import Choice from './choice/Choice';
 import Slide from '@material-ui/core/Slide';
-import ConfirmSubmission from "../dialog/ConfirmSubmission";
+import ConfirmSubmissionDialog from "../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
 import {
     story_description_image_container,
     story_talk_box,
@@ -153,11 +154,6 @@ function Story() {
     const current_practice = get_current_practice(current_practices_list);
     const nextChallenge = challengeGenerator(challenge.level + 1);
     const [isChooseLicenseDialogOpening, setIsChooseLicenseDialogOpening] = useState(false);
-    const [confirmSubmissionDialog, setConfirmSubmissionDialog] = useState({
-        is_opening: false,
-        correctness: false,
-        message: ''
-    });
     const [finalLicense, setFinalLicense] = useState('');
     const [resultsOfLevels, setResultsOfLevels] = useState({});
     const [failTimes, setFailTimes] = useState(0);
@@ -232,12 +228,6 @@ function Story() {
         setIsChooseLicenseDialogOpening(false);
     };
 
-    const closeConfirmSubmissionDialog = () => {
-        setConfirmSubmissionDialog(prevState => {
-            return {...prevState, is_opening: false}
-        });
-    };
-
     const clickOnSubmitButton = (e) => {
         e.preventDefault();
         checkCompatible(window.accessToken, challenge.combination_type, chosenLicenses.concat(challenge.oer_resources), finalLicense)
@@ -250,16 +240,12 @@ function Story() {
                         [challenge.level]: finalLicense
                     });
                     unselectSelectedChoices(getAllSelectedChoices());
-                    setConfirmSubmissionDialog(prevState => {
-                        return {...prevState, is_opening: true, correctness: true, message: SUCCESS_MESSAGE}
-                    });
+                    dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
                 }
                 // Wrong Answer
                 else {
-                    setConfirmSubmissionDialog(prevState => {
-                        const message = failTimes === 1 ? FAIL_MESSAGE : challenge.hint;
-                        return {...prevState, is_opening: true, correctness: false, message: message}
-                    });
+                    const message = failTimes === 1 ? FAIL_MESSAGE : challenge.hint;
+                    dispatch(open_confirm_submission_dialog({correctness: false, message: message}));
                 }
             }).then(res => console.log(res))
             .catch(e => console.log(e));
@@ -296,19 +282,10 @@ function Story() {
                 ...resultsOfLevels,
                 [challenge.level]: challenge.choices[challenge.correctAnswer].CC_license
             });
-            setConfirmSubmissionDialog(prevState => {
-                return {...prevState, is_opening: true, correctness: true, message: SUCCESS_MESSAGE}
-            });
+            dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
         } else {
-            setConfirmSubmissionDialog(prevState => {
-                const message = failTimes < 2 ? FAIL_MESSAGE : challenge.hint;
-                return {
-                    ...prevState,
-                    is_opening: true,
-                    correctness: false,
-                    message: message
-                };
-            });
+            const message = failTimes < 2 ? FAIL_MESSAGE : challenge.hint;
+            dispatch(open_confirm_submission_dialog({correctness: false, message: message}));
             setFailTimes(failTimes + 1);
         }
     };
@@ -349,11 +326,11 @@ function Story() {
                 console.log('err :>> ', err);
             });
         if (nextChallenge !== null) {
-            setTransition( false);
+            setTransition(false);
 
             // time out is required for exiting animation
             setTimeout((() => {
-                setTransition( true);
+                setTransition(true);
                 setFailTimes(0);
                 setChosenLicenses([]);
                 if (nextChallenge.hasOwnProperty('practices')) {
@@ -364,9 +341,7 @@ function Story() {
         } else {
             alert('Congratulation, end game');
         }
-        setConfirmSubmissionDialog(prevState => {
-            return {...prevState, is_opening: false}
-        });
+        dispatch(close_confirm_submission_dialog());
 
     };
 
@@ -441,12 +416,7 @@ function Story() {
                 <Slide direction={'left'} in={showUp.stable_content} mountOnEnter unmountOnExit>
                     <img className={styles.smith} src={story_smith}/>
                 </Slide>
-                <ConfirmSubmission is_confirm_submission_dialog_opening={confirmSubmissionDialog.is_opening}
-                                   close_confirm_submission_dialog={closeConfirmSubmissionDialog}
-                                   go_to_next_level={goToNextLevel}
-                                   correctness={confirmSubmissionDialog.correctness}
-                                   message={confirmSubmissionDialog.message}
-                                   set_confirm_submission_dialog={setConfirmSubmissionDialog}/>
+                <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
                 <ChooseLicenseDialog isChooseLicenseDialogOpening={isChooseLicenseDialogOpening}
                                      closeChooseLicenseDialog={closeChooseLicenseDialog}
                                      clickOnSubmitButton={clickOnSubmitButton}

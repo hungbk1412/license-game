@@ -8,7 +8,8 @@ import MatchRow from "./MatchRow";
 import lodash from 'lodash';
 import {menu_button_background, story_question} from "../../../../images";
 import {color} from "../../../../definitions/Types";
-import ConfirmSubmission from "../../dialog/ConfirmSubmission";
+import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
+import {open_confirm_submission_dialog, close_confirm_submission_dialog} from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -100,11 +101,6 @@ function PracticeTheory(props) {
     const {symbols, descriptions, numberOfMatches} = extractSymbolAndDescriptionFromData(practice.data);
     const helper_array = [...Array(numberOfMatches).keys()];
     const [orderedDescriptions, setOrderedDescriptions] = useState(initOrder(shuffle(descriptions)));
-    const [confirmSubmissionDialog, setConfirmSubmissionDialog] = useState({
-        is_opening: false,
-        correctness: false,
-        message: ''
-    });
 
     const swap = (from, to) => {
         const source = orderedDescriptions[from];
@@ -136,14 +132,7 @@ function PracticeTheory(props) {
         e.preventDefault();
         let correctness = checkForCorrectness();
         if (correctness.result) {
-            setConfirmSubmissionDialog(prevState => {
-                return {
-                    ...prevState,
-                    is_opening: true,
-                    correctness: true,
-                    message: SUCCESS_MESSAGE
-                };
-            });
+            dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
         } else {
             let newOrderedDescriptions = lodash.cloneDeep(orderedDescriptions);
             for (let i = 0; i < correctness.details.length; i++) {
@@ -154,14 +143,7 @@ function PracticeTheory(props) {
                 }
             }
             setOrderedDescriptions(newOrderedDescriptions);
-            setConfirmSubmissionDialog(prevState => {
-                return {
-                    ...prevState,
-                    is_opening: true,
-                    correctness: false,
-                    message: FAIL_MESSAGE
-                };
-            });
+            dispatch(open_confirm_submission_dialog({correctness: false, message: FAIL_MESSAGE}));
         }
     };
 
@@ -181,30 +163,14 @@ function PracticeTheory(props) {
         return correctness;
     };
 
-    const closeConfirmSubmissionDialog = () => {
-        setConfirmSubmissionDialog(prevState => {
-            return {...prevState, is_opening: false}
-        });
-    };
-
     const goToNextLevel = () => {
-        setConfirmSubmissionDialog(prevState => {
-            return {
-                ...prevState,
-                is_opening: false
-            }
-        });
+        dispatch(close_confirm_submission_dialog());
         dispatch(finish_a_practice(practice.id));
     };
 
     return (
         <Grid container item direction={'row'} justify={'center'} xs={10} className={styles.root}>
-            <ConfirmSubmission is_confirm_submission_dialog_opening={confirmSubmissionDialog.is_opening}
-                               close_confirm_submission_dialog={closeConfirmSubmissionDialog}
-                               go_to_next_level={goToNextLevel}
-                               correctness={confirmSubmissionDialog.correctness}
-                               message={confirmSubmissionDialog.message}
-                               set_confirm_submission_dialog={setConfirmSubmissionDialog}/>
+            <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
             <Grid container item direction={'row'} className={styles.header_container} xs={10} justify={'center'}
                   alignItems={'center'}>
                 <Grid item className={styles.header}>{practice.description}</Grid>

@@ -6,8 +6,12 @@ import {itemTypes, color} from "../../../../definitions/Types";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ResourceInPractice from "./ResourceInPractice";
-import ChooseLicenseDialog from "../../dialog/ChooseLicenseDialog";
-import ConfirmSubmission from "../../dialog/ConfirmSubmission";
+import ChooseLicenseDialog from "../../dialog/choose_license_dialog/ChooseLicenseDialog";
+import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
+import {
+    open_confirm_submission_dialog,
+    close_confirm_submission_dialog
+} from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
 import {checkCompatible} from "../../../../utils/Requests";
 import {menu_button_background, practice_lava_frame, story_question} from "../../../../images";
 import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
@@ -17,7 +21,7 @@ const FAIL_MESSAGE = 'Please try again';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      'margin-top': '20px'
+        'margin-top': '20px'
     },
     header: {
         'color': color.NORMAL_TEXT_WHITE
@@ -79,24 +83,13 @@ function PracticeEditing(props) {
     const styles = useStyles();
     const dispatch = useDispatch();
     const practice = props.practice;
-    const [confirmSubmissionDialog, setConfirmSubmissionDialog] = useState({
-        is_opening: false,
-        correctness: false,
-        message: ''
-    });
     const [isChooseLicenseDialogOpening, setIsChooseLicenseDialogOpening] = useState(false);
     const [finalLicense, setFinalLicense] = useState('CC');
     const [chosenResourcesArray, setChosenResourcesArray] = useState(initChosenResourcesArray(practice.resources));
 
-    const closeConfirmSubmissionDialog = () => {
-        setConfirmSubmissionDialog(prevState => {
-            return {...prevState, is_opening: false}
-        });
-    };
-
     useEffect(() => {
         if (practice.resources.length !== chosenResourcesArray.length)
-        setChosenResourcesArray(initChosenResourcesArray(practice.resources));
+            setChosenResourcesArray(initChosenResourcesArray(practice.resources));
     });
 
     const hasResourcesBeenChosen = (resource_id) => {
@@ -130,24 +123,10 @@ function PracticeEditing(props) {
         }
         checkCompatible(window.accessToken, 'collage', licenseArray, finalLicense)
             .then(res => {
-                if (res.result) {
-                    setConfirmSubmissionDialog(prevState => {
-                        return {
-                            ...prevState,
-                            is_opening: true,
-                            correctness: true,
-                            message: SUCCESS_MESSAGE
-                        }
-                    });
+                if (res.hasOwnProperty('result') && res.result) {
+                    dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
                 } else {
-                    setConfirmSubmissionDialog(prevState => {
-                        return {
-                            ...prevState,
-                            is_opening: true,
-                            correctness: false,
-                            message: FAIL_MESSAGE
-                        }
-                    });
+                    dispatch(open_confirm_submission_dialog({correctness: false, message: FAIL_MESSAGE}));
                 }
             })
             .catch(e => console.log(e));
@@ -186,12 +165,7 @@ function PracticeEditing(props) {
 
     const goToNextLevel = () => {
         setIsChooseLicenseDialogOpening(false);
-        setConfirmSubmissionDialog(prevState => {
-            return {
-                ...prevState,
-                is_opening: false
-            }
-        });
+        dispatch(close_confirm_submission_dialog());
         dispatch(finish_a_practice(practice.id));
     };
 
@@ -203,12 +177,7 @@ function PracticeEditing(props) {
                                  selectFinalLicense={selectFinalLicense}
                                  finalLicense={finalLicense}
                                  message={':D'}/>
-            <ConfirmSubmission is_confirm_submission_dialog_opening={confirmSubmissionDialog.is_opening}
-                               close_confirm_submission_dialog={closeConfirmSubmissionDialog}
-                               go_to_next_level={goToNextLevel}
-                               correctness={confirmSubmissionDialog.correctness}
-                               message={confirmSubmissionDialog.message}
-                               set_confirm_submission_dialog={setConfirmSubmissionDialog}/>
+            <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
             <Grid container item justify={'center'}>
                 <Grid container item direction={'row'} className={styles.header_container} xs={10} justify={'center'}
                       alignItems={'center'}>

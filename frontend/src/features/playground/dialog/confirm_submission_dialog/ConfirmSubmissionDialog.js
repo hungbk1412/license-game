@@ -1,10 +1,12 @@
 import React from 'react';
+import {useSelector, useDispatch} from "react-redux";
+import {open_confirm_submission_dialog, close_confirm_submission_dialog} from "./ConfirmSubmissionDialogSlice";
 import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import {story_dialog, menu_button_background, correct_symbol, incorrect_symbol} from '../../../images';
-import {color} from "../../../definitions/Types";
+import {story_dialog, menu_button_background, correct_symbol, incorrect_symbol} from '../../../../images';
+import {color} from "../../../../definitions/Types";
 
 const useStyles = makeStyles((theme) => ({
     pop_up: {
@@ -44,32 +46,35 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ConfirmSubmission = (props) => {
+const ConfirmSubmissionDialog = (props) => {
     const styles = useStyles();
-    const isConfirmSubmissionDialogOpening = props.is_confirm_submission_dialog_opening;
-    const closeConfirmSubmissionDialog = props.close_confirm_submission_dialog;
-    const buttonLabel = props.correctness ? 'Next Level' : 'Okay';
-    const symbol = props.correctness ? correct_symbol : incorrect_symbol;
-    const message = props.message;
-    const setConfirmSubmissionDialog = props.set_confirm_submission_dialog;
+    const dispatch = useDispatch();
+    const {is_opening, correctness, message} = useSelector(state => state.confirm_submission_dialog);
+    // const isConfirmSubmissionDialogOpening = props.is_confirm_submission_dialog_opening;
+    // const closeConfirmSubmissionDialog = props.close_confirm_submission_dialog;
+    const buttonLabel = correctness ? 'Next Level' : 'Okay';
+    const symbol = correctness ? correct_symbol : incorrect_symbol;
+    // const message = confirm_submission_dialog.message;
+    //const setConfirmSubmissionDialog = props.set_confirm_submission_dialog;
     const goToNextLevel = props.go_to_next_level;
 
     const onClickConfirm = () => {
-        if (props.correctness) {
+        if (correctness) {
             goToNextLevel();
         } else {
-            setConfirmSubmissionDialog(prevState => {
-                return {
-                    ...prevState,
-                    is_opening: false
-                }
-            });
+            // setConfirmSubmissionDialog(prevState => {
+            //     return {
+            //         ...prevState,
+            //         is_opening: false
+            //     }
+            // });
+            dispatch(close_confirm_submission_dialog());
         }
     };
 
     return (
-        <Modal open={isConfirmSubmissionDialogOpening}
-               onClose={closeConfirmSubmissionDialog}>
+        <Modal open={is_opening}
+               onClose={() => dispatch(close_confirm_submission_dialog())}>
             <Grid container item direction={'column'} alignItems={'center'}
                   className={styles.pop_up}>
                 <img src={symbol} className={styles.symbol}/>
@@ -82,4 +87,4 @@ const ConfirmSubmission = (props) => {
     );
 };
 
-export default ConfirmSubmission;
+export default ConfirmSubmissionDialog;
