@@ -55,9 +55,11 @@ const ChooseLevel = (props) => {
     const helper_arr = [...Array(7).keys()];
     const [fetchAvailableLevels, setFetchAvailableLevel] = useState(false);
     const game_context = useContext(GameContext);
+
     const onClickLevel = (level) => {
         dispatch(set_story_level(level));
     };
+
     useEffect(() => {
         let mounted = true;
         if (!fetchAvailableLevels) {

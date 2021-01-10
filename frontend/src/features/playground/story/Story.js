@@ -5,10 +5,19 @@ import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import challengeGenerator from '../../../utils/game_generator/Story';
-import {to_next_level, to_level, prepare_choice_for_last_level, prepare_oer_resources} from "./CurrentChallangeSlice";
+import {to_level, prepare_choice_for_last_level, prepare_oer_resources} from "./CurrentChallangeSlice";
 import {set_story_level} from '../choose_level/CurrentStoryLevelSlice';
 import {set_practices_list} from "./CurrentPracticesListSlice";
-import {open_confirm_submission_dialog, close_confirm_submission_dialog} from "../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
+import {
+    open_confirm_submission_dialog,
+    close_confirm_submission_dialog
+} from "../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
+import {
+    open_choose_license_dialog,
+    set_message_for_choose_license_dialog,
+    close_choose_license_dialog,
+    set_licenses_to_be_excluded_from_answer
+} from "../dialog/choose_license_dialog/ChooseLicenseDialogSlice";
 import {questionTypes, color, background} from '../../../definitions/Types';
 import PracticeMode from '../practice/PracticeMode';
 import ChooseLicenseDialog from '../dialog/choose_license_dialog/ChooseLicenseDialog';
@@ -28,11 +37,6 @@ import {GameContext} from "../../../App";
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
-const ACTIONS = {
-    TO_NEXT_LEVEL: 'to_next_level',
-    PREPARE_OER_RESOURCES: 'prepare_oer_resources',
-    PREPARE_CHOICES_FOR_LAST_LEVEL: 'prepare_choices_for_last_level'
-};
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -147,17 +151,18 @@ function Story() {
     const styles = useStyles();
     const game_context = useContext(GameContext);
     const current_story_level = useSelector(state => state.current_story_level);
-    const challenge = useSelector(state => state.current_challenge);
+    const current_challenge = useSelector(state => state.current_challenge);
+    const choose_license_dialog = useSelector(state => state.choose_license_dialog);
     const dispatch = useDispatch();
     const [chosenLicenses, setChosenLicenses] = useState([]);
     const current_practices_list = useSelector(state => state.current_practices_list);
     const current_practice = get_current_practice(current_practices_list);
-    const nextChallenge = challengeGenerator(challenge.level + 1);
-    const [isChooseLicenseDialogOpening, setIsChooseLicenseDialogOpening] = useState(false);
+    const nextChallenge = challengeGenerator(current_challenge.level + 1);
+    // const [isChooseLicenseDialogOpening, setIsChooseLicenseDialogOpening] = useState(false);
     const [finalLicense, setFinalLicense] = useState('');
     const [resultsOfLevels, setResultsOfLevels] = useState({});
     const [failTimes, setFailTimes] = useState(0);
-    const [message, setMessage] = useState('');
+    // const [message, setMessage] = useState('');
     // Only used for questions requiring players to choose many answer (choices)
     const [choices, setChoices] = useState([
         {
@@ -187,19 +192,17 @@ function Story() {
         @param [int] choiceNumbers
      */
     const openChooseLicenseDialog = (choiceNumbers) => {
-        let newMessage = challenge.oer_resources[0];
+        let newMessage = current_challenge.oer_resources[0];
         let newChosenLicenses = lodash.cloneDeep(chosenLicenses);
         choiceNumbers.forEach(choiceNumber => {
-            newChosenLicenses.push(challenge.choices[choiceNumber].CC_license);
-            newMessage += '; ' + challenge.choices[choiceNumber].CC_license
+            newChosenLicenses.push(current_challenge.choices[choiceNumber].CC_license);
+            newMessage += '; ' + current_challenge.choices[choiceNumber].CC_license
         });
         setChosenLicenses(newChosenLicenses);
-        setMessage(newMessage);
-        setIsChooseLicenseDialogOpening(true);
-    };
-
-    const selectFinalLicense = (e) => {
-        setFinalLicense(e.target.value)
+        // setMessage(newMessage);
+        // setIsChooseLicenseDialogOpening(true);
+        dispatch(set_message_for_choose_license_dialog(newMessage));
+        dispatch(open_choose_license_dialog());
     };
 
     const getAllSelectedChoices = () => {
@@ -224,30 +227,28 @@ function Story() {
         setChoices(newChoices);
     };
 
-    const closeChooseLicenseDialog = () => {
-        setIsChooseLicenseDialogOpening(false);
-    };
-
     const clickOnSubmitButton = (e) => {
         e.preventDefault();
-        checkCompatible(window.accessToken, challenge.combination_type, chosenLicenses.concat(challenge.oer_resources), finalLicense)
+        const user_answer = choose_license_dialog.selected_license;
+        checkCompatible(window.accessToken, current_challenge.combination_type, chosenLicenses.concat(current_challenge.oer_resources), user_answer)
             .then(res => {
                 // Player correctly answered
                 if (res.hasOwnProperty('result') && res.result) {
-                    setIsChooseLicenseDialogOpening(false);
+                    dispatch(close_choose_license_dialog());
                     setResultsOfLevels({
                         ...resultsOfLevels,
-                        [challenge.level]: finalLicense
+                        [current_challenge.level]: user_answer
                     });
                     unselectSelectedChoices(getAllSelectedChoices());
+                    setFinalLicense(user_answer);
                     dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
                 }
                 // Wrong Answer
                 else {
-                    const message = failTimes === 1 ? FAIL_MESSAGE : challenge.hint;
+                    const message = failTimes === 1 ? FAIL_MESSAGE : current_challenge.hint;
                     dispatch(open_confirm_submission_dialog({correctness: false, message: message}));
                 }
-            }).then(res => console.log(res))
+            })
             .catch(e => console.log(e));
     };
 
@@ -267,9 +268,9 @@ function Story() {
     };
 
     const clickOnAChoice = (choiceNumber) => {
-        if (challenge.type === questionTypes.SELF_GENERATED) {
+        if (current_challenge.type === questionTypes.SELF_GENERATED) {
             openChooseLicenseDialog([choiceNumber]);
-        } else if (challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES) {
+        } else if (current_challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES) {
             if (choices[choiceNumber].is_selected) {
                 unselectSelectedChoices([choiceNumber]);
             } else if (countNumberOfSelectedChoices() <= 1) {
@@ -277,14 +278,14 @@ function Story() {
                 newChoices[choiceNumber].is_selected = true;
                 setChoices(newChoices);
             }
-        } else if (challenge.correctAnswer === choiceNumber) {
+        } else if (current_challenge.correctAnswer === choiceNumber) {
             setResultsOfLevels({
                 ...resultsOfLevels,
-                [challenge.level]: challenge.choices[challenge.correctAnswer].CC_license
+                [current_challenge.level]: current_challenge.choices[current_challenge.correctAnswer].CC_license
             });
             dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
         } else {
-            const message = failTimes < 2 ? FAIL_MESSAGE : challenge.hint;
+            const message = failTimes < 2 ? FAIL_MESSAGE : current_challenge.hint;
             dispatch(open_confirm_submission_dialog({correctness: false, message: message}));
             setFailTimes(failTimes + 1);
         }
@@ -314,8 +315,8 @@ function Story() {
 
     const goToNextLevel = () => {
         postProgress(window.accessToken, {
-            [challenge.level]: {
-                answer: challenge.correctAnswer === null ? finalLicense : challenge.choices[challenge.correctAnswer].CC_license,
+            [current_challenge.level]: {
+                answer: current_challenge.correctAnswer === null ? finalLicense : current_challenge.choices[current_challenge.correctAnswer].CC_license,
                 failTimes
             }
         })
@@ -342,41 +343,47 @@ function Story() {
             alert('Congratulation, end game');
         }
         dispatch(close_confirm_submission_dialog());
-
     };
 
+    /*
+    Get list of practices for each level
+     */
     useEffect(() => {
-        if (lodash.isEmpty(current_practices_list) && challenge.hasOwnProperty('practices')) {
-            dispatch(set_practices_list(challenge.practices));
+        if (current_challenge.hasOwnProperty('practices')) {
+            dispatch(set_practices_list(current_challenge.practices));
         }
-    });
+    }, [current_challenge.level]);
 
+    /*
+    Move to next level if current_story_level is changed
+     */
     useEffect(() => {
-        if (challenge.level !== current_story_level) {
-            dispatch(to_level(current_story_level));
-        }
-    });
+        dispatch(to_level(current_story_level));
+    }, [current_story_level]);
 
+    /*
+    Set background
+     */
     useEffect(() => {
         if (game_context.background.current_background !== background.IN_GAME) {
             game_context.background.current_background = background.IN_GAME;
             game_context.background.set_background(background.IN_GAME);
         }
-    });
+    }, [game_context.background.current_background]);
 
+    /*
+    Set up required oer for each level. Only useful if a level takes the output of previous levels as its input
+     */
     useEffect(() => {
-        if (challenge.require_result_of_levels != null
-            && challenge.require_result_of_levels.length !== 0
-            && challenge.oer_resources.length === 0
-        ) {
+        if (current_challenge.hasOwnProperty('require_result_of_levels')) {
             dispatch(prepare_oer_resources({resultsOfLevels}));
         }
-    });
+    }, [current_challenge.level]);
 
     useEffect(() => {
         // special case, just for the 6th level
-        if (challenge.level === LAST_LEVEL && challenge.choices[challenge.correctAnswer].CC_license === null) {
-            checkCompatible(window.accessToken, challenge.combination_type, challenge.oer_resources, 'check')
+        if (current_challenge.level === LAST_LEVEL && current_challenge.choices[current_challenge.correctAnswer].CC_license === null) {
+            checkCompatible(window.accessToken, current_challenge.combination_type, current_challenge.oer_resources, 'check')
                 .then(res => {
                     if (res.hasOwnProperty('correctAnswer') && res.correctAnswer) {
                         dispatch(prepare_choice_for_last_level({correctAnswer: res.correctAnswer}))
@@ -408,6 +415,16 @@ function Story() {
         }
     });
 
+    /*
+     Exclude some licenses from answer according to requirement of the level
+     The dependency is challenge.level, not current_story_level is for the case user directly jump to level 5 from main menu
+     */
+    useEffect(() => {
+        if (current_challenge.hasOwnProperty('licenses_to_be_excluded_from_answer')) {
+            dispatch(set_licenses_to_be_excluded_from_answer(current_challenge.licenses_to_be_excluded_from_answer))
+        }
+    }, [current_challenge.level]);
+
     if (current_practices_list != null && current_practice !== null) {
         return <PracticeMode practice={current_practice}/>
     } else {
@@ -417,19 +434,13 @@ function Story() {
                     <img className={styles.smith} src={story_smith}/>
                 </Slide>
                 <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
-                <ChooseLicenseDialog isChooseLicenseDialogOpening={isChooseLicenseDialogOpening}
-                                     closeChooseLicenseDialog={closeChooseLicenseDialog}
-                                     clickOnSubmitButton={clickOnSubmitButton}
-                                     selectFinalLicense={selectFinalLicense}
-                                     finalLicense={finalLicense}
-                                     message={message}
-                                     licenses_to_be_excluded_from_answer={challenge.licenses_to_be_excluded_from_answer}/>
+                <ChooseLicenseDialog clickOnSubmitButton={clickOnSubmitButton}/>
                 <Grid container item direction={'row'} justify={'center'} xs={11}>
                     <Grid container item xs={12} justify={'flex-start'}>
                         <Slide direction={'right'} in={showUp.stable_content} mountOnEnter unmountOnExit>
                             <Grid container item xs={11} className={styles.context}
                                   justify={'center'}>
-                                {challenge.context}
+                                {current_challenge.context}
                             </Grid>
                         </Slide>
                     </Grid>
@@ -438,14 +449,14 @@ function Story() {
                             <Grid container item xs={7} className={styles.picture} justify={'center'}
                                   alignItems={'center'}>
                                 <img className={styles.image_container} src={story_description_image_container}/>
-                                <img className={styles.image} src={challenge.description_image}/>
+                                <img className={styles.image} src={current_challenge.description_image}/>
                             </Grid>
                         </Slide>
                     </Grid>
                     <Slide direction={'left'} in={showUp.unstable_content} mountOnEnter unmountOnExit>
                         <Grid container item className={styles.question} justify={'center'}
                               alignItems={'center'} xs={11}>
-                            {challenge.question}
+                            {current_challenge.question}
                         </Grid>
                     </Slide>
                     <Grid container item xs={12} justify={'space-between'}>
@@ -453,7 +464,7 @@ function Story() {
                             [...Array(4).keys()].map(choiceNumber => {
                                 return (
                                     <Choice key={'storymode-choice-' + choiceNumber} clickOnAChoice={clickOnAChoice}
-                                            display_text={challenge.choices[choiceNumber].display_text}
+                                            display_text={current_challenge.choices[choiceNumber].display_text}
                                             choice_number={choiceNumber}
                                             is_selected={choices[choiceNumber].is_selected}
                                             show_up={showUp.unstable_content}/>
@@ -462,7 +473,7 @@ function Story() {
                         }
                     </Grid>
                     {
-                        challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES &&
+                        current_challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES &&
                         <Grid container item xs={12} justify={'center'}>
                             <Grid container item className={styles.go_button_container}>
                                 <Button fullWidth className={styles.go_button}

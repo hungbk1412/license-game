@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDrop} from "react-dnd";
 import {itemTypes, color} from "../../../../definitions/Types";
@@ -12,6 +12,10 @@ import {
     open_confirm_submission_dialog,
     close_confirm_submission_dialog
 } from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
+import {
+    open_choose_license_dialog,
+    close_choose_license_dialog
+} from "../../dialog/choose_license_dialog/ChooseLicenseDialogSlice";
 import {checkCompatible} from "../../../../utils/Requests";
 import {menu_button_background, practice_lava_frame, story_question} from "../../../../images";
 import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
@@ -82,15 +86,14 @@ const initChosenResourcesArray = (arr) => {
 function PracticeEditing(props) {
     const styles = useStyles();
     const dispatch = useDispatch();
+    const current_challenge = useSelector(state => state.current_story_level);
     const practice = props.practice;
-    const [isChooseLicenseDialogOpening, setIsChooseLicenseDialogOpening] = useState(false);
-    const [finalLicense, setFinalLicense] = useState('CC');
+    const choose_license_dialog = useSelector(state => state.choose_license_dialog);
     const [chosenResourcesArray, setChosenResourcesArray] = useState(initChosenResourcesArray(practice.resources));
 
     useEffect(() => {
-        if (practice.resources.length !== chosenResourcesArray.length)
-            setChosenResourcesArray(initChosenResourcesArray(practice.resources));
-    });
+        setChosenResourcesArray(initChosenResourcesArray(practice.resources));
+    }, [practice.id, current_challenge.level]);
 
     const hasResourcesBeenChosen = (resource_id) => {
         const resource = chosenResourcesArray.find(element => element.resource_id === resource_id);
@@ -101,27 +104,18 @@ function PracticeEditing(props) {
         return false;
     };
 
-    const openChooseLicenseDialog = () => {
-        setIsChooseLicenseDialogOpening(true);
-    };
-
-    const closeChooseLicenseDialog = () => {
-        setIsChooseLicenseDialogOpening(false);
-    };
-
-    const selectFinalLicense = (e) => {
-        setFinalLicense(e.target.value)
-    };
-
     const clickOnSubmitButton = (e) => {
         e.preventDefault();
         let licenseArray = [];
+
         for (let i = 0; i < chosenResourcesArray.length; i++) {
             if (chosenResourcesArray[i].has_been_chosen) {
                 licenseArray.push(chosenResourcesArray[i].license);
             }
         }
-        checkCompatible(window.accessToken, 'collage', licenseArray, finalLicense)
+
+        let user_answer = choose_license_dialog.selected_license;
+        checkCompatible(window.accessToken, 'collage', licenseArray, user_answer)
             .then(res => {
                 if (res.hasOwnProperty('result') && res.result) {
                     dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
@@ -164,19 +158,14 @@ function PracticeEditing(props) {
     };
 
     const goToNextLevel = () => {
-        setIsChooseLicenseDialogOpening(false);
+        dispatch(close_choose_license_dialog());
         dispatch(close_confirm_submission_dialog());
         dispatch(finish_a_practice(practice.id));
     };
 
     return (
         <Grid container item direction={'column'} spacing={10} className={styles.root}>
-            <ChooseLicenseDialog isChooseLicenseDialogOpening={isChooseLicenseDialogOpening}
-                                 closeChooseLicenseDialog={closeChooseLicenseDialog}
-                                 clickOnSubmitButton={clickOnSubmitButton}
-                                 selectFinalLicense={selectFinalLicense}
-                                 finalLicense={finalLicense}
-                                 message={':D'}/>
+            <ChooseLicenseDialog clickOnSubmitButton={clickOnSubmitButton}/>
             <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
             <Grid container item justify={'center'}>
                 <Grid container item direction={'row'} className={styles.header_container} xs={10} justify={'center'}
@@ -227,7 +216,8 @@ function PracticeEditing(props) {
             </Grid>
             <Grid container item justify={'space-around'} className={styles.button_container}>
                 <Grid item xs={4}>
-                    <Button fullWidth onClick={openChooseLicenseDialog} className={styles.button}>Next</Button>
+                    <Button fullWidth onClick={() => dispatch(open_choose_license_dialog())}
+                            className={styles.button}>Next</Button>
                 </Grid>
                 <Grid container item xs={4} justify={'center'}>
                     <Button fullWidth onClick={clickOnSkip} className={styles.button}>Skip</Button>

@@ -29,6 +29,7 @@ const initial_state = {
     correctAnswer: null,
     hint: ''
 };
+
 const CurrentChallengeSlice = createSlice({
     name: 'current_challenge',
     initialState: initial_state,

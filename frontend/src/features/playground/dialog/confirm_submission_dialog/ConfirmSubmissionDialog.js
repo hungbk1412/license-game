@@ -50,24 +50,14 @@ const ConfirmSubmissionDialog = (props) => {
     const styles = useStyles();
     const dispatch = useDispatch();
     const {is_opening, correctness, message} = useSelector(state => state.confirm_submission_dialog);
-    // const isConfirmSubmissionDialogOpening = props.is_confirm_submission_dialog_opening;
-    // const closeConfirmSubmissionDialog = props.close_confirm_submission_dialog;
     const buttonLabel = correctness ? 'Next Level' : 'Okay';
     const symbol = correctness ? correct_symbol : incorrect_symbol;
-    // const message = confirm_submission_dialog.message;
-    //const setConfirmSubmissionDialog = props.set_confirm_submission_dialog;
     const goToNextLevel = props.go_to_next_level;
 
     const onClickConfirm = () => {
         if (correctness) {
             goToNextLevel();
         } else {
-            // setConfirmSubmissionDialog(prevState => {
-            //     return {
-            //         ...prevState,
-            //         is_opening: false
-            //     }
-            // });
             dispatch(close_confirm_submission_dialog());
         }
     };

@@ -1,4 +1,6 @@
 import React from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {close_choose_license_dialog, select_license} from "./ChooseLicenseDialogSlice";
 import Form from "react-bootstrap/Form";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -46,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
 
 function ChooseLicenseDialog(props) {
     const styles = useStyles();
-    const licenses_to_be_excluded_from_answer = props.licenses_to_be_excluded_from_answer;
-
+    const dispatch = useDispatch();
+    const {is_opening, message, licenses_to_be_excluded_from_answer, chosen_license} = useSelector(state => state.choose_license_dialog);
     const getToBeDisplayedLicenses = () => {
         if (!licenses_to_be_excluded_from_answer) {
             return Object.values(licenseTypes);
@@ -64,18 +66,18 @@ function ChooseLicenseDialog(props) {
     };
 
     return (
-        <Modal open={props.isChooseLicenseDialogOpening}
-               onClose={props.closeChooseLicenseDialog}>
+        <Modal open={is_opening}
+               onClose={() => dispatch(close_choose_license_dialog())}>
             <Grid className={styles.pop_up}>
                 <Form onSubmit={props.clickOnSubmitButton} className={styles.full_size}>
                     <Grid container direction={'column'} alignItems={'center'} justify={'space-around'} className={styles.full_size}>
                         <Grid item className={styles.message}>
-                            {props.message}
+                            {message}
                         </Grid>
                         <Grid item>
                             <Form.Group>
-                                <Form.Control as="select" value={props.finalLicense}
-                                              onChange={props.selectFinalLicense} className={styles.dropdown}>
+                                <Form.Control as="select" value={chosen_license}
+                                              onChange={(e) => dispatch(select_license(e.target.value))} className={styles.dropdown}>
                                     <option value={'none'}>Not combinable</option>
                                     {
                                         getToBeDisplayedLicenses().map(license => {
