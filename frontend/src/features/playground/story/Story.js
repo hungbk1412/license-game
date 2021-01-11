@@ -22,7 +22,7 @@ import {set_result_for_level} from "./GameProgressSlice";
 import {questionTypes, color, background} from '../../../definitions/Types';
 import PracticeMode from '../practice/PracticeMode';
 import ChooseLicenseDialog from '../dialog/choose_license_dialog/ChooseLicenseDialog';
-import {checkCompatible, getProgress, postProgress} from '../../../utils/Requests';
+import {checkCompatible, postProgress} from '../../../utils/Requests';
 import Choice from './choice/Choice';
 import Slide from '@material-ui/core/Slide';
 import ConfirmSubmissionDialog from "../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
@@ -34,6 +34,7 @@ import {
     story_go_button
 } from '../../../images';
 import {GameContext} from "../../../App";
+import {increase_time, reset_time} from "../../navbar/TimerSlice";
 
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
@@ -139,10 +140,10 @@ const useStyles = makeStyles((theme) => ({
         }
     }
 }));
-const get_current_practice = (practices) => {
-    for (let i = 0; i < practices.length; i++) {
-        if (!practices[i].finished) {
-            return practices[i];
+const get_current_practice = (practices_list) => {
+    for (let i = 0; i < practices_list.length; i++) {
+        if (!practices_list[i].finished) {
+            return practices_list[i];
         }
     }
     return null;
@@ -310,6 +311,8 @@ function Story() {
     };
 
     const goToNextLevel = () => {
+        dispatch(reset_time());
+        dispatch(close_confirm_submission_dialog());
         postProgress(window.accessToken, {
             [current_challenge.level]: {
                 answer: current_challenge.correctAnswer === null ? finalLicense : current_challenge.choices[current_challenge.correctAnswer].CC_license,
@@ -338,7 +341,6 @@ function Story() {
         } else {
             alert('Congratulation, end game');
         }
-        dispatch(close_confirm_submission_dialog());
     };
 
     /*
@@ -401,7 +403,17 @@ function Story() {
         }
     }, [current_challenge.level]);
 
-    if (current_practices_list != null && current_practice !== null) {
+    // Start the timer
+    useEffect(() => {
+        let timer = setInterval(() => {
+            dispatch(increase_time());
+        },1000);
+        return () => {
+            clearInterval(timer);
+        };
+    });
+
+    if (current_practice !== null) {
         return <PracticeMode practice={current_practice}/>
     } else {
         return (

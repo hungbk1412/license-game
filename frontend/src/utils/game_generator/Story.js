@@ -1,4 +1,4 @@
-import {licenseTypes, questionTypes, practiceTypes} from '../../definitions/Types';
+import {licenseTypes, questionTypes, gameTypes} from '../../definitions/Types';
 import {practiceTheoryGenerator, practiceEditingGenerator} from "./Practice";
 // For multiple_choice questions, declaring combination_type in the challenge is not necessary because the correct answer
 // is fixed. Hence no request to the server will be made.
@@ -56,7 +56,7 @@ const generateLevel1 = () => {
             },
             {
                 id: 1,
-                ...practiceEditingGenerator(0, practiceTypes.EDITING_COLLAGE)
+                ...practiceEditingGenerator(0, gameTypes.PRACTICE_EDITING_COLLAGE)
             }
         ],
         context: `Ok, so to make steel, we need to mix iron and carbon, but at which ratio?
@@ -94,11 +94,11 @@ const generateLevel2 = () => {
         practices: [
             {
                 id: 0,
-                ...practiceEditingGenerator(0, practiceTypes.EDITING_COMPOSITION)
+                ...practiceEditingGenerator(0, gameTypes.PRACTICE_EDITING_COMPOSITION)
             },
             {
                 id: 1,
-                ...practiceEditingGenerator(1, practiceTypes.EDITING_COMPOSITION)
+                ...practiceEditingGenerator(1, gameTypes.PRACTICE_EDITING_COMPOSITION)
             }
         ],
         context: `A royal gift has to be flawless. Iron and carbon are not enough. The king want the sword to last after decades.

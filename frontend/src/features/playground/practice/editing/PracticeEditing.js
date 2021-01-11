@@ -19,6 +19,7 @@ import {
 import {checkCompatible} from "../../../../utils/Requests";
 import {menu_button_background, practice_lava_frame, story_question} from "../../../../images";
 import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
+import {increase_time, reset_time} from "../../../navbar/TimerSlice";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -91,10 +92,6 @@ function PracticeEditing(props) {
     const choose_license_dialog = useSelector(state => state.choose_license_dialog);
     const [chosenResourcesArray, setChosenResourcesArray] = useState(initChosenResourcesArray(practice.resources));
 
-    useEffect(() => {
-        setChosenResourcesArray(initChosenResourcesArray(practice.resources));
-    }, [practice.id, current_challenge.level]);
-
     const hasResourcesBeenChosen = (resource_id) => {
         const resource = chosenResourcesArray.find(element => element.resource_id === resource_id);
         if (resource) {
@@ -158,10 +155,16 @@ function PracticeEditing(props) {
     };
 
     const goToNextLevel = () => {
+        dispatch(reset_time());
         dispatch(close_choose_license_dialog());
         dispatch(close_confirm_submission_dialog());
         dispatch(finish_a_practice(practice.id));
     };
+
+    useEffect(() => {
+        setChosenResourcesArray(initChosenResourcesArray(practice.resources));
+    }, [practice.id, current_challenge.level]);
+
 
     return (
         <Grid container item direction={'column'} spacing={10} className={styles.root}>

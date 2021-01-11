@@ -20,10 +20,11 @@ const resourceTypes = {
     VIDEO: 'video'
 };
 
-const practiceTypes = {
-    THEORY: 'theory',
-    EDITING_COMPOSITION: 'editing_composition',
-    EDITING_COLLAGE: 'editing_collage'
+const gameTypes = {
+    PRACTICE_THEORY: 'practice_theory',
+    PRACTICE_EDITING_COMPOSITION: 'practice_editing_composition',
+    PRACTICE_EDITING_COLLAGE: 'practice_editing_collage',
+    STORY: 'story'
 };
 
 const questionTypes = {
@@ -41,4 +42,4 @@ const background = {
     IN_GAME: 'in_game'
 };
 
-export {itemTypes, licenseTypes, resourceTypes, practiceTypes, questionTypes, color, background};
+export {itemTypes, licenseTypes, resourceTypes, gameTypes, questionTypes, color, background};

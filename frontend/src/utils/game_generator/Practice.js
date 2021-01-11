@@ -1,4 +1,4 @@
-import {licenseTypes, resourceTypes, practiceTypes} from "../../definitions/Types";
+import {licenseTypes, resourceTypes, gameTypes} from "../../definitions/Types";
 
 const generatePracticeTheoryLevel0 = () => {
     let data = [
@@ -7,7 +7,7 @@ const generatePracticeTheoryLevel0 = () => {
         {[licenseTypes.CC_BY_NC]: `Original authors must be credited; commercial use is NOT allowed`}
     ];
     return {
-        type: practiceTypes.THEORY,
+        type: gameTypes.PRACTICE_THEORY,
         level: 0,
         data: data,
         description: 'Match the CC licences with the corresponding definitions',
@@ -22,7 +22,7 @@ const generatePracticeTheoryLevel1 = () => {
         {[licenseTypes.CC_BY_NC_ND]: `Original authors must be credited; modification is NOT allowed; commercial use is NOT allowed`},
     ];
     return {
-        type: practiceTypes.THEORY,
+        type: gameTypes.PRACTICE_THEORY,
         level: 1,
         data: data,
         description: 'Match the CC licences with the corresponding definitions',
@@ -36,7 +36,7 @@ const generatePracticeTheoryLevel2 = () => {
         {Collage: 'Resources can be clearly differentiated from each other'}
     ];
     return {
-        type: practiceTypes.THEORY,
+        type: gameTypes.PRACTICE_THEORY,
         level: 2,
         data: data,
         description: 'Match the CC licences with the corresponding definitions',

@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Provider} from 'react-redux';
 import store from "./store";
 
-const keycloak = Keycloak('/keycloak.json');
+export const keycloak = Keycloak('/keycloak.json');
 keycloak
     .init({onLoad: 'login-required'})
     .then((authenticated) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector, useDispatch} from "react-redux";
-import {open_confirm_submission_dialog, close_confirm_submission_dialog} from "./ConfirmSubmissionDialogSlice";
+import {close_confirm_submission_dialog} from "./ConfirmSubmissionDialogSlice";
 import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";

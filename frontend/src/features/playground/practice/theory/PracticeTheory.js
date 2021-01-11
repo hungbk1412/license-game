@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch} from "react-redux";
 import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
 import Grid from "@material-ui/core/Grid";
@@ -10,6 +10,7 @@ import {menu_button_background, story_question} from "../../../../images";
 import {color} from "../../../../definitions/Types";
 import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
 import {open_confirm_submission_dialog, close_confirm_submission_dialog} from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
+import {increase_time, reset_time} from "../../../navbar/TimerSlice";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -164,6 +165,7 @@ function PracticeTheory(props) {
     };
 
     const goToNextLevel = () => {
+        dispatch(reset_time());
         dispatch(close_confirm_submission_dialog());
         dispatch(finish_a_practice(practice.id));
     };

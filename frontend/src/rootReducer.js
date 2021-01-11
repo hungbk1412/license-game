@@ -4,6 +4,8 @@ import currentPracticesListReducer from './features/playground/story/CurrentPrac
 import confirmSubmissionDialogReducer from './features/playground/dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice';
 import chooseLicenseDialogReducer from './features/playground/dialog/choose_license_dialog/ChooseLicenseDialogSlice';
 import gameProgressReducer from './features/playground/story/GameProgressSlice';
+import currentScoreReducer from './CurrentScoreSlice';
+import elapsedTime from './features/navbar/TimerSlice';
 import { combineReducers } from '@reduxjs/toolkit'
 
 const rootReducer = combineReducers({
@@ -12,7 +14,9 @@ const rootReducer = combineReducers({
      current_practices_list: currentPracticesListReducer,
      confirm_submission_dialog: confirmSubmissionDialogReducer,
      choose_license_dialog: chooseLicenseDialogReducer,
-     game_progress: gameProgressReducer
+     game_progress: gameProgressReducer,
+     current_score: currentScoreReducer,
+     elapsed_time: elapsedTime
 });
 
 

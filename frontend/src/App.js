@@ -109,7 +109,7 @@ function App() {
                     <Grid container justify={'center'} className={styles.root}>
                         <Grid container item direction={'column'} alignItems={'center'} className={styles.game} xs={12}
                               md={6} ref={game}>
-                            <NavBar score={score}/>
+                            <NavBar/>
                             <AnimatedSwitch/>
                         </Grid>
                     </Grid>
