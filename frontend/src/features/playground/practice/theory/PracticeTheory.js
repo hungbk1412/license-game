@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -7,10 +7,11 @@ import Button from "@material-ui/core/Button";
 import MatchRow from "./MatchRow";
 import lodash from 'lodash';
 import {menu_button_background, story_question} from "../../../../images";
-import {color} from "../../../../definitions/Types";
+import {color, gameTypes} from "../../../../definitions/Types";
 import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
 import {open_confirm_submission_dialog, close_confirm_submission_dialog} from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
-import {increase_time, reset_time} from "../../../navbar/TimerSlice";
+import {reset_time} from "../../../navbar/TimerSlice";
+import {set_score} from "../../../../ScoreSlice";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -99,8 +100,10 @@ function PracticeTheory(props) {
     const styles = useStyles();
     const dispatch = useDispatch();
     const practice = props.practice;
+    const elapsed_time = useSelector(state => state.elapsed_time);
+    const current_challenge = useSelector(state => state.current_challenge);
     const {symbols, descriptions, numberOfMatches} = extractSymbolAndDescriptionFromData(practice.data);
-    const helper_array = [...Array(numberOfMatches).keys()];
+    const [helper_array, set_helper_array] = useState([...Array(numberOfMatches).keys()]);
     const [orderedDescriptions, setOrderedDescriptions] = useState(initOrder(shuffle(descriptions)));
 
     const swap = (from, to) => {
@@ -134,6 +137,13 @@ function PracticeTheory(props) {
         let correctness = checkForCorrectness();
         if (correctness.result) {
             dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
+            dispatch(set_score({
+                type: gameTypes.PRACTICE_THEORY,
+                story_level: current_challenge.level,
+                practice_id: practice.id,
+                practice_level: practice.level,
+                elapsed_time: elapsed_time
+            }));
         } else {
             let newOrderedDescriptions = lodash.cloneDeep(orderedDescriptions);
             for (let i = 0; i < correctness.details.length; i++) {
@@ -170,6 +180,10 @@ function PracticeTheory(props) {
         dispatch(finish_a_practice(practice.id));
     };
 
+    useEffect(() => {
+        setOrderedDescriptions(initOrder(shuffle(descriptions)));
+        set_helper_array([...Array(numberOfMatches).keys()]);
+    }, [practice.id, current_challenge.level]);
     return (
         <Grid container item direction={'row'} justify={'center'} xs={10} className={styles.root}>
             <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
@@ -180,6 +194,8 @@ function PracticeTheory(props) {
             <Grid container item direction={'row'}>
                 {
                     helper_array.map(index => {
+                        console.log(index);
+                        console.log(orderedDescriptions);
                         return (
                             <MatchRow key={symbols[index] + '_' + descriptions[index]} index={index}
                                       symbol={symbols[index]} description={orderedDescriptions[index].description}

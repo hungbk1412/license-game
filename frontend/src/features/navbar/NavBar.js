@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = () => {
     let history = useHistory();
-    const current_score = useSelector(state => state.current_score);
+    const total_score = useSelector(state => state.score.total_score);
     const elapsed_time = useSelector(state => state.elapsed_time);
     const styles = useStyles();
     // true means open, false means close
@@ -72,18 +72,18 @@ const NavBar = () => {
     return (
         <Grid container item className={styles.root}>
             <Setting settingStatus={settingStatus} handleCloseSetting={handleCloseSetting}/>
-            <Grid container item xs={2} justify={'flex-start'}>
+            <Grid container item xs={4} justify={'flex-start'}>
                 <Button onClick={() => click_on_back_button()} className={styles.back_button}>
                 </Button>
             </Grid>
             <Grid container item xs={2} justify={'center'} className={styles.score}>
-                Score: {current_score}
+                Score: {total_score}
             </Grid>
             <Grid container item xs={2} justify={'center'} className={styles.score}>
                 Elapsed Time: {elapsed_time}
             </Grid>
-            <Grid container item justify={'flex-end'} xs={6}>
-                <Grid container item justify={'space-between'} xs={6}>
+            <Grid container item justify={'flex-end'} xs={4}>
+                <Grid container item justify={'space-between'} xs={9}>
                     <Grid item className={styles.player_name}>
                         Max Musterman
                     </Grid>

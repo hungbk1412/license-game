@@ -32,8 +32,8 @@ const generatePracticeTheoryLevel1 = () => {
 
 const generatePracticeTheoryLevel2 = () => {
     let data = [
-        {Composition: 'Resources are blended into the other and cannot be differentiated from each other'},
-        {Collage: 'Resources can be clearly differentiated from each other'}
+        {Composition: 'Resources can be clearly differentiated from each other'},
+        {Collage: 'Resources are blended into the other and cannot be differentiated from each other'}
     ];
     return {
         type: gameTypes.PRACTICE_THEORY,

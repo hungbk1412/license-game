@@ -19,7 +19,7 @@ import {
     set_licenses_to_be_excluded_from_answer
 } from "../dialog/choose_license_dialog/ChooseLicenseDialogSlice";
 import {set_result_for_level} from "./GameProgressSlice";
-import {questionTypes, color, background} from '../../../definitions/Types';
+import {questionTypes, color, background, gameTypes} from '../../../definitions/Types';
 import PracticeMode from '../practice/PracticeMode';
 import ChooseLicenseDialog from '../dialog/choose_license_dialog/ChooseLicenseDialog';
 import {checkCompatible, postProgress} from '../../../utils/Requests';
@@ -35,6 +35,7 @@ import {
 } from '../../../images';
 import {GameContext} from "../../../App";
 import {increase_time, reset_time} from "../../navbar/TimerSlice";
+import {set_score} from "../../../ScoreSlice";
 
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
@@ -161,6 +162,7 @@ function Story() {
     const current_practice = get_current_practice(current_practices_list);
     const nextChallenge = challengeGenerator(current_challenge.level + 1);
     const game_progress = useSelector(state => state.game_progress);
+    const elapsed_time = useSelector(state => state.elapsed_time);
     const [finalLicense, setFinalLicense] = useState('');
     const [failTimes, setFailTimes] = useState(0);
     // Only used for questions requiring players to choose many answer (choices)
@@ -311,8 +313,13 @@ function Story() {
     };
 
     const goToNextLevel = () => {
-        dispatch(reset_time());
         dispatch(close_confirm_submission_dialog());
+        dispatch(set_score({
+            type: gameTypes.STORY,
+            story_level: current_challenge.level,
+            elapsed_time: elapsed_time,
+            failed_times: failTimes
+        }));
         postProgress(window.accessToken, {
             [current_challenge.level]: {
                 answer: current_challenge.correctAnswer === null ? finalLicense : current_challenge.choices[current_challenge.correctAnswer].CC_license,
@@ -341,6 +348,7 @@ function Story() {
         } else {
             alert('Congratulation, end game');
         }
+        dispatch(reset_time());
     };
 
     /*

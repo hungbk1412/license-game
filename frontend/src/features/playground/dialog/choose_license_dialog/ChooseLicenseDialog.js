@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
 import {licenseTypes, color} from "../../../../definitions/Types";
-import {story_dialog, story_dialog_dropdown_background} from "../../../../images";
+import {story_dialog} from "../../../../images";
 
 const useStyles = makeStyles((theme) => ({
     pop_up: {

@@ -3,14 +3,8 @@ import DescriptionInPracticeTheory from "./DescriptionInPracticeTheory";
 import Grid from "@material-ui/core/Grid";
 import {useDrop} from "react-dnd";
 import {itemTypes} from "../../../../definitions/Types";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-
-const useStyles = makeStyles((theme) => ({
-
-}));
 
 const DropZone = (props) => {
-    const styles = useStyles();
     const index = props.index;
     const description = props.description;
     const swap = props.swap;

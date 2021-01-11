@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDrop} from "react-dnd";
-import {itemTypes, color} from "../../../../definitions/Types";
+import {itemTypes, color, gameTypes} from "../../../../definitions/Types";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ResourceInPractice from "./ResourceInPractice";
@@ -19,7 +19,8 @@ import {
 import {checkCompatible} from "../../../../utils/Requests";
 import {menu_button_background, practice_lava_frame, story_question} from "../../../../images";
 import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
-import {increase_time, reset_time} from "../../../navbar/TimerSlice";
+import {reset_time} from "../../../navbar/TimerSlice";
+import {set_score} from "../../../../ScoreSlice";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -90,6 +91,7 @@ function PracticeEditing(props) {
     const current_challenge = useSelector(state => state.current_story_level);
     const practice = props.practice;
     const choose_license_dialog = useSelector(state => state.choose_license_dialog);
+    const elapsed_time = useSelector(state => state.elapsed_time);
     const [chosenResourcesArray, setChosenResourcesArray] = useState(initChosenResourcesArray(practice.resources));
 
     const hasResourcesBeenChosen = (resource_id) => {
@@ -116,6 +118,13 @@ function PracticeEditing(props) {
             .then(res => {
                 if (res.hasOwnProperty('result') && res.result) {
                     dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
+                    dispatch(set_score({
+                        type: gameTypes.PRACTICE_EDITING_COLLAGE,
+                        story_level: current_challenge.level,
+                        practice_id: practice.id,
+                        practice_level: practice.level,
+                        elapsed_time: elapsed_time
+                    }));
                 } else {
                     dispatch(open_confirm_submission_dialog({correctness: false, message: FAIL_MESSAGE}));
                 }

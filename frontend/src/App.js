@@ -17,7 +17,7 @@ import {main_background, story_background} from "./images";
 import {background} from "./definitions/Types";
 import {TransitionGroup, CSSTransition} from "react-transition-group";
 import './App.css';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {init_fetch_game_progress} from "./features/playground/story/GameProgressSlice";
 
 const useStyles = makeStyles(theme => {
