@@ -166,6 +166,7 @@ function PracticeEditing(props) {
     const goToNextLevel = () => {
         set_show_up(false);
         setTimeout(() => {
+            set_show_up(true);
             dispatch(reset_time());
             dispatch(close_choose_license_dialog());
             dispatch(close_confirm_submission_dialog());
