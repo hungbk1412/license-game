@@ -115,13 +115,16 @@ app.post('/api/v1/score/post', keycloak.checkSso(), (req, res) => {
         })
         .then(current_user => {
             HighScoreModel
-                .find({position: {$lt: 10}})
+                .find({position: {$lt: 3}})
                 .then(slots => {
                     slots = check_high_score(slots, current_user);
                     HighScoreModel.deleteMany({}).then(res => {
                         return Promise.all(slots.map(slot => {
-                            console.log(slot);
-                            const high_score = new HighScoreModel({user: slot.user, score: slot.score, position: slot.position});
+                            const high_score = new HighScoreModel({
+                                user: slot.user,
+                                score: slot.score,
+                                position: slot.position
+                            });
                             return high_score.save();
                         })).then(res => res);
                     });
@@ -134,29 +137,16 @@ app.post('/api/v1/score/post', keycloak.checkSso(), (req, res) => {
             console.log('err :>> ', err);
             res.status(400).json("Failed");
         });
-
-
 });
 const check_high_score = (slots, current_user) => {
-    // let found_current_user_in_slots = false;
-    // for (let i = 0; i < slots.length; i++) {
-    //     if (slots[i].user === current_user._id && slots[i].score < current_user.score) {
-    //         slots[i].user = current_user._id;
-    //         slots[i].score = current_user.score;
-    //         found_current_user_in_slots = true;
-    //         break;
-    //     }
-    // }
-    let index_of_user_in_high_score_board = slots.findIndex((slot) => (slot.user === current_user._id && slot.score < current_user.score));
-    if (index_of_user_in_high_score_board !== -1) {
-        slots[index_of_user_in_high_score_board].user = current_user._id;
+    let index_of_user_in_high_score_board = slots.findIndex((slot) => (slot.user.toString() === current_user._id.toString()));
+    if (index_of_user_in_high_score_board !== -1 && slots[index_of_user_in_high_score_board].score <= current_user.score) {
         slots[index_of_user_in_high_score_board].score = current_user.score;
-    }
-    else if (slots.length < 3) {
-      slots.push({
-          user: current_user._id,
-          score: current_user.score
-      });
+    } else if (slots.length < 2 && index_of_user_in_high_score_board === -1) {
+        slots.push({
+            user: current_user._id,
+            score: current_user.score
+        });
     } else if (index_of_user_in_high_score_board === -1) {
         let pointer = -1;
         for (let i = 0; i < slots.length; i++) {
@@ -169,8 +159,11 @@ const check_high_score = (slots, current_user) => {
         if (pointer !== -1) {
             slots[pointer].user = current_user._id;
             slots[pointer].score = current_user.score;
+        } else {
+            console.log('user diem qua kem');
         }
     }
+    console.log('====================================================');
     slots.sort((slot1, slot2) => slot2.score - slot1.score);
 
     for (let i = 0; i < slots.length; i++) {
