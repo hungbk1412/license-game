@@ -21,6 +21,7 @@ import {menu_button_background, practice_lava_frame, story_question} from "../..
 import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
 import {reset_time} from "../../../navbar/TimerSlice";
 import {set_score} from "../../../../ScoreSlice";
+import Slide from "@material-ui/core/Slide";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -91,8 +92,8 @@ function PracticeEditing(props) {
     const current_challenge = useSelector(state => state.current_challenge);
     const practice = props.practice;
     const choose_license_dialog = useSelector(state => state.choose_license_dialog);
-    const elapsed_time = useSelector(state => state.elapsed_time);
     const [chosenResourcesArray, setChosenResourcesArray] = useState(initChosenResourcesArray(practice.resources));
+    const [show_up, set_show_up] = useState(true);
 
     const hasResourcesBeenChosen = (resource_id) => {
         const resource = chosenResourcesArray.find(element => element.resource_id === resource_id);
@@ -122,8 +123,7 @@ function PracticeEditing(props) {
                         type: gameTypes.PRACTICE_EDITING_COLLAGE,
                         story_level: current_challenge.level,
                         practice_id: practice.id,
-                        practice_level: practice.level,
-                        elapsed_time: elapsed_time
+                        practice_level: practice.level
                     }));
                 } else {
                     dispatch(open_confirm_submission_dialog({correctness: false, message: FAIL_MESSAGE}));
@@ -164,10 +164,13 @@ function PracticeEditing(props) {
     };
 
     const goToNextLevel = () => {
-        dispatch(reset_time());
-        dispatch(close_choose_license_dialog());
-        dispatch(close_confirm_submission_dialog());
-        dispatch(finish_a_practice(practice.id));
+        set_show_up(false);
+        setTimeout(() => {
+            dispatch(reset_time());
+            dispatch(close_choose_license_dialog());
+            dispatch(close_confirm_submission_dialog());
+            dispatch(finish_a_practice(practice.id));
+        }, 500);
     };
 
     useEffect(() => {
@@ -180,59 +183,70 @@ function PracticeEditing(props) {
             <ChooseLicenseDialog clickOnSubmitButton={clickOnSubmitButton}/>
             <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
             <Grid container item justify={'center'}>
-                <Grid container item direction={'row'} className={styles.header_container} xs={10} justify={'center'}
-                      alignItems={'center'}>
-                    <Grid item className={styles.header}>{practice.description}</Grid>
-                </Grid>
-                <Grid container item direction={'row'} justify={'space-around'} alignItems={'center'}
-                      className={styles.result_box} xs={10} ref={drop}>
+                <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
+                    <Grid container item direction={'row'} className={styles.header_container} xs={10}
+                          justify={'center'}
+                          alignItems={'center'}>
+                        <Grid item className={styles.header}>{practice.description}</Grid>
+                    </Grid>
+                </Slide>
+                <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
+                    <Grid container item direction={'row'} justify={'space-around'} alignItems={'center'}
+                          className={styles.result_box} xs={10} ref={drop}>
+                        {
+                            practice.resources.map((resource) => {
+                                if (hasResourcesBeenChosen(resource.resource_id)) {
+                                    const key = 'practice_resource.' + resource.resource_id;
+                                    return (
+                                        <ResourceInPractice key={key}
+                                                            width={'50px'}
+                                                            height={'50px'}
+                                                            resource_type={resource.resource_type}
+                                                            license={resource.license}
+                                                            resource_id={resource.resource_id}
+                                                            onClickRemoveResource={onClickRemoveResource}
+                                                            inside_the_result_box={true}
+                                        />
+                                    );
+                                }
+                            })
+                        }
+                    </Grid>
+                </Slide>
+            </Grid>
+            <Slide direction={'up'} in={show_up} mountOnEnter unmountOnExit>
+                <Grid container item justify={'center'} spacing={4}>
                     {
                         practice.resources.map((resource) => {
-                            if (hasResourcesBeenChosen(resource.resource_id)) {
+                            if (!hasResourcesBeenChosen(resource.resource_id)) {
                                 const key = 'practice_resource.' + resource.resource_id;
                                 return (
                                     <ResourceInPractice key={key}
-                                                        width={'50px'}
-                                                        height={'50px'}
+                                                        width={'100px'}
+                                                        height={'100px'}
                                                         resource_type={resource.resource_type}
                                                         license={resource.license}
                                                         resource_id={resource.resource_id}
                                                         onClickRemoveResource={onClickRemoveResource}
-                                                        inside_the_result_box={true}
+
                                     />
                                 );
                             }
                         })
                     }
                 </Grid>
-            </Grid>
-            <Grid container item justify={'center'} spacing={4}>
-                {
-                    practice.resources.map((resource) => {
-                        if (!hasResourcesBeenChosen(resource.resource_id)) {
-                            const key = 'practice_resource.' + resource.resource_id;
-                            return (
-                                <ResourceInPractice key={key}
-                                                    width={'100px'}
-                                                    height={'100px'}
-                                                    resource_type={resource.resource_type}
-                                                    license={resource.license}
-                                                    resource_id={resource.resource_id}
-                                                    onClickRemoveResource={onClickRemoveResource}
-
-                                />
-                            );
-                        }
-                    })
-                }
-            </Grid>
+            </Slide>
             <Grid container item justify={'space-around'} className={styles.button_container}>
                 <Grid item xs={4}>
-                    <Button fullWidth onClick={() => dispatch(open_choose_license_dialog())}
-                            className={styles.button}>Next</Button>
+                    <Slide direction={'up'} in={show_up} mountOnEnter unmountOnExit>
+                        <Button fullWidth onClick={() => dispatch(open_choose_license_dialog())}
+                                className={styles.button}>Next</Button>
+                    </Slide>
                 </Grid>
                 <Grid container item xs={4} justify={'center'}>
-                    <Button fullWidth onClick={clickOnSkip} className={styles.button}>Skip</Button>
+                    <Slide direction={'up'} in={show_up} mountOnEnter unmountOnExit>
+                        <Button fullWidth onClick={clickOnSkip} className={styles.button}>Skip</Button>
+                    </Slide>
                 </Grid>
             </Grid>
         </Grid>

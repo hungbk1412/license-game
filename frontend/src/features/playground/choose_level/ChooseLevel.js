@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {to_level} from "../story/CurrentChallangeSlice";
 import Grid from "@material-ui/core/Grid";
@@ -11,6 +11,7 @@ import Story from "../story/Story";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        'position': 'absolute',
         'margin': '100px 0px 100px 0px',
         'width': '100%'
     },

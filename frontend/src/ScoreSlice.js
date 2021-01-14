@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {gameTypes} from "./definitions/Types";
 import lodash from 'lodash';
 
@@ -7,11 +7,20 @@ const initial_state = {
     score_of_all_levels: {}
 };
 
+const set_score = createAsyncThunk(
+    'score/fetch_elapsed_time',
+    async (payload, thunkAPI) => {
+        const elapsed_time = thunkAPI.getState().elapsed_time;
+        return {...payload, elapsed_time}
+    }
+);
+
 const ScoreSlice = createSlice({
     name: 'score',
     initialState: initial_state,
-    reducers: {
-        set_score: (state, action) => {
+    reducers: {},
+    extraReducers: {
+        [set_score.fulfilled]: (state, action) => {
             // This is necessary because by default, redux pass in a state as a proxy
             let object_state = lodash.cloneDeep(state);
             let {type, story_level, practice_level, practice_id, elapsed_time, failed_times} = action.payload;
@@ -44,6 +53,6 @@ const ScoreSlice = createSlice({
     }
 });
 
-const {actions, reducer} = ScoreSlice;
-export const {set_score} = actions;
+const {reducer} = ScoreSlice;
+export {set_score};
 export default reducer

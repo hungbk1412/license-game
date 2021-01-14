@@ -162,7 +162,6 @@ function Story() {
     const current_practice = get_current_practice(current_practices_list);
     const nextChallenge = challengeGenerator(current_challenge.level + 1);
     const game_progress = useSelector(state => state.game_progress);
-    const elapsed_time = useSelector(state => state.elapsed_time);
     const score = useSelector(state => state.score);
     const [finalLicense, setFinalLicense] = useState('');
     const [failTimes, setFailTimes] = useState(0);
@@ -187,14 +186,10 @@ function Story() {
             color: 'none'
         }
     ]);
-    const [showUp, setShowUp] = useState({
+    const [show_up, set_show_up] = useState({
         stable_content: true,
         unstable_content: true,
     });
-
-    // useEffect(() => {
-    //     dispatch(to_level(level));
-    // });
 
     /*
         Open the dialog, in which players choose a license as their final answer
@@ -302,7 +297,7 @@ function Story() {
      */
     const setTransition = (enter) => {
         if (nextChallenge && nextChallenge.hasOwnProperty('practices')) {
-            setShowUp(prevState => (
+            set_show_up(prevState => (
                 {
                     ...prevState,
                     stable_content: enter,
@@ -310,7 +305,7 @@ function Story() {
                 }
             ));
         } else {
-            setShowUp(prevState => (
+            set_show_up(prevState => (
                 {
                     ...prevState,
                     unstable_content: enter
@@ -324,7 +319,6 @@ function Story() {
         dispatch(set_score({
             type: gameTypes.STORY,
             story_level: current_challenge.level,
-            elapsed_time: elapsed_time,
             failed_times: failTimes
         }));
         postProgress(window.accessToken, {
@@ -431,14 +425,14 @@ function Story() {
     } else {
         return (
             <Grid container item direction={'row'} justify={'center'} alignItems={'center'} className={styles.root}>
-                <Slide direction={'left'} in={showUp.stable_content} mountOnEnter unmountOnExit>
+                <Slide direction={'left'} in={show_up.stable_content} mountOnEnter unmountOnExit>
                     <img className={styles.smith} src={story_smith}/>
                 </Slide>
                 <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
                 <ChooseLicenseDialog clickOnSubmitButton={clickOnSubmitButton}/>
                 <Grid container item direction={'row'} justify={'center'} xs={11}>
                     <Grid container item xs={12} justify={'flex-start'}>
-                        <Slide direction={'right'} in={showUp.stable_content} mountOnEnter unmountOnExit>
+                        <Slide direction={'right'} in={show_up.stable_content} mountOnEnter unmountOnExit>
                             <Grid container item xs={11} className={styles.context}
                                   justify={'center'}>
                                 {current_challenge.context}
@@ -446,7 +440,7 @@ function Story() {
                         </Slide>
                     </Grid>
                     <Grid container item xs={12} justify={'flex-start'}>
-                        <Slide direction={'right'} in={showUp.unstable_content} mountOnEnter unmountOnExit>
+                        <Slide direction={'right'} in={show_up.unstable_content} mountOnEnter unmountOnExit>
                             <Grid container item xs={7} className={styles.picture} justify={'center'}
                                   alignItems={'center'}>
                                 <img className={styles.image_container} src={story_description_image_container}/>
@@ -454,7 +448,7 @@ function Story() {
                             </Grid>
                         </Slide>
                     </Grid>
-                    <Slide direction={'left'} in={showUp.unstable_content} mountOnEnter unmountOnExit>
+                    <Slide direction={'left'} in={show_up.unstable_content} mountOnEnter unmountOnExit>
                         <Grid container item className={styles.question} justify={'center'}
                               alignItems={'center'} xs={11}>
                             {current_challenge.question}
@@ -468,7 +462,7 @@ function Story() {
                                             display_text={current_challenge.choices[choiceNumber].display_text}
                                             choice_number={choiceNumber}
                                             is_selected={choices[choiceNumber].is_selected}
-                                            show_up={showUp.unstable_content}/>
+                                            show_up={show_up.unstable_content}/>
                                 )
                             })
                         }

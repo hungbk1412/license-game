@@ -9,9 +9,13 @@ import lodash from 'lodash';
 import {menu_button_background, story_question} from "../../../../images";
 import {color, gameTypes} from "../../../../definitions/Types";
 import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
-import {open_confirm_submission_dialog, close_confirm_submission_dialog} from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
+import {
+    open_confirm_submission_dialog,
+    close_confirm_submission_dialog
+} from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
 import {reset_time} from "../../../navbar/TimerSlice";
 import {set_score} from "../../../../ScoreSlice";
+import Slide from "@material-ui/core/Slide";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -100,11 +104,11 @@ function PracticeTheory(props) {
     const styles = useStyles();
     const dispatch = useDispatch();
     const practice = props.practice;
-    const elapsed_time = useSelector(state => state.elapsed_time);
     const current_challenge = useSelector(state => state.current_challenge);
     const {symbols, descriptions, numberOfMatches} = extractSymbolAndDescriptionFromData(practice.data);
     const [helper_array, set_helper_array] = useState([...Array(numberOfMatches).keys()]);
     const [orderedDescriptions, setOrderedDescriptions] = useState(initOrder(shuffle(descriptions)));
+    const [show_up, set_show_up] = useState(true);
 
     const swap = (from, to) => {
         const source = orderedDescriptions[from];
@@ -141,8 +145,7 @@ function PracticeTheory(props) {
                 type: gameTypes.PRACTICE_THEORY,
                 story_level: current_challenge.level,
                 practice_id: practice.id,
-                practice_level: practice.level,
-                elapsed_time: elapsed_time
+                practice_level: practice.level
             }));
         } else {
             let newOrderedDescriptions = lodash.cloneDeep(orderedDescriptions);
@@ -174,10 +177,16 @@ function PracticeTheory(props) {
         return correctness;
     };
 
+
     const goToNextLevel = () => {
-        dispatch(reset_time());
-        dispatch(close_confirm_submission_dialog());
-        dispatch(finish_a_practice(practice.id));
+        set_show_up(false);
+        setTimeout(() => {
+            set_show_up(true);
+            dispatch(reset_time());
+            dispatch(close_confirm_submission_dialog());
+            dispatch(finish_a_practice(practice.id));
+        }, 500);
+
     };
 
     useEffect(() => {
@@ -187,31 +196,37 @@ function PracticeTheory(props) {
     return (
         <Grid container item direction={'row'} justify={'center'} xs={10} className={styles.root}>
             <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
-            <Grid container item direction={'row'} className={styles.header_container} xs={10} justify={'center'}
-                  alignItems={'center'}>
-                <Grid item className={styles.header}>{practice.description}</Grid>
-            </Grid>
-            <Grid container item direction={'row'}>
-                {
-                    helper_array.map(index => {
-                        return (
-                            <MatchRow key={symbols[index] + '_' + descriptions[index]} index={index}
-                                      symbol={symbols[index]} description={orderedDescriptions[index].description}
-                                      swap={swap} color={orderedDescriptions[index].color}
-                                      resetColor={resetColor}/>
-                        );
-                    })
-                }
-            </Grid>
-            <Grid container item xs={12} justify={'space-around'} className={styles.buttons_container}>
-                <Grid container item xs={4} justify={'center'}>
-                    <Button fullWidth color={"primary"}
-                            onClick={clickOnSubmit} className={styles.button}>Submit</Button>
+            <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
+                <Grid container item direction={'row'} className={styles.header_container} xs={10} justify={'center'}
+                      alignItems={'center'}>
+                    <Grid item className={styles.header}>{practice.description}</Grid>
                 </Grid>
-                <Grid container item xs={4} justify={'center'}>
-                    <Button fullWidth onClick={clickOnSkip} className={styles.button}>Skip</Button>
+            </Slide>
+            <Slide direction={'left'} in={show_up} mountOnEnter unmountOnExit>
+                <Grid container item direction={'row'}>
+                    {
+                        helper_array.map(index => {
+                            return (
+                                <MatchRow key={symbols[index] + '_' + descriptions[index]} index={index}
+                                          symbol={symbols[index]} description={orderedDescriptions[index].description}
+                                          swap={swap} color={orderedDescriptions[index].color}
+                                          resetColor={resetColor}/>
+                            );
+                        })
+                    }
                 </Grid>
-            </Grid>
+            </Slide>
+            <Slide direction={'up'} in={show_up} mountOnEnter unmountOnExit>
+                <Grid container item xs={12} justify={'space-around'} className={styles.buttons_container}>
+                    <Grid container item xs={4} justify={'center'}>
+                        <Button fullWidth color={"primary"}
+                                onClick={clickOnSubmit} className={styles.button}>Submit</Button>
+                    </Grid>
+                    <Grid container item xs={4} justify={'center'}>
+                        <Button fullWidth onClick={clickOnSkip} className={styles.button}>Skip</Button>
+                    </Grid>
+                </Grid>
+            </Slide>
         </Grid>
     )
 }

@@ -4,6 +4,7 @@ import DropZone from "./DropZone";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {color} from "../../../../definitions/Types";
 import {practice_theory_symbol, practice_lava_frame} from "../../../../images";
+import Slide from "@material-ui/core/Slide";
 
 const useStyles = makeStyles((theme) => ({
     root: {
