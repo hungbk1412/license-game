@@ -8,6 +8,7 @@ import Setting from "./setting/Setting";
 import {makeStyles} from "@material-ui/core/styles";
 import {color} from "../../definitions/Types";
 import {keycloak} from "../../index";
+import jwt_decode from 'jwt-decode';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -49,6 +50,7 @@ const NavBar = () => {
     let history = useHistory();
     const total_score = useSelector(state => state.score.total_score);
     const elapsed_time = useSelector(state => state.elapsed_time);
+    const decoded_token = jwt_decode(window.accessToken);
     const styles = useStyles();
     // true means open, false means close
     const [settingStatus, setSettingStatus] = useState(false);
@@ -85,7 +87,7 @@ const NavBar = () => {
             <Grid container item justify={'flex-end'} xs={4}>
                 <Grid container item justify={'space-between'} xs={9}>
                     <Grid item className={styles.player_name}>
-                        Max Musterman
+                        {decoded_token.preferred_username}
                     </Grid>
                     <Grid item>
                         <Button onClick={handleOpenSetting} className={styles.setting_button}>

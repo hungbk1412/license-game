@@ -59,4 +59,25 @@ const postProgress = (token, level) => {
         });
 };
 
-export {checkCompatible, getProgress, postProgress}
+const postScore = (token, score) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({
+            score: score
+        })
+    };
+
+    return fetch(BASE_URL_API + API_PATH.SCORE_POST, requestOptions)
+        .then(res => {
+            return res;
+        })
+        .catch(e => {
+            throw (e);
+        });
+};
+
+export {checkCompatible, getProgress, postProgress, postScore}

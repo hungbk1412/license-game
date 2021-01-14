@@ -88,7 +88,7 @@ const initChosenResourcesArray = (arr) => {
 function PracticeEditing(props) {
     const styles = useStyles();
     const dispatch = useDispatch();
-    const current_challenge = useSelector(state => state.current_story_level);
+    const current_challenge = useSelector(state => state.current_challenge);
     const practice = props.practice;
     const choose_license_dialog = useSelector(state => state.choose_license_dialog);
     const elapsed_time = useSelector(state => state.elapsed_time);

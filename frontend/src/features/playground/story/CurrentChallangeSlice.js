@@ -63,10 +63,11 @@ const CurrentChallengeSlice = createSlice({
             });
             return current_challenge;
         },
+        reset_to_default_challenge: (state, action) => initial_state
     }
 });
 
 const { actions, reducer } = CurrentChallengeSlice;
-export const {to_level, to_next_level, prepare_oer_resources, prepare_choice_for_last_level} = actions;
+export const {to_level, prepare_oer_resources, prepare_choice_for_last_level, reset_to_default_challenge} = actions;
 
 export default reducer

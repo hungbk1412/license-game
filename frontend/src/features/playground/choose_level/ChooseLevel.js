@@ -1,6 +1,6 @@
 import React, {useEffect, useContext} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {set_story_level} from "./CurrentStoryLevelSlice";
+import {to_level} from "../story/CurrentChallangeSlice";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
@@ -49,15 +49,14 @@ const ChooseLevel = (props) => {
     const styles = useStyles();
     const dispatch = useDispatch();
     const game_progress = useSelector(state => state.game_progress);
-    const current_story_level = useSelector(state => state.current_story_level);
+    const current_challenge = useSelector(state => state.current_challenge);
     const helper_arr = [...Array(7).keys()];
     const game_context = useContext(GameContext);
     const number_of_unlocked_level = Object.keys(game_progress).length;
 
     const onClickLevel = (level) => {
-        dispatch(set_story_level(level));
+        dispatch(to_level(level));
     };
-
 
     useEffect(() => {
         if (game_context.background.current_background !== background.MAIN_MENU) {
@@ -66,7 +65,7 @@ const ChooseLevel = (props) => {
         }
     });
 
-    if (current_story_level === -1) {
+    if (current_challenge.level === -1) {
         return (
             <Grid container direction={'column'} spacing={1} className={styles.root}>
                 <Grid container item justify={'center'}>

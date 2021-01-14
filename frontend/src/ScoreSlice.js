@@ -12,6 +12,8 @@ const ScoreSlice = createSlice({
     initialState: initial_state,
     reducers: {
         set_score: (state, action) => {
+            // This is necessary because by default, redux pass in a state as a proxy
+            let object_state = lodash.cloneDeep(state);
             let {type, story_level, practice_level, practice_id, elapsed_time, failed_times} = action.payload;
             let story_coefficient = 50;
             let practice_coefficient = 150;
@@ -24,20 +26,20 @@ const ScoreSlice = createSlice({
             let total_point = level_point + time_point;
 
             if (type === gameTypes.STORY) {
-                let current_point = lodash.get(state, ['score_of_all_levels', story_level, 'value'], 0);
+                let current_point = lodash.get(object_state, ['score_of_all_levels', story_level, 'value'], 0);
                 if (current_point < total_point) {
-                    lodash.set(state, ['score_of_all_levels', story_level, 'value'], total_point);
-                    state.total_score = state.total_score - current_point + total_point;
+                    lodash.set(object_state, ['score_of_all_levels', story_level, 'value'], total_point);
+                    object_state.total_score = object_state.total_score - current_point + total_point;
                 }
             } else {
-                let current_point = lodash.get(state, ['score_of_all_levels', story_level, practice_id, 'value'], 0);
+                let current_point = lodash.get(object_state, ['score_of_all_levels', story_level, practice_id, 'value'], 0);
                 if (current_point < total_point) {
-                    lodash.set(state, ['score_of_all_levels', story_level, practice_id, 'value'], total_point);
-                    state.total_score = state.total_score - current_point + total_point;
+                    lodash.set(object_state, `score_of_all_levels.${story_level}.${practice_id}.value`, total_point);
+                    object_state.total_score = object_state.total_score - current_point + total_point;
                 }
             }
 
-            return state;
+            return object_state;
         }
     }
 });

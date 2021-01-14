@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
+import {Redirect} from 'react-router-dom';
 import {useSelector, useDispatch} from "react-redux";
 import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
@@ -6,7 +7,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import challengeGenerator from '../../../utils/game_generator/Story';
 import {to_level, prepare_choice_for_last_level, prepare_oer_resources} from "./CurrentChallangeSlice";
-import {set_story_level} from '../choose_level/CurrentStoryLevelSlice';
 import {set_practices_list} from "./CurrentPracticesListSlice";
 import {
     open_confirm_submission_dialog,
@@ -36,6 +36,7 @@ import {
 import {GameContext} from "../../../App";
 import {increase_time, reset_time} from "../../navbar/TimerSlice";
 import {set_score} from "../../../ScoreSlice";
+import {postScore} from "../../../utils/Requests";
 
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
@@ -154,7 +155,6 @@ function Story() {
     const styles = useStyles();
     const game_context = useContext(GameContext);
     const dispatch = useDispatch();
-    const current_story_level = useSelector(state => state.current_story_level);
     const current_challenge = useSelector(state => state.current_challenge);
     const choose_license_dialog = useSelector(state => state.choose_license_dialog);
     const [chosenLicenses, setChosenLicenses] = useState([]);
@@ -163,8 +163,11 @@ function Story() {
     const nextChallenge = challengeGenerator(current_challenge.level + 1);
     const game_progress = useSelector(state => state.game_progress);
     const elapsed_time = useSelector(state => state.elapsed_time);
+    const score = useSelector(state => state.score);
     const [finalLicense, setFinalLicense] = useState('');
     const [failTimes, setFailTimes] = useState(0);
+    const [back_to_main_menu, set_back_to_main_menu] = useState(false);
+
     // Only used for questions requiring players to choose many answer (choices)
     const [choices, setChoices] = useState([
         {
@@ -188,6 +191,10 @@ function Story() {
         stable_content: true,
         unstable_content: true,
     });
+
+    // useEffect(() => {
+    //     dispatch(to_level(level));
+    // });
 
     /*
         Open the dialog, in which players choose a license as their final answer
@@ -280,7 +287,7 @@ function Story() {
         } else if (current_challenge.correctAnswer === choiceNumber) {
             dispatch(set_result_for_level({
                 level: current_challenge.level,
-                result: current_challenge.choices[current_challenge.correctAnswer]
+                result: current_challenge.choices[current_challenge.correctAnswer].CC_license
             }));
             dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
         } else {
@@ -294,7 +301,7 @@ function Story() {
         @param bool enter enter = true means sliding in, enter = false means sliding out
      */
     const setTransition = (enter) => {
-        if (nextChallenge.hasOwnProperty('practices')) {
+        if (nextChallenge && nextChallenge.hasOwnProperty('practices')) {
             setShowUp(prevState => (
                 {
                     ...prevState,
@@ -343,9 +350,11 @@ function Story() {
                 if (nextChallenge.hasOwnProperty('practices')) {
                     dispatch(set_practices_list(nextChallenge.practices));
                 }
-                dispatch(set_story_level(current_story_level + 1));
+                dispatch(to_level(current_challenge.level + 1));
             }), 500);
         } else {
+            postScore(window.accessToken, score.total_score).then(res => console.log(res)).catch(err => console.log(err));
+            set_back_to_main_menu(true);
             alert('Congratulation, end game');
         }
         dispatch(reset_time());
@@ -360,12 +369,6 @@ function Story() {
         }
     }, [current_challenge.level]);
 
-    /*
-    Move to next level if current_story_level is changed
-     */
-    useEffect(() => {
-        dispatch(to_level(current_story_level));
-    }, [current_story_level]);
 
     /*
     Set background
@@ -382,6 +385,7 @@ function Story() {
      */
     useEffect(() => {
         if (current_challenge.hasOwnProperty('require_result_of_levels')) {
+            console.log(current_challenge);
             dispatch(prepare_oer_resources(game_progress));
         }
     }, [current_challenge.level]);
@@ -403,7 +407,6 @@ function Story() {
 
     /*
      Exclude some licenses from answer according to requirement of the level
-     The dependency is challenge.level, not current_story_level is for the case user directly jump to level 5 from main menu
      */
     useEffect(() => {
         if (current_challenge.hasOwnProperty('licenses_to_be_excluded_from_answer')) {
@@ -415,7 +418,7 @@ function Story() {
     useEffect(() => {
         let timer = setInterval(() => {
             dispatch(increase_time());
-        },1000);
+        }, 1000);
         return () => {
             clearInterval(timer);
         };
@@ -423,6 +426,8 @@ function Story() {
 
     if (current_practice !== null) {
         return <PracticeMode practice={current_practice}/>
+    } else if (back_to_main_menu) {
+        return (<Redirect to={'/'}/>)
     } else {
         return (
             <Grid container item direction={'row'} justify={'center'} alignItems={'center'} className={styles.root}>

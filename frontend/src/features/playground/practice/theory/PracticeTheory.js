@@ -194,8 +194,6 @@ function PracticeTheory(props) {
             <Grid container item direction={'row'}>
                 {
                     helper_array.map(index => {
-                        console.log(index);
-                        console.log(orderedDescriptions);
                         return (
                             <MatchRow key={symbols[index] + '_' + descriptions[index]} index={index}
                                       symbol={symbols[index]} description={orderedDescriptions[index].description}

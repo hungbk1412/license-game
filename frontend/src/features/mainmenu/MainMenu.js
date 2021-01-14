@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {useDispatch} from "react-redux";
-import {set_story_level} from "../playground/choose_level/CurrentStoryLevelSlice";
+import {reset_to_default_challenge} from "../playground/story/CurrentChallangeSlice";
+import {reset_to_default_practices_list} from "../playground/story/CurrentPracticesListSlice";
 import Grid from "@material-ui/core/Grid";
 import Button from '@material-ui/core/Button';
 import {makeStyles} from "@material-ui/core/styles";
@@ -33,7 +34,7 @@ function MainMenu() {
     const dispatch = useDispatch();
     const [to_story, set_to_story] = useState(false);
     const [to_instruction, set_to_instruction] = useState(false);
-    const [to_achievements, set_to_achievements] = useState(false);
+    const [to_high_score, set_to_high_score] = useState(false);
     const game_context = useContext(GameContext);
 
     const onClickStory = (e) => {
@@ -46,13 +47,14 @@ function MainMenu() {
         set_to_instruction(true)
     };
 
-    const onClickMyAchievements = (e) => {
+    const onClickHighScore = (e) => {
         e.preventDefault();
-        set_to_achievements(true)
+        set_to_high_score(true);
     };
 
     useEffect(() => {
-        dispatch(set_story_level(-1));
+        dispatch(reset_to_default_challenge());
+        dispatch(reset_to_default_practices_list());
     });
 
     useEffect(() => {
@@ -70,11 +72,12 @@ function MainMenu() {
         return (
             <Redirect to={'/instruction'}/>
         )
-    } else if (to_achievements) {
+    } else if (to_high_score) {
         return (
-            <Redirect to={'/achievements'}/>
+            <Redirect to={'/high-score'}/>
         )
-    } else {
+    }
+    else {
         return (
             <Grid container direction={'column'} spacing={10} className={styles.root}>
                 <Grid container item justify={'center'}>
@@ -89,8 +92,8 @@ function MainMenu() {
                 </Grid>
                 <Grid container item justify={'center'}>
                     <Grid item xs={6} md={5}>
-                        <Button className={styles.button} fullWidth onClick={onClickMyAchievements}>My
-                            Achievements</Button>
+                        <Button className={styles.button} fullWidth onClick={onClickHighScore}>My
+                            High Score</Button>
                     </Grid>
                 </Grid>
             </Grid>

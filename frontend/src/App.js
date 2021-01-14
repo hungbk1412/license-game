@@ -6,7 +6,6 @@ import {
     withRouter
 } from 'react-router-dom';
 import MainMenu from './features/mainmenu/MainMenu';
-import AchievementsTable from './AchievementsTable';
 import ChooseLevel from "./features/playground/choose_level/ChooseLevel";
 import Grid from '@material-ui/core/Grid';
 import NavBar from './features/navbar/NavBar';
@@ -19,6 +18,8 @@ import {TransitionGroup, CSSTransition} from "react-transition-group";
 import './App.css';
 import {useDispatch} from "react-redux";
 import {init_fetch_game_progress} from "./features/playground/story/GameProgressSlice";
+import HighScore from "./features/high_score/HighScore";
+import Story from "./features/playground/story/Story";
 
 const useStyles = makeStyles(theme => {
     return {
@@ -76,8 +77,8 @@ function App() {
                         <Route path={'/'}
                                component={() => <MainMenu/>}
                                exact/>
-                        <Route path={'/achievements'} component={AchievementsTable}/>
-                        <Route path={'/play'} component={() => <ChooseLevel/>} exact/>
+                        <Route path={'/play'} component={() => <ChooseLevel change_to_story_background={changeToInGameBackground}/>} exact/>
+                        <Route path={'/high-score'} component={HighScore} exact/>
                     </Switch>
                 </CSSTransition>
             </TransitionGroup>
