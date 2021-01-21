@@ -6,8 +6,9 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
-import {licenseTypes, color} from "../../../../definitions/Types";
+import {license_types, color} from "../../../../definitions/Types";
 import {story_dialog} from "../../../../images";
+import {menu_button_background} from "../../../../images";
 
 const useStyles = makeStyles((theme) => ({
     pop_up: {
@@ -40,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
     },
     submit_button: {
         'margin-bottom': '20px',
+        'background-image': `url(${menu_button_background})`,
+        'background-size': '100% 100%',
+    },
+    submit_button_container: {
+        'width': '100px'
     },
     dropdown: {
 
@@ -48,17 +54,18 @@ const useStyles = makeStyles((theme) => ({
 
 function ChooseLicenseDialog(props) {
     const styles = useStyles();
+    const click_on_submit_button = props.click_on_submit_button;
     const dispatch = useDispatch();
     const {is_opening, message, licenses_to_be_excluded_from_answer, chosen_license} = useSelector(state => state.choose_license_dialog);
     const getToBeDisplayedLicenses = () => {
         if (!licenses_to_be_excluded_from_answer) {
-            return Object.values(licenseTypes);
+            return Object.values(license_types);
         }
         let result = [];
-        for (const license in licenseTypes) {
-            if (licenseTypes.hasOwnProperty(license)) {
-                if (!licenses_to_be_excluded_from_answer.includes(licenseTypes[license])) {
-                    result.push(licenseTypes[license]);
+        for (const license in license_types) {
+            if (license_types.hasOwnProperty(license)) {
+                if (!licenses_to_be_excluded_from_answer.includes(license_types[license])) {
+                    result.push(license_types[license]);
                 }
             }
         }
@@ -69,7 +76,7 @@ function ChooseLicenseDialog(props) {
         <Modal open={is_opening}
                onClose={() => dispatch(close_choose_license_dialog())}>
             <Grid className={styles.pop_up}>
-                <Form onSubmit={props.clickOnSubmitButton} className={styles.full_size}>
+                <Form onSubmit={click_on_submit_button} className={styles.full_size}>
                     <Grid container direction={'column'} alignItems={'center'} justify={'space-around'} className={styles.full_size}>
                         <Grid item className={styles.message}>
                             {message}
@@ -90,8 +97,8 @@ function ChooseLicenseDialog(props) {
                                 </Form.Control>
                             </Form.Group>
                         </Grid>
-                        <Grid item>
-                            <Button variant={'contained'} type={'submit'} className={styles.submit_button}>
+                        <Grid item className={styles.submit_button_container}>
+                            <Button type={'submit'} fullWidth className={styles.submit_button}>
                                 Submit
                             </Button>
                         </Grid>

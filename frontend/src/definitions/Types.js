@@ -1,9 +1,9 @@
-const itemTypes = {
+const item_types = {
     PRACTICE_RESOURCE: 'practice_resource',
     PRACTICE_THEORY: 'practice_theory'
 };
 
-const licenseTypes = {
+const license_types = {
     CC_ZERO: 'cc_zero',
     CC_BY: 'cc_by',
     CC_BY_SA: 'cc_by_sa',
@@ -13,14 +13,14 @@ const licenseTypes = {
     CC_BY_ND: 'cc_by_nd',
 };
 
-const resourceTypes = {
+const resource_types = {
     AUDIO: 'audio',
     DOCUMENT: 'document',
     PICTURE: 'picture',
     VIDEO: 'video'
 };
 
-const gameTypes = {
+const game_types = {
     PRACTICE_THEORY: 'practice_theory',
     PRACTICE_EDITING_COMPOSITION: 'practice_editing_composition',
     PRACTICE_EDITING_COLLAGE: 'practice_editing_collage',
@@ -42,4 +42,4 @@ const background = {
     IN_GAME: 'in_game'
 };
 
-export {itemTypes, licenseTypes, resourceTypes, gameTypes, questionTypes, color, background};
+export {item_types, license_types, resource_types, game_types, questionTypes, color, background};

@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import MatchRow from "./MatchRow";
 import lodash from 'lodash';
 import {menu_button_background, story_question} from "../../../../images";
-import {color, gameTypes} from "../../../../definitions/Types";
+import {color, game_types} from "../../../../definitions/Types";
 import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
 import {
     open_confirm_submission_dialog,
@@ -28,20 +28,18 @@ const useStyles = makeStyles((theme) => ({
         'color': color.NORMAL_TEXT_WHITE
     },
     header_container: {
-        'background-image': `url(${story_question})`,
-        'background-size': '100% 100%',
         [theme.breakpoints.up('sm')]: {
-            'height': '90px',
-            'margin-bottom': '10px'
+            'height': '90px'
         },
         [theme.breakpoints.up('xl')]: {
-            'height': '70px',
-            'margin-bottom': '10px'
+            'height': '120px'
         },
+        'background-image': `url(${story_question})`,
+        'background-size': '100% 100%'
     },
     buttons_container: {
         'position': 'absolute',
-        'bottom': '50px'
+        'bottom': '25px'
     },
     button: {
         'background-image': `url(${menu_button_background})`,
@@ -91,7 +89,7 @@ const shuffle = (array) => {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
 
-        // And swap it with the current element.
+        // And swap_position_of_two_rows it with the current element.
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
@@ -110,7 +108,7 @@ function PracticeTheory(props) {
     const [orderedDescriptions, setOrderedDescriptions] = useState(initOrder(shuffle(descriptions)));
     const [show_up, set_show_up] = useState(true);
 
-    const swap = (from, to) => {
+    const swap_position_of_two_rows = (from, to) => {
         const source = orderedDescriptions[from];
         const target = orderedDescriptions[to];
         setOrderedDescriptions(prevState => {
@@ -121,7 +119,7 @@ function PracticeTheory(props) {
         });
     };
 
-    const resetColor = () => {
+    const reset_color = () => {
         setOrderedDescriptions(prevState => {
             let newOrder = lodash.cloneDeep(prevState);
             return newOrder.map(elem => {
@@ -131,18 +129,18 @@ function PracticeTheory(props) {
         });
     };
 
-    const clickOnSkip = (e) => {
+    const click_on_skip = (e) => {
         e.preventDefault();
-        goToNextLevel();
+        go_to_next_level();
     };
 
-    const clickOnSubmit = (e) => {
+    const click_on_submit = (e) => {
         e.preventDefault();
-        let correctness = checkForCorrectness();
+        let correctness = check_for_correctness();
         if (correctness.result) {
             dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
             dispatch(set_score({
-                type: gameTypes.PRACTICE_THEORY,
+                type: game_types.PRACTICE_THEORY,
                 story_level: current_challenge.level,
                 practice_id: practice.id,
                 practice_level: practice.level
@@ -161,7 +159,7 @@ function PracticeTheory(props) {
         }
     };
 
-    const checkForCorrectness = () => {
+    const check_for_correctness = () => {
         let correctness = {
             details: [],
             result: true
@@ -178,12 +176,12 @@ function PracticeTheory(props) {
     };
 
 
-    const goToNextLevel = () => {
+    const go_to_next_level = () => {
         set_show_up(false);
+        dispatch(reset_time());
+        dispatch(close_confirm_submission_dialog());
         setTimeout(() => {
             set_show_up(true);
-            dispatch(reset_time());
-            dispatch(close_confirm_submission_dialog());
             dispatch(finish_a_practice(practice.id));
         }, 500);
 
@@ -194,23 +192,23 @@ function PracticeTheory(props) {
         set_helper_array([...Array(numberOfMatches).keys()]);
     }, [practice.id, current_challenge.level]);
     return (
-        <Grid container item direction={'row'} justify={'center'} xs={10} className={styles.root}>
-            <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
+        <Grid container item direction={'row'} justify={'center'} alignItems={'flex-start'} alignContent={'flex-start'} xs={10} className={styles.root}>
+            <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
             <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
                 <Grid container item direction={'row'} className={styles.header_container} xs={10} justify={'center'}
                       alignItems={'center'}>
                     <Grid item className={styles.header}>{practice.description}</Grid>
                 </Grid>
             </Slide>
-            <Slide direction={'left'} in={show_up} mountOnEnter unmountOnExit>
-                <Grid container item direction={'row'}>
+            <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
+                <Grid container item direction={'row'} xs={12}>
                     {
                         helper_array.map(index => {
                             return (
                                 <MatchRow key={symbols[index] + '_' + descriptions[index]} index={index}
                                           symbol={symbols[index]} description={orderedDescriptions[index].description}
-                                          swap={swap} color={orderedDescriptions[index].color}
-                                          resetColor={resetColor}/>
+                                          swap_position_of_two_rows={swap_position_of_two_rows} color={orderedDescriptions[index].color}
+                                          reset_color={reset_color}/>
                             );
                         })
                     }
@@ -220,10 +218,10 @@ function PracticeTheory(props) {
                 <Grid container item xs={12} justify={'space-around'} className={styles.buttons_container}>
                     <Grid container item xs={4} justify={'center'}>
                         <Button fullWidth color={"primary"}
-                                onClick={clickOnSubmit} className={styles.button}>Submit</Button>
+                                onClick={click_on_submit} className={styles.button}>Submit</Button>
                     </Grid>
                     <Grid container item xs={4} justify={'center'}>
-                        <Button fullWidth onClick={clickOnSkip} className={styles.button}>Skip</Button>
+                        <Button fullWidth onClick={click_on_skip} className={styles.button}>Skip</Button>
                     </Grid>
                 </Grid>
             </Slide>

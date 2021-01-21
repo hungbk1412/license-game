@@ -1,13 +1,13 @@
-import {licenseTypes, resourceTypes, gameTypes} from "../../definitions/Types";
+import {license_types, resource_types, game_types} from "../../definitions/Types";
 
 const generatePracticeTheoryLevel0 = () => {
     let data = [
-        {[licenseTypes.CC_BY]: `Original authors must be credited`},
-        {[licenseTypes.CC_BY_SA]: `Original authors must be credited; redistribution with the exact same license`},
-        {[licenseTypes.CC_BY_NC]: `Original authors must be credited; commercial use is NOT allowed`}
+        {[license_types.CC_BY]: `Original authors must be credited`},
+        {[license_types.CC_BY_SA]: `Original authors must be credited; redistribution with the exact same license`},
+        {[license_types.CC_BY_NC]: `Original authors must be credited; commercial use is NOT allowed`}
     ];
     return {
-        type: gameTypes.PRACTICE_THEORY,
+        type: game_types.PRACTICE_THEORY,
         level: 0,
         data: data,
         description: 'Match the CC licences with the corresponding definitions',
@@ -17,12 +17,12 @@ const generatePracticeTheoryLevel0 = () => {
 
 const generatePracticeTheoryLevel1 = () => {
     let data = [
-        {[licenseTypes.CC_BY_NC_SA]: `Original authors must be credited; commercial use is NOT allowed; redistribution with the exact same license`},
-        {[licenseTypes.CC_BY_ND]: `Original authors must be credited; modification is NOT allowed`},
-        {[licenseTypes.CC_BY_NC_ND]: `Original authors must be credited; modification is NOT allowed; commercial use is NOT allowed`},
+        {[license_types.CC_BY_NC_SA]: `Original authors must be credited; commercial use is NOT allowed; redistribution with the exact same license`},
+        {[license_types.CC_BY_ND]: `Original authors must be credited; modification is NOT allowed`},
+        {[license_types.CC_BY_NC_ND]: `Original authors must be credited; modification is NOT allowed; commercial use is NOT allowed`},
     ];
     return {
-        type: gameTypes.PRACTICE_THEORY,
+        type: game_types.PRACTICE_THEORY,
         level: 1,
         data: data,
         description: 'Match the CC licences with the corresponding definitions',
@@ -36,7 +36,7 @@ const generatePracticeTheoryLevel2 = () => {
         {Collage: 'Resources are blended into the other and cannot be differentiated from each other'}
     ];
     return {
-        type: gameTypes.PRACTICE_THEORY,
+        type: game_types.PRACTICE_THEORY,
         level: 2,
         data: data,
         description: 'Match the CC licences with the corresponding definitions',
@@ -57,17 +57,22 @@ const containOnlyNDLicenses = (generated_result) => {
 };
 
 const generatePracticeEditingLevel0 = (type) => {
-    const resource_types = [resourceTypes.AUDIO, resourceTypes.DOCUMENT, resourceTypes.VIDEO, resourceTypes.PICTURE];
-    const licenses = [licenseTypes.CC_ZERO, licenseTypes.CC_BY, licenseTypes.CC_BY_SA, licenseTypes.CC_BY_NC, licenseTypes.CC_BY_NC_SA, licenseTypes.CC_BY_ND, licenseTypes.CC_BY_NC_ND];
+    const all_resources = Object.keys(resource_types).map(key => {
+        if (resource_types.hasOwnProperty(key)) {
+            return resource_types[key]
+        }
+    });
+    const licenses = [license_types.CC_ZERO, license_types.CC_BY, license_types.CC_BY_SA, license_types.CC_BY_NC, license_types.CC_BY_NC_SA, license_types.CC_BY_ND, license_types.CC_BY_NC_ND];
     let result = {
-        type: type,
+        type,
         level: 0,
-        description: `Pick two resources and drop into the rectangle ${type}`,
+        number_of_required_resource: 2,
+        description: `Pick at least two resources and drop into the rectangle ${type}`,
         resources: []
     };
 
-    for (let i = 0; i < 3; i++) {
-        const resource = resource_types[Math.floor(Math.random() * 4)];
+    for (let i = 0; i < 4; i++) {
+        const resource = all_resources[Math.floor(Math.random() * 4)];
         const license = licenses[Math.floor(Math.random() * 7)];
         result.resources.push({
             resource_type: resource,
@@ -84,18 +89,23 @@ const generatePracticeEditingLevel0 = (type) => {
 };
 
 const generatePracticeEditingLevel1 = (type) => {
-    const resource_types = [resourceTypes.AUDIO, resourceTypes.DOCUMENT, resourceTypes.VIDEO, resourceTypes.PICTURE];
-    const licenses = [licenseTypes.CC_ZERO, licenseTypes.CC_BY, licenseTypes.CC_BY_SA, licenseTypes.CC_BY_NC, licenseTypes.CC_BY_NC_SA, licenseTypes.CC_BY_ND, licenseTypes.CC_BY_NC_ND];
+    const all_resources = Object.keys(resource_types).map(key => {
+        if (resource_types.hasOwnProperty(key)) {
+            return resource_types[key]
+        }
+    });
+    const licenses = [license_types.CC_ZERO, license_types.CC_BY, license_types.CC_BY_SA, license_types.CC_BY_NC, license_types.CC_BY_NC_SA, license_types.CC_BY_ND, license_types.CC_BY_NC_ND];
 
     let result = {
-        type: type,
+        type,
         level: 1,
-        description: `Pick three resources and drop into the rectangle ${type}`,
+        number_of_required_resource: 3,
+        description: `Pick at least three resources and drop into the rectangle ${type}`,
         resources: []
     };
 
     for (let i = 0; i < 4; i++) {
-        const resource = resource_types[Math.floor(Math.random() * 4)];
+        const resource = all_resources[Math.floor(Math.random() * 4)];
         const license = licenses[Math.floor(Math.random() * 7)];
         result.resources.push({
             resource_type: resource,

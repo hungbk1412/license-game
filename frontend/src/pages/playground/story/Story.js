@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
 import {useSelector, useDispatch} from "react-redux";
 import lodash from 'lodash';
@@ -16,10 +16,11 @@ import {
     open_choose_license_dialog,
     set_message_for_choose_license_dialog,
     close_choose_license_dialog,
-    set_licenses_to_be_excluded_from_answer
+    set_licenses_to_be_excluded_from_answer,
+    select_license
 } from "../dialog/choose_license_dialog/ChooseLicenseDialogSlice";
 import {set_result_for_level} from "./GameProgressSlice";
-import {questionTypes, color, background, gameTypes} from '../../../definitions/Types';
+import {questionTypes, color, game_types} from '../../../definitions/Types';
 import PracticeMode from '../practice/PracticeMode';
 import ChooseLicenseDialog from '../dialog/choose_license_dialog/ChooseLicenseDialog';
 import {checkCompatible, postProgress} from '../../../utils/Requests';
@@ -33,7 +34,6 @@ import {
     story_smith,
     story_go_button
 } from '../../../images';
-import {GameContext} from "../../../App";
 import {increase_time, reset_time} from "../../navbar/TimerSlice";
 import {set_score} from "../../../ScoreSlice";
 import {postScore} from "../../../utils/Requests";
@@ -41,6 +41,7 @@ import {postScore} from "../../../utils/Requests";
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
+const END_GAME_MESSAGE = 'Congratulation, you have finished the game';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -142,6 +143,7 @@ const useStyles = makeStyles((theme) => ({
         }
     }
 }));
+
 const get_current_practice = (practices_list) => {
     for (let i = 0; i < practices_list.length; i++) {
         if (!practices_list[i].finished) {
@@ -153,7 +155,6 @@ const get_current_practice = (practices_list) => {
 
 function Story() {
     const styles = useStyles();
-    const game_context = useContext(GameContext);
     const dispatch = useDispatch();
     const current_challenge = useSelector(state => state.current_challenge);
     const choose_license_dialog = useSelector(state => state.choose_license_dialog);
@@ -165,7 +166,6 @@ function Story() {
     const score = useSelector(state => state.score);
     const [finalLicense, setFinalLicense] = useState('');
     const [failTimes, setFailTimes] = useState(0);
-    const [back_to_main_menu, set_back_to_main_menu] = useState(false);
 
     // Only used for questions requiring players to choose many answer (choices)
     const [choices, setChoices] = useState([
@@ -195,7 +195,7 @@ function Story() {
         Open the dialog, in which players choose a license as their final answer
         @param [int] choiceNumbers
      */
-    const openChooseLicenseDialog = (choiceNumbers) => {
+    const prepare_and_then_open_choose_license_dialog = (choiceNumbers) => {
         let newMessage = current_challenge.oer_resources[0];
         let newChosenLicenses = lodash.cloneDeep(chosenLicenses);
         choiceNumbers.forEach(choiceNumber => {
@@ -203,13 +203,12 @@ function Story() {
             newMessage += '; ' + current_challenge.choices[choiceNumber].CC_license
         });
         setChosenLicenses(newChosenLicenses);
-        // setMessage(newMessage);
-        // setIsChooseLicenseDialogOpening(true);
         dispatch(set_message_for_choose_license_dialog(newMessage));
+        dispatch(select_license('none'));
         dispatch(open_choose_license_dialog());
     };
 
-    const getAllSelectedChoices = () => {
+    const get_all_selected_choices = () => {
         let res = [];
         for (let i = 0; i < choices.length; i++) {
             if (choices[i].is_selected) {
@@ -223,7 +222,7 @@ function Story() {
         Unset the selected choices
         @params [int] choiceNumbers
      */
-    const unselectSelectedChoices = (choiceNumbers) => {
+    const unselect_selected_choices = (choiceNumbers) => {
         let newChoices = lodash.cloneDeep(choices);
         choiceNumbers.forEach(choiceNumber => {
             newChoices[choiceNumber].is_selected = false;
@@ -231,7 +230,7 @@ function Story() {
         setChoices(newChoices);
     };
 
-    const clickOnSubmitButton = (e) => {
+    const click_on_submit_button = (e) => {
         e.preventDefault();
         const user_answer = choose_license_dialog.selected_license;
         checkCompatible(window.accessToken, current_challenge.combination_type, chosenLicenses.concat(current_challenge.oer_resources), user_answer)
@@ -240,9 +239,15 @@ function Story() {
                 if (res.hasOwnProperty('result') && res.result) {
                     dispatch(close_choose_license_dialog());
                     dispatch(set_result_for_level({level: current_challenge.level, result: user_answer}));
-                    unselectSelectedChoices(getAllSelectedChoices());
+                    unselect_selected_choices(get_all_selected_choices());
                     setFinalLicense(user_answer);
-                    dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
+                    dispatch(open_confirm_submission_dialog(
+                        {
+                            is_last_level: nextChallenge === null,
+                            correctness: true,
+                            message: nextChallenge === null ? END_GAME_MESSAGE : SUCCESS_MESSAGE
+                        }
+                        ));
                 }
                 // Wrong Answer
                 else {
@@ -253,12 +258,12 @@ function Story() {
             .catch(e => console.log(e));
     };
 
-    const clickOnGoButton = (e) => {
+    const click_on_go_button = (e) => {
         e.preventDefault();
-        openChooseLicenseDialog(getAllSelectedChoices());
+        prepare_and_then_open_choose_license_dialog(get_all_selected_choices());
     };
 
-    const countNumberOfSelectedChoices = () => {
+    const count_the_number_of_selected_choices = () => {
         let count = 0;
         choices.forEach((choice) => {
             if (choice.is_selected) {
@@ -268,13 +273,13 @@ function Story() {
         return count;
     };
 
-    const clickOnAChoice = (choiceNumber) => {
+    const click_on_a_choice = (choiceNumber) => {
         if (current_challenge.type === questionTypes.SELF_GENERATED) {
-            openChooseLicenseDialog([choiceNumber]);
+            prepare_and_then_open_choose_license_dialog([choiceNumber]);
         } else if (current_challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES) {
             if (choices[choiceNumber].is_selected) {
-                unselectSelectedChoices([choiceNumber]);
-            } else if (countNumberOfSelectedChoices() <= 1) {
+                unselect_selected_choices([choiceNumber]);
+            } else if (count_the_number_of_selected_choices() <= 1) {
                 let newChoices = [...choices];
                 newChoices[choiceNumber].is_selected = true;
                 setChoices(newChoices);
@@ -284,7 +289,13 @@ function Story() {
                 level: current_challenge.level,
                 result: current_challenge.choices[current_challenge.correctAnswer].CC_license
             }));
-            dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
+            dispatch(open_confirm_submission_dialog(
+                {
+                    is_last_level: nextChallenge === null,
+                    correctness: true,
+                    message: nextChallenge === null ? END_GAME_MESSAGE : SUCCESS_MESSAGE
+                }
+                ));
         } else {
             const message = failTimes < 2 ? FAIL_MESSAGE : current_challenge.hint;
             dispatch(open_confirm_submission_dialog({correctness: false, message: message}));
@@ -295,7 +306,7 @@ function Story() {
     /*
         @param bool enter enter = true means sliding in, enter = false means sliding out
      */
-    const setTransition = (enter) => {
+    const set_transition = (enter) => {
         if (nextChallenge && nextChallenge.hasOwnProperty('practices')) {
             set_show_up(prevState => (
                 {
@@ -314,13 +325,15 @@ function Story() {
         }
     };
 
-    const goToNextLevel = () => {
+    const go_to_next_level = () => {
         dispatch(close_confirm_submission_dialog());
-        dispatch(set_score({
-            type: gameTypes.STORY,
-            story_level: current_challenge.level,
-            failed_times: failTimes
-        }));
+        dispatch(set_score(
+            {
+                type: game_types.STORY,
+                story_level: current_challenge.level,
+                failed_times: failTimes
+            }
+        ));
         postProgress(window.accessToken, {
             [current_challenge.level]: {
                 answer: current_challenge.correctAnswer === null ? finalLicense : current_challenge.choices[current_challenge.correctAnswer].CC_license,
@@ -334,11 +347,11 @@ function Story() {
                 console.log('err :>> ', err);
             });
         if (nextChallenge !== null) {
-            setTransition(false);
+            set_transition(false);
 
             // time out is required for exiting animation
             setTimeout((() => {
-                setTransition(true);
+                set_transition(true);
                 setFailTimes(0);
                 setChosenLicenses([]);
                 if (nextChallenge.hasOwnProperty('practices')) {
@@ -348,8 +361,6 @@ function Story() {
             }), 500);
         } else {
             postScore(window.accessToken, score.total_score).then(res => console.log(res)).catch(err => console.log(err));
-            set_back_to_main_menu(true);
-            alert('Congratulation, end game');
         }
         dispatch(reset_time());
     };
@@ -363,23 +374,11 @@ function Story() {
         }
     }, [current_challenge.level]);
 
-
-    /*
-    Set background
-     */
-    useEffect(() => {
-        if (game_context.background.current_background !== background.IN_GAME) {
-            game_context.background.current_background = background.IN_GAME;
-            game_context.background.set_background(background.IN_GAME);
-        }
-    }, [game_context.background.current_background]);
-
     /*
     Set up required oer for each level. Only useful if a level takes the output of previous levels as its input
      */
     useEffect(() => {
         if (current_challenge.hasOwnProperty('require_result_of_levels')) {
-            console.log(current_challenge);
             dispatch(prepare_oer_resources(game_progress));
         }
     }, [current_challenge.level]);
@@ -420,16 +419,14 @@ function Story() {
 
     if (current_practice !== null) {
         return <PracticeMode practice={current_practice}/>
-    } else if (back_to_main_menu) {
-        return (<Redirect to={'/'}/>)
     } else {
         return (
             <Grid container item direction={'row'} justify={'center'} alignItems={'center'} className={styles.root}>
                 <Slide direction={'left'} in={show_up.stable_content} mountOnEnter unmountOnExit>
                     <img className={styles.smith} src={story_smith}/>
                 </Slide>
-                <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
-                <ChooseLicenseDialog clickOnSubmitButton={clickOnSubmitButton}/>
+                <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
+                <ChooseLicenseDialog click_on_submit_button={click_on_submit_button}/>
                 <Grid container item direction={'row'} justify={'center'} xs={11}>
                     <Grid container item xs={12} justify={'flex-start'}>
                         <Slide direction={'right'} in={show_up.stable_content} mountOnEnter unmountOnExit>
@@ -458,7 +455,7 @@ function Story() {
                         {
                             [...Array(4).keys()].map(choiceNumber => {
                                 return (
-                                    <Choice key={'storymode-choice-' + choiceNumber} clickOnAChoice={clickOnAChoice}
+                                    <Choice key={'storymode-choice-' + choiceNumber} click_on_a_choice={click_on_a_choice}
                                             display_text={current_challenge.choices[choiceNumber].display_text}
                                             choice_number={choiceNumber}
                                             is_selected={choices[choiceNumber].is_selected}
@@ -472,7 +469,7 @@ function Story() {
                         <Grid container item xs={12} justify={'center'}>
                             <Grid container item className={styles.go_button_container}>
                                 <Button fullWidth className={styles.go_button}
-                                        onClick={clickOnGoButton}>Go</Button>
+                                        onClick={click_on_go_button}>Go</Button>
                             </Grid>
                         </Grid>
                     }

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch} from "react-redux";
 import {reset_to_default_challenge} from "../playground/story/CurrentChallangeSlice";
 import {reset_to_default_practices_list} from "../playground/story/CurrentPracticesListSlice";
@@ -7,13 +7,12 @@ import Button from '@material-ui/core/Button';
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect} from 'react-router-dom';
 import {menu_button_background} from "../../images";
-import {GameContext} from "../../App";
-import {background} from "../../definitions/Types";
+import {fetch_high_score_board} from "../high_score/HighScoreBoardSlice";
+import {init_fetch_game_progress} from "../playground/story/GameProgressSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        'margin': '100px 0px 100px 0px',
-        'width': '100%'
+        'margin-top': '100px'
     },
     button: {
         [theme.breakpoints.up('xl')]: {
@@ -32,14 +31,13 @@ const useStyles = makeStyles((theme) => ({
 function MainMenu() {
     const styles = useStyles();
     const dispatch = useDispatch();
-    const [to_story, set_to_story] = useState(false);
+    const [to_choose_level, set_to_choose_level] = useState(false);
     const [to_instruction, set_to_instruction] = useState(false);
     const [to_high_score, set_to_high_score] = useState(false);
-    const game_context = useContext(GameContext);
 
-    const onClickStory = (e) => {
+    const onClickPlay = (e) => {
         e.preventDefault();
-        set_to_story(true);
+        set_to_choose_level(true);
     };
 
     const onClickHowToPlay = (e) => {
@@ -49,6 +47,7 @@ function MainMenu() {
 
     const onClickHighScore = (e) => {
         e.preventDefault();
+        dispatch(fetch_high_score_board());
         set_to_high_score(true);
     };
 
@@ -57,14 +56,7 @@ function MainMenu() {
         dispatch(reset_to_default_practices_list());
     });
 
-    useEffect(() => {
-        if (game_context.background.current_background !== background.MAIN_MENU) {
-            game_context.background.current_background = background.MAIN_MENU;
-            game_context.background.set_background(background.MAIN_MENU);
-        }
-    });
-
-    if (to_story) {
+    if (to_choose_level) {
         return (
             <Redirect to={'/play'}/>
         )
@@ -79,10 +71,10 @@ function MainMenu() {
     }
     else {
         return (
-            <Grid container direction={'column'} spacing={10} className={styles.root}>
+            <Grid container item direction={'column'} xs={10} spacing={10} className={styles.root}>
                 <Grid container item justify={'center'}>
                     <Grid item xs={6} md={5}>
-                        <Button className={styles.button} fullWidth onClick={onClickStory}>Play</Button>
+                        <Button className={styles.button} fullWidth onClick={onClickPlay}>Play</Button>
                     </Grid>
                 </Grid>
                 <Grid container item justify={'center'}>

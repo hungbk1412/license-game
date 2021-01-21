@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initial_state = 0;
 const TimerSlice = createSlice({
-    name: 'game_progress',
+    name: 'timer',
     initialState: initial_state,
     reducers: {
         increase_time: (state, action) => (state + 1),

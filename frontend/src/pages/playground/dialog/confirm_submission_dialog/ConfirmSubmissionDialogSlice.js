@@ -4,6 +4,7 @@ const initial_state = {
     is_opening: false,
     correctness: false,
     message: '',
+    is_last_level: false
 };
 const ConfirmSubmissionDialogSlice = createSlice({
     name: 'confirm_submission_dialog',
@@ -12,7 +13,8 @@ const ConfirmSubmissionDialogSlice = createSlice({
         open_confirm_submission_dialog: (state, action) => ({
             is_opening: true,
             correctness: action.payload.correctness,
-            message: action.payload.message
+            message: action.payload.message,
+            is_last_level: action.payload.is_last_level
         }),
         close_confirm_submission_dialog: (state, action) => ({...state, is_opening: false})
     }

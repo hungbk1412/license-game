@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import challengeGenerator from "../../../utils/game_generator/Story";
-import {licenseTypes} from "../../../definitions/Types";
+import {license_types} from "../../../definitions/Types";
 
 const initial_state = {
     type: 'default',
@@ -49,7 +49,7 @@ const CurrentChallengeSlice = createSlice({
         prepare_choice_for_last_level: (current_challenge, action) => {
             current_challenge.choices[current_challenge.correctAnswer].CC_license = action.payload.correctAnswer;
             current_challenge.choices[current_challenge.correctAnswer].display_text = action.payload.correctAnswer;
-            let availableLicenses = Object.values(licenseTypes).filter(elem => elem !== action.payload.correctAnswer);
+            let availableLicenses = Object.values(license_types).filter(elem => elem !== action.payload.correctAnswer);
             current_challenge.choices = current_challenge.choices.map(license => {
                 if (license.CC_license === null) {
                     let randomLicense = availableLicenses[Math.floor(Math.random() * availableLicenses.length)];

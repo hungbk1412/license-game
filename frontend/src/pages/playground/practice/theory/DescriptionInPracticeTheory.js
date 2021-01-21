@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import {useDrag} from "react-dnd";
-import {itemTypes, color} from "../../../../definitions/Types";
+import {item_types, color} from "../../../../definitions/Types";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {practice_theory_description} from "../../../../images";
 
@@ -22,7 +22,7 @@ const DescriptionInPracticeTheory = (props) => {
     const styles = useStyles();
     const [{isDragging}, drag] = useDrag({
         item: {
-            type: itemTypes.PRACTICE_THEORY,
+            type: item_types.PRACTICE_THEORY,
             position: props.position
         },
         collect: (monitor) => ({

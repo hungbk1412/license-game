@@ -40,7 +40,7 @@ app.post('/api/v1/check-compatible', keycloak.checkSso(), (req, res) => {
     }
 });
 
-// getProgress
+// get progress
 app.get('/api/v1/progress/get', keycloak.checkSso(), (req, res) => {
     const bearer_token = req.headers.authorization;
     const token = bearer_token.split(' ')[1];
@@ -60,7 +60,7 @@ app.get('/api/v1/progress/get', keycloak.checkSso(), (req, res) => {
         })
 });
 
-// postProgress
+// post progress
 app.post('/api/v1/progress/post', keycloak.checkSso(), (req, res) => {
     const bearer_token = req.headers.authorization;
     const token = bearer_token.split(' ')[1];
@@ -93,7 +93,24 @@ app.post('/api/v1/progress/post', keycloak.checkSso(), (req, res) => {
         })
 });
 
-// postProgress
+// get score
+app.get('/api/v1/high-score-board/get', keycloak.checkSso(), (req, res) => {
+    HighScoreModel
+        .find({})
+        .populate('user')
+        .then(high_score_board => {
+            high_score_board = high_score_board.map(row => {
+                return {...row._doc, user: row._doc.user.preferred_username}
+            });
+            res.status(200).json(high_score_board);
+        })
+        .catch(err => {
+            console.log('err :>> ', err);
+            res.status(400).json("Failed");
+        });
+});
+
+// post score
 app.post('/api/v1/score/post', keycloak.checkSso(), (req, res) => {
     const bearer_token = req.headers.authorization;
     const token = bearer_token.split(' ')[1];
@@ -115,7 +132,7 @@ app.post('/api/v1/score/post', keycloak.checkSso(), (req, res) => {
         })
         .then(current_user => {
             HighScoreModel
-                .find({position: {$lt: 3}})
+                .find({position: {$lt: 5}})
                 .then(slots => {
                     slots = check_high_score(slots, current_user);
                     HighScoreModel.deleteMany({}).then(res => {
@@ -138,11 +155,12 @@ app.post('/api/v1/score/post', keycloak.checkSso(), (req, res) => {
             res.status(400).json("Failed");
         });
 });
+
 const check_high_score = (slots, current_user) => {
     let index_of_user_in_high_score_board = slots.findIndex((slot) => (slot.user.toString() === current_user._id.toString()));
     if (index_of_user_in_high_score_board !== -1 && slots[index_of_user_in_high_score_board].score <= current_user.score) {
         slots[index_of_user_in_high_score_board].score = current_user.score;
-    } else if (slots.length < 2 && index_of_user_in_high_score_board === -1) {
+    } else if (slots.length < 5 && index_of_user_in_high_score_board === -1) {
         slots.push({
             user: current_user._id,
             score: current_user.score
@@ -163,7 +181,7 @@ const check_high_score = (slots, current_user) => {
             console.log('user diem qua kem');
         }
     }
-    console.log('====================================================');
+
     slots.sort((slot1, slot2) => slot2.score - slot1.score);
 
     for (let i = 0; i < slots.length; i++) {

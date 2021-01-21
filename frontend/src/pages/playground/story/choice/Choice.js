@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Choice = (props) => {
     const styles = useStyles();
-    const clickOnAChoice = props.clickOnAChoice;
+    const click_on_a_choice = props.click_on_a_choice;
     const choiceButton = useRef(null);
     const display_text = props.display_text;
     const choice_number = props.choice_number;
@@ -51,7 +51,7 @@ const Choice = (props) => {
                 <Button ref={choiceButton}
                         id={'story-choice-3'}
                         fullWidth
-                        onClick={() => clickOnAChoice(choice_number)}
+                        onClick={() => click_on_a_choice(choice_number)}
                         className={styles.choice_button}>
                     {display_text}
                 </Button>

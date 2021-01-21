@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import {itemTypes, licenseTypes, resourceTypes} from "../../../../definitions/Types";
+import {item_types, license_types, resource_types} from "../../../../definitions/Types";
 import {useDrag} from 'react-dnd';
 import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
@@ -53,30 +53,31 @@ const useStyles = makeStyles((theme) => ({
         }
     }
 }));
-const ResourceInPractice = (props) => {
-    const styles = useStyles();
+const ResourceInPracticeEditing = (props) => {
+    const styles = useStyles(props);
+    const on_click_remove_resource = props.on_click_remove_resource;
     let resource_type;
     let license;
     switch (props.license) {
-        case licenseTypes.CC_ZERO:
+        case license_types.CC_ZERO:
             license = CC_ZERO;
             break;
-        case licenseTypes.CC_BY:
+        case license_types.CC_BY:
             license = CC_BY;
             break;
-        case licenseTypes.CC_BY_SA:
+        case license_types.CC_BY_SA:
             license = CC_BY_SA;
             break;
-        case licenseTypes.CC_BY_NC:
+        case license_types.CC_BY_NC:
             license = CC_BY_NC;
             break;
-        case licenseTypes.CC_BY_NC_SA:
+        case license_types.CC_BY_NC_SA:
             license = CC_BY_NC_SA;
             break;
-        case licenseTypes.CC_BY_ND:
+        case license_types.CC_BY_ND:
             license = CC_BY_ND;
             break;
-        case licenseTypes.CC_BY_NC_ND:
+        case license_types.CC_BY_NC_ND:
             license = CC_BY_NC_ND;
             break;
         default:
@@ -84,16 +85,16 @@ const ResourceInPractice = (props) => {
     }
 
     switch (props.resource_type) {
-        case resourceTypes.AUDIO:
+        case resource_types.AUDIO:
             resource_type = audio;
             break;
-        case resourceTypes.DOCUMENT:
+        case resource_types.DOCUMENT:
             resource_type = document;
             break;
-        case resourceTypes.PICTURE:
+        case resource_types.PICTURE:
             resource_type = picture;
             break;
-        case resourceTypes.VIDEO:
+        case resource_types.VIDEO:
             resource_type = video;
             break;
         default:
@@ -102,7 +103,7 @@ const ResourceInPractice = (props) => {
 
     const [{isDragging}, drag] = useDrag({
         item: {
-            type: itemTypes.PRACTICE_RESOURCE,
+            type: item_types.PRACTICE_RESOURCE,
             resource_id: props.resource_id
         },
         collect: (monitor) => ({
@@ -119,7 +120,7 @@ const ResourceInPractice = (props) => {
                 <Grid container item direction={'row'} ref={drag} xs={6} justify={'center'}>
                     <Grid item className={styles.resource_and_close_button}>
                         <IconButton className={styles.close_button} size={'small'}
-                                    onClick={() => props.onClickRemoveResource(props.resource_id)}>
+                                    onClick={() => on_click_remove_resource(props.resource_id)}>
                             <CancelIcon/>
                         </IconButton>
                         <img className={styles.images} src={resource_type}/>
@@ -142,4 +143,4 @@ const ResourceInPractice = (props) => {
     }
 };
 
-export default ResourceInPractice;
+export default ResourceInPracticeEditing;

@@ -1,4 +1,4 @@
-import {licenseTypes, questionTypes, gameTypes} from '../../definitions/Types';
+import {license_types, questionTypes, game_types} from '../../definitions/Types';
 import {practiceTheoryGenerator, practiceEditingGenerator} from "./Practice";
 // For multiple_choice questions, declaring combination_type in the challenge is not necessary because the correct answer
 // is fixed. Hence no request to the server will be made.
@@ -25,19 +25,19 @@ const generateLevel0 = () => {
         choices: [
             {
                 display_text: 'Aluminium (CC-BY)',
-                CC_license: licenseTypes.CC_BY
+                CC_license: license_types.CC_BY
             },
             {
                 display_text: 'Copper (CC-BY-ND)',
-                CC_license: licenseTypes.CC_BY_ND
+                CC_license: license_types.CC_BY_ND
             },
             {
                 display_text: 'Iron (CC-BY-NC)',
-                CC_license: licenseTypes.CC_BY_NC
+                CC_license: license_types.CC_BY_NC
             },
             {
                 display_text: 'Zinc (CC-ZERO)',
-                CC_license: licenseTypes.CC_ZERO
+                CC_license: license_types.CC_ZERO
             }
         ],
         correctAnswer: 2,
@@ -56,7 +56,7 @@ const generateLevel1 = () => {
             },
             {
                 id: 1,
-                ...practiceEditingGenerator(0, gameTypes.PRACTICE_EDITING_COLLAGE)
+                ...practiceEditingGenerator(0, game_types.PRACTICE_EDITING_COLLAGE)
             }
         ],
         context: `Ok, so to make steel, we need to mix iron and carbon, but at which ratio?
@@ -67,19 +67,19 @@ const generateLevel1 = () => {
         choices: [
             {
                 display_text: 'From 0.2% to 1.5% (CC-BY-NC)',
-                CC_license: licenseTypes.CC_BY_NC
+                CC_license: license_types.CC_BY_NC
             },
             {
                 display_text: 'From 1.5% to 2.3% (CC-BY-ND)',
-                CC_license: licenseTypes.CC_BY_ND
+                CC_license: license_types.CC_BY_ND
             },
             {
                 display_text: 'From 2.3% to 3.0% (CC-BY)',
-                CC_license: licenseTypes.CC_BY
+                CC_license: license_types.CC_BY
             },
             {
                 display_text: 'From 3.0% to 4.1% (CC-ZERO)',
-                CC_license: licenseTypes.CC_ZERO
+                CC_license: license_types.CC_ZERO
             }
         ],
         correctAnswer: 0,
@@ -94,11 +94,11 @@ const generateLevel2 = () => {
         practices: [
             {
                 id: 0,
-                ...practiceEditingGenerator(0, gameTypes.PRACTICE_EDITING_COMPOSITION)
+                ...practiceEditingGenerator(0, game_types.PRACTICE_EDITING_COMPOSITION)
             },
             {
                 id: 1,
-                ...practiceEditingGenerator(1, gameTypes.PRACTICE_EDITING_COMPOSITION)
+                ...practiceEditingGenerator(1, game_types.PRACTICE_EDITING_COLLAGE)
             }
         ],
         context: `A royal gift has to be flawless. Iron and carbon are not enough. The king want the sword to last after decades.
@@ -109,19 +109,19 @@ const generateLevel2 = () => {
         choices: [
             {
                 display_text: 'Chromium (CC-BY-SA)',
-                CC_license: licenseTypes.CC_BY_SA
+                CC_license: license_types.CC_BY_SA
             },
             {
                 display_text: 'Tungsten (CC-BY-NC-SA)',
-                CC_license: licenseTypes.CC_BY_NC_SA
+                CC_license: license_types.CC_BY_NC_SA
             },
             {
                 display_text: 'Nickel (CC-BY-ND)',
-                CC_license: licenseTypes.CC_BY_ND
+                CC_license: license_types.CC_BY_ND
             },
             {
                 display_text: 'Manganese (CC-ZERO)',
-                CC_license: licenseTypes.CC_ZERO
+                CC_license: license_types.CC_ZERO
             }
         ],
         correctAnswer: 1,
@@ -130,7 +130,7 @@ const generateLevel2 = () => {
 };
 
 const generateLevel3 = () => {
-    const blade_license = licenseTypes.CC_BY;
+    const blade_license = license_types.CC_BY;
 
     return {
         type: questionTypes.SELF_GENERATED,
@@ -143,19 +143,19 @@ const generateLevel3 = () => {
         choices: [
             {
                 display_text: 'Italian Style (CC-BY-SA)',
-                CC_license: licenseTypes.CC_BY_SA
+                CC_license: license_types.CC_BY_SA
             },
             {
                 display_text: 'Western Europe Style (CC-BY-NC-SA)',
-                CC_license: licenseTypes.CC_BY_NC_SA
+                CC_license: license_types.CC_BY_NC_SA
             },
             {
                 display_text: 'Eastern Europe Style (CC-BY-ND)',
-                CC_license: licenseTypes.CC_BY_ND
+                CC_license: license_types.CC_BY_ND
             },
             {
                 display_text: 'England Style (CC-ZERO)',
-                CC_license: licenseTypes.CC_ZERO
+                CC_license: license_types.CC_ZERO
             }
         ],
         correctAnswer: null,
@@ -174,19 +174,19 @@ const generateLevel4 = () => {
         choices: [
             {
                 display_text: 'Ruby (CC-BY-SA)',
-                CC_license: licenseTypes.CC_BY_SA
+                CC_license: license_types.CC_BY_SA
             },
             {
                 display_text: 'Diamond (CC-BY-NC-SA)',
-                CC_license: licenseTypes.CC_BY_NC_SA
+                CC_license: license_types.CC_BY_NC_SA
             },
             {
                 display_text: 'Sapphire (CC-BY-ND)',
-                CC_license: licenseTypes.CC_BY_ND
+                CC_license: license_types.CC_BY_ND
             },
             {
                 display_text: 'Pearl (CC-ZERO)',
-                CC_license: licenseTypes.CC_ZERO
+                CC_license: license_types.CC_ZERO
             }
         ],
         correctAnswer: null,
@@ -194,7 +194,7 @@ const generateLevel4 = () => {
         oer_resources: [],
         combination_type: 'composition',
         require_result_of_levels: [3],
-        licenses_to_be_excluded_from_answer: [licenseTypes.CC_BY_ND, licenseTypes.CC_BY_NC_ND]
+        licenses_to_be_excluded_from_answer: [license_types.CC_BY_ND, license_types.CC_BY_NC_ND]
     };
 };
 
@@ -209,19 +209,19 @@ const generateLevel5 = () => {
         choices: [
             {
                 display_text: 'CC-BY-SA',
-                CC_license: licenseTypes.CC_BY_SA
+                CC_license: license_types.CC_BY_SA
             },
             {
                 display_text: 'CC-BY-NC-SA',
-                CC_license: licenseTypes.CC_BY_NC_SA
+                CC_license: license_types.CC_BY_NC_SA
             },
             {
                 display_text: 'CC-BY-ND',
-                CC_license: licenseTypes.CC_BY_ND
+                CC_license: license_types.CC_BY_ND
             },
             {
                 display_text: 'CC-ZERO',
-                CC_license: licenseTypes.CC_ZERO
+                CC_license: license_types.CC_ZERO
             }
         ],
         correctAnswer: 1,

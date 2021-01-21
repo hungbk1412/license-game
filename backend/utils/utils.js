@@ -108,7 +108,7 @@ exports.checkCompatibilityComposition = ({licenseArray, clientLicenseAnswer}) =>
 
 exports.checkCompatibilityCollage = ({licenseArray, clientLicenseAnswer}) => {
     clientLicenseAnswer = clientLicenseAnswer.toLowerCase();
-
+    console.log(clientLicenseAnswer);
     for (let i = 0; i < licenseArray.length; i++) {
         licenseArray[i] = licenseArray[i].toLowerCase();
     }

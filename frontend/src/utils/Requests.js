@@ -59,6 +59,24 @@ const postProgress = (token, level) => {
         });
 };
 
+const getHighScoreBoard = (token) => {
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    };
+
+    return fetch(BASE_URL_API + API_PATH.HIGH_SCORE_GET, requestOptions)
+        .then(res => {
+            return res.json();
+        })
+        .catch(e => {
+            throw (e);
+        });
+};
+
 const postScore = (token, score) => {
     const requestOptions = {
         method: 'POST',
@@ -80,4 +98,4 @@ const postScore = (token, score) => {
         });
 };
 
-export {checkCompatible, getProgress, postProgress, postScore}
+export {checkCompatible, getProgress, postProgress, postScore, getHighScoreBoard}

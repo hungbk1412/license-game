@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDrop} from "react-dnd";
-import {itemTypes, color, gameTypes} from "../../../../definitions/Types";
+import {item_types, color, game_types} from "../../../../definitions/Types";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import ResourceInPractice from "./ResourceInPractice";
+import ResourceInPracticeEditing from "./ResourceInPracticeEditing";
 import ChooseLicenseDialog from "../../dialog/choose_license_dialog/ChooseLicenseDialog";
 import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
 import {
@@ -14,7 +14,8 @@ import {
 } from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
 import {
     open_choose_license_dialog,
-    close_choose_license_dialog
+    close_choose_license_dialog,
+    select_license
 } from "../../dialog/choose_license_dialog/ChooseLicenseDialogSlice";
 import {checkCompatible} from "../../../../utils/Requests";
 import {menu_button_background, practice_lava_frame, story_question} from "../../../../images";
@@ -60,12 +61,10 @@ const useStyles = makeStyles((theme) => ({
     button_container: {
         'position': 'absolute',
         [theme.breakpoints.up('sm')]: {
-            'margin-top': '25px',
-            'bottom': '50px'
+            'bottom': '25px'
         },
         [theme.breakpoints.up('xl')]: {
-            'margin-top': '80px',
-            'bottom': '50px'
+            'bottom': '25px'
         }
     },
     button: {
@@ -95,7 +94,7 @@ function PracticeEditing(props) {
     const [chosenResourcesArray, setChosenResourcesArray] = useState(initChosenResourcesArray(practice.resources));
     const [show_up, set_show_up] = useState(true);
 
-    const hasResourcesBeenChosen = (resource_id) => {
+    const has_resources_been_chosen = (resource_id) => {
         const resource = chosenResourcesArray.find(element => element.resource_id === resource_id);
         if (resource) {
             return resource.has_been_chosen;
@@ -104,7 +103,7 @@ function PracticeEditing(props) {
         return false;
     };
 
-    const clickOnSubmitButton = (e) => {
+    const click_on_submit_button = (e) => {
         e.preventDefault();
         let licenseArray = [];
 
@@ -114,13 +113,19 @@ function PracticeEditing(props) {
             }
         }
 
+        if (licenseArray.length < practice.number_of_required_resource) {
+            alert('Beware the number of resources');
+            return;
+        }
+
         let user_answer = choose_license_dialog.selected_license;
-        checkCompatible(window.accessToken, 'collage', licenseArray, user_answer)
+        let combination_type = practice.type === game_types.PRACTICE_EDITING_COLLAGE ? 'collage' : 'composition';
+        checkCompatible(window.accessToken, combination_type, licenseArray, user_answer)
             .then(res => {
                 if (res.hasOwnProperty('result') && res.result) {
                     dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
                     dispatch(set_score({
-                        type: gameTypes.PRACTICE_EDITING_COLLAGE,
+                        type: game_types.PRACTICE_EDITING_COLLAGE,
                         story_level: current_challenge.level,
                         practice_id: practice.id,
                         practice_level: practice.level
@@ -132,7 +137,7 @@ function PracticeEditing(props) {
             .catch(e => console.log(e));
     };
 
-    const onClickRemoveResource = (resource_id) => {
+    const on_click_remove_resource = (resource_id) => {
         let new_resources = chosenResourcesArray.map(resource => {
             if (resource.resource_id === resource_id) {
                 resource.has_been_chosen = false;
@@ -143,7 +148,7 @@ function PracticeEditing(props) {
     };
 
     const [{isOver}, drop] = useDrop({
-        accept: itemTypes.PRACTICE_RESOURCE,
+        accept: item_types.PRACTICE_RESOURCE,
         drop: (item, monitor) => {
             let new_resources = chosenResourcesArray.map(resource => {
                 if (resource.resource_id === item.resource_id) {
@@ -158,18 +163,24 @@ function PracticeEditing(props) {
         })
     });
 
-    const clickOnSkip = (e) => {
+    const click_on_next = (e) => {
         e.preventDefault();
-        goToNextLevel();
+        dispatch(select_license('none'));
+        dispatch(open_choose_license_dialog());
     };
 
-    const goToNextLevel = () => {
+    const click_on_skip = (e) => {
+        e.preventDefault();
+        go_to_next_level();
+    };
+
+    const go_to_next_level = () => {
         set_show_up(false);
+        dispatch(reset_time());
+        dispatch(close_choose_license_dialog());
+        dispatch(close_confirm_submission_dialog());
         setTimeout(() => {
             set_show_up(true);
-            dispatch(reset_time());
-            dispatch(close_choose_license_dialog());
-            dispatch(close_confirm_submission_dialog());
             dispatch(finish_a_practice(practice.id));
         }, 500);
     };
@@ -180,9 +191,9 @@ function PracticeEditing(props) {
 
 
     return (
-        <Grid container item direction={'column'} spacing={10} className={styles.root}>
-            <ChooseLicenseDialog clickOnSubmitButton={clickOnSubmitButton}/>
-            <ConfirmSubmissionDialog go_to_next_level={goToNextLevel}/>
+        <Grid container item direction={'column'} alignItems={'center'} spacing={10} className={styles.root}>
+            <ChooseLicenseDialog click_on_submit_button={click_on_submit_button}/>
+            <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
             <Grid container item justify={'center'}>
                 <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
                     <Grid container item direction={'row'} className={styles.header_container} xs={10}
@@ -196,17 +207,17 @@ function PracticeEditing(props) {
                           className={styles.result_box} xs={10} ref={drop}>
                         {
                             practice.resources.map((resource) => {
-                                if (hasResourcesBeenChosen(resource.resource_id)) {
+                                if (has_resources_been_chosen(resource.resource_id)) {
                                     const key = 'practice_resource.' + resource.resource_id;
                                     return (
-                                        <ResourceInPractice key={key}
-                                                            width={'50px'}
-                                                            height={'50px'}
-                                                            resource_type={resource.resource_type}
-                                                            license={resource.license}
-                                                            resource_id={resource.resource_id}
-                                                            onClickRemoveResource={onClickRemoveResource}
-                                                            inside_the_result_box={true}
+                                        <ResourceInPracticeEditing key={key}
+                                                                   width={'50px'}
+                                                                   height={'50px'}
+                                                                   resource_type={resource.resource_type}
+                                                                   license={resource.license}
+                                                                   resource_id={resource.resource_id}
+                                                                   on_click_remove_resource={on_click_remove_resource}
+                                                                   inside_the_result_box={true}
                                         />
                                     );
                                 }
@@ -219,16 +230,16 @@ function PracticeEditing(props) {
                 <Grid container item justify={'center'} spacing={4}>
                     {
                         practice.resources.map((resource) => {
-                            if (!hasResourcesBeenChosen(resource.resource_id)) {
+                            if (!has_resources_been_chosen(resource.resource_id)) {
                                 const key = 'practice_resource.' + resource.resource_id;
                                 return (
-                                    <ResourceInPractice key={key}
-                                                        width={'100px'}
-                                                        height={'100px'}
-                                                        resource_type={resource.resource_type}
-                                                        license={resource.license}
-                                                        resource_id={resource.resource_id}
-                                                        onClickRemoveResource={onClickRemoveResource}
+                                    <ResourceInPracticeEditing key={key}
+                                                               width={'100px'}
+                                                               height={'100px'}
+                                                               resource_type={resource.resource_type}
+                                                               license={resource.license}
+                                                               resource_id={resource.resource_id}
+                                                               on_click_remove_resource={on_click_remove_resource}
 
                                     />
                                 );
@@ -237,19 +248,18 @@ function PracticeEditing(props) {
                     }
                 </Grid>
             </Slide>
-            <Grid container item justify={'space-around'} className={styles.button_container}>
-                <Grid item xs={4}>
-                    <Slide direction={'up'} in={show_up} mountOnEnter unmountOnExit>
-                        <Button fullWidth onClick={() => dispatch(open_choose_license_dialog())}
+            <Slide direction={'up'} in={show_up} mountOnEnter unmountOnExit>
+                <Grid container item justify={'space-around'} className={styles.button_container}>
+                    <Grid item xs={4}>
+                        <Button fullWidth onClick={click_on_next}
                                 className={styles.button}>Next</Button>
-                    </Slide>
+
+                    </Grid>
+                    <Grid container item xs={4} justify={'center'}>
+                        <Button fullWidth onClick={click_on_skip} className={styles.button}>Skip</Button>
+                    </Grid>
                 </Grid>
-                <Grid container item xs={4} justify={'center'}>
-                    <Slide direction={'up'} in={show_up} mountOnEnter unmountOnExit>
-                        <Button fullWidth onClick={clickOnSkip} className={styles.button}>Skip</Button>
-                    </Slide>
-                </Grid>
-            </Grid>
+            </Slide>
         </Grid>
     );
 }

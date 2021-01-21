@@ -4,7 +4,6 @@ import DropZone from "./DropZone";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {color} from "../../../../definitions/Types";
 import {practice_theory_symbol, practice_lava_frame} from "../../../../images";
-import Slide from "@material-ui/core/Slide";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,8 +33,8 @@ const MatchRow = (props) => {
     const index = props.index;
     const color = props.color;
     const matchRow = useRef(null);
-    const swap = props.swap;
-    const resetColor = props.resetColor;
+    const swap_position_of_two_rows = props.swap_position_of_two_rows;
+    const reset_color = props.reset_color;
 
     useEffect(() => {
         if (color === 'green') {
@@ -56,7 +55,7 @@ const MatchRow = (props) => {
                     {symbol}
                 </Grid>
             </Grid>
-            <DropZone index={index} swap={swap} description={description} resetColor={resetColor}/>
+            <DropZone index={index} swap_position_of_two_rows={swap_position_of_two_rows} description={description} reset_color={reset_color}/>
         </Grid>
     );
 };

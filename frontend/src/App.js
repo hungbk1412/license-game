@@ -1,40 +1,31 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     withRouter
 } from 'react-router-dom';
-import MainMenu from './features/mainmenu/MainMenu';
-import ChooseLevel from "./features/playground/choose_level/ChooseLevel";
+import MainMenu from './pages/mainmenu/MainMenu';
+import ChooseLevel from "./pages/playground/choose_level/ChooseLevel";
 import Grid from '@material-ui/core/Grid';
-import NavBar from './features/navbar/NavBar';
+import NavBar from './pages/navbar/NavBar';
 import {makeStyles} from '@material-ui/core/styles';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
-import {main_background, story_background} from "./images";
-import {background} from "./definitions/Types";
 import {TransitionGroup, CSSTransition} from "react-transition-group";
 import './App.css';
 import {useDispatch} from "react-redux";
-import {init_fetch_game_progress} from "./features/playground/story/GameProgressSlice";
-import HighScore from "./features/high_score/HighScore";
-import Story from "./features/playground/story/Story";
+import {init_fetch_game_progress} from "./pages/playground/story/GameProgressSlice";
+import HighScoreBoard from "./pages/high_score/HighScoreBoard";
+import {main_background} from "./images";
 
 const useStyles = makeStyles(theme => {
     return {
         game: {
             'position': 'relative',
             'border': '1px solid black',
-            'min-height': '100vh',
-            'background-color': 'white',
-        },
-        use_main_background: {
-            'backgroundImage': `url(${main_background})`,
-            'background-size': '100% 100%'
-        },
-        use_story_background: {
-            'backgroundImage': `url(${story_background})`,
+            'height': '100vh',
+            'background-image': `url(${main_background})`,
             'background-size': '100% 100%'
         },
         root: {
@@ -43,31 +34,11 @@ const useStyles = makeStyles(theme => {
         }
     }
 });
-export const GameContext = React.createContext(null);
 
 function App() {
     const styles = useStyles();
     const dispatch = useDispatch();
     const game = useRef(null);
-    const [score, set_score] = useState(0);
-
-    const changeToInGameBackground = () => {
-        game.current.classList.remove(styles.use_main_background);
-        game.current.classList.add(styles.use_story_background);
-    };
-
-    const changeToMainMenuBackground = () => {
-        game.current.classList.remove(styles.use_story_background);
-        game.current.classList.add(styles.use_main_background);
-    };
-
-    const set_background = (background_type) => {
-        if (background_type === background.MAIN_MENU) {
-            changeToMainMenuBackground();
-        } else if (background_type === background.IN_GAME) {
-            changeToInGameBackground();
-        }
-    };
 
     const AnimatedSwitch = withRouter(({location}) => {
         return (
@@ -77,8 +48,8 @@ function App() {
                         <Route path={'/'}
                                component={() => <MainMenu/>}
                                exact/>
-                        <Route path={'/play'} component={() => <ChooseLevel change_to_story_background={changeToInGameBackground}/>} exact/>
-                        <Route path={'/high-score'} component={HighScore} exact/>
+                        <Route path={'/play'} component={() => <ChooseLevel/>} exact/>
+                        <Route path={'/high-score'} component={HighScoreBoard} exact/>
                     </Switch>
                 </CSSTransition>
             </TransitionGroup>
@@ -95,26 +66,13 @@ function App() {
     return (
         <DndProvider backend={HTML5Backend}>
             <Router>
-                <GameContext.Provider value={
-                    {
-                        background: {
-                            current_background: null,
-                            set_background: set_background
-                        },
-                        score: {
-                            current_score: score,
-                            set_score: set_score
-                        }
-                    }
-                }>
-                    <Grid container justify={'center'} className={styles.root}>
-                        <Grid container item direction={'column'} alignItems={'center'} className={styles.game} xs={12}
-                              md={6} ref={game}>
-                            <NavBar/>
-                            <AnimatedSwitch/>
-                        </Grid>
+                <Grid container justify={'center'} className={styles.root}>
+                    <Grid container item direction={'column'} alignItems={'center'} className={styles.game} xs={12}
+                          md={6} ref={game}>
+                        <NavBar/>
+                        <AnimatedSwitch/>
                     </Grid>
-                </GameContext.Provider>
+                </Grid>
             </Router>
         </DndProvider>
     );

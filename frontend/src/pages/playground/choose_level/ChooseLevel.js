@@ -1,17 +1,15 @@
-import React, {useEffect, useContext, useState} from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {to_level} from "../story/CurrentChallangeSlice";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import {menu_button_background} from "../../../images";
-import {GameContext} from "../../../App";
-import {color, background} from '../../../definitions/Types';
+import {color} from '../../../definitions/Types';
 import Story from "../story/Story";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        'position': 'absolute',
         'margin': '100px 0px 100px 0px',
         'width': '100%'
     },
@@ -52,19 +50,12 @@ const ChooseLevel = (props) => {
     const game_progress = useSelector(state => state.game_progress);
     const current_challenge = useSelector(state => state.current_challenge);
     const helper_arr = [...Array(7).keys()];
-    const game_context = useContext(GameContext);
     const number_of_unlocked_level = Object.keys(game_progress).length;
 
     const onClickLevel = (level) => {
         dispatch(to_level(level));
     };
 
-    useEffect(() => {
-        if (game_context.background.current_background !== background.MAIN_MENU) {
-            game_context.background.current_background = background.MAIN_MENU;
-            game_context.background.set_background(background.MAIN_MENU);
-        }
-    });
 
     if (current_challenge.level === -1) {
         return (

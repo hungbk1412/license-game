@@ -2,19 +2,19 @@ import React from 'react';
 import DescriptionInPracticeTheory from "./DescriptionInPracticeTheory";
 import Grid from "@material-ui/core/Grid";
 import {useDrop} from "react-dnd";
-import {itemTypes} from "../../../../definitions/Types";
+import {item_types} from "../../../../definitions/Types";
 
 const DropZone = (props) => {
     const index = props.index;
     const description = props.description;
-    const swap = props.swap;
-    const resetColor = props.resetColor;
+    const swap_position_of_two_rows = props.swap_position_of_two_rows;
+    const reset_color = props.reset_color;
 
     const [{isOver}, drop] = useDrop({
-        accept: itemTypes.PRACTICE_THEORY,
+        accept: item_types.PRACTICE_THEORY,
         drop: (item, monitor) => {
-            swap(item.position, index);
-            resetColor();
+            swap_position_of_two_rows(item.position, index);
+            reset_color();
         },
         collect: monitor => ({
             isOver: !!monitor.isOver()

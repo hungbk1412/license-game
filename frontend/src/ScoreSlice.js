@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {gameTypes} from "./definitions/Types";
+import {game_types} from "./definitions/Types";
 import lodash from 'lodash';
 
 const initial_state = {
@@ -31,10 +31,10 @@ const ScoreSlice = createSlice({
                 story_coefficient = story_coefficient - failed_times * 10;
             }
             let time_point = (300 - elapsed_time * 5);
-            let level_point = type === gameTypes.STORY ? 100 + story_coefficient * (story_level - 0) : 100 + practice_coefficient * (practice_level - 0);
+            let level_point = type === game_types.STORY ? 100 + story_coefficient * (story_level - 0) : 100 + practice_coefficient * (practice_level - 0);
             let total_point = level_point + time_point;
 
-            if (type === gameTypes.STORY) {
+            if (type === game_types.STORY) {
                 let current_point = lodash.get(object_state, ['score_of_all_levels', story_level, 'value'], 0);
                 if (current_point < total_point) {
                     lodash.set(object_state, ['score_of_all_levels', story_level, 'value'], total_point);
