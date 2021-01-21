@@ -43,3 +43,9 @@ export const video = require ('./oer_resources/video.png');
 export const navbar_setting_button = require ('./navbar/setting_button.png');
 export const navbar_logout_button = require ('./navbar/logout_button.png');
 export const navbar_back_button = require ('./navbar/back_button.png');
+
+//high_score
+export const high_score_background = require ('./high_score/high_score_background.png');
+export const high_score_rank1 = require ('./high_score/high_score_rank1.png');
+export const high_score_rank2 = require ('./high_score/high_score_rank2.png');
+export const high_score_rank3 = require ('./high_score/high_score_rank3.png');

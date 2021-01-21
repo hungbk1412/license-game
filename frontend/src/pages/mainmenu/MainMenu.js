@@ -6,13 +6,17 @@ import Grid from "@material-ui/core/Grid";
 import Button from '@material-ui/core/Button';
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect} from 'react-router-dom';
-import {menu_button_background} from "../../images";
+import {main_background, menu_button_background} from "../../images";
 import {fetch_high_score_board} from "../high_score/HighScoreBoardSlice";
-import {init_fetch_game_progress} from "../playground/story/GameProgressSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        'margin-top': '100px'
+        'height': '100%',
+        'background-image': `url(${main_background})`,
+        'background-size': '100% 100%'
+    },
+    mainmenu_container: {
+        'margin-top': '160px'
     },
     button: {
         [theme.breakpoints.up('xl')]: {
@@ -68,24 +72,24 @@ function MainMenu() {
         return (
             <Redirect to={'/high-score'}/>
         )
-    }
-    else {
+    } else {
         return (
-            <Grid container item direction={'column'} xs={10} spacing={10} className={styles.root}>
-                <Grid container item justify={'center'}>
-                    <Grid item xs={6} md={5}>
-                        <Button className={styles.button} fullWidth onClick={onClickPlay}>Play</Button>
+            <Grid container item justify={'center'} xs={12} className={styles.root}>
+                <Grid container item direction={'column'} xs={10} spacing={10} className={styles.mainmenu_container}>
+                    <Grid container item justify={'center'}>
+                        <Grid item xs={6} md={5}>
+                            <Button className={styles.button} fullWidth onClick={onClickPlay}>Play</Button>
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Grid container item justify={'center'}>
-                    <Grid item xs={6} md={5}>
-                        <Button className={styles.button} fullWidth onClick={onClickHowToPlay}>How To Play</Button>
+                    <Grid container item justify={'center'}>
+                        <Grid item xs={6} md={5}>
+                            <Button className={styles.button} fullWidth onClick={onClickHowToPlay}>How To Play</Button>
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Grid container item justify={'center'}>
-                    <Grid item xs={6} md={5}>
-                        <Button className={styles.button} fullWidth onClick={onClickHighScore}>My
-                            High Score</Button>
+                    <Grid container item justify={'center'}>
+                        <Grid item xs={6} md={5}>
+                            <Button className={styles.button} fullWidth onClick={onClickHighScore}>High Score</Button>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>

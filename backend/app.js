@@ -132,7 +132,7 @@ app.post('/api/v1/score/post', keycloak.checkSso(), (req, res) => {
         })
         .then(current_user => {
             HighScoreModel
-                .find({position: {$lt: 5}})
+                .find({position: {$lt: 3}})
                 .then(slots => {
                     slots = check_high_score(slots, current_user);
                     HighScoreModel.deleteMany({}).then(res => {
@@ -160,7 +160,7 @@ const check_high_score = (slots, current_user) => {
     let index_of_user_in_high_score_board = slots.findIndex((slot) => (slot.user.toString() === current_user._id.toString()));
     if (index_of_user_in_high_score_board !== -1 && slots[index_of_user_in_high_score_board].score <= current_user.score) {
         slots[index_of_user_in_high_score_board].score = current_user.score;
-    } else if (slots.length < 5 && index_of_user_in_high_score_board === -1) {
+    } else if (slots.length < 3 && index_of_user_in_high_score_board === -1) {
         slots.push({
             user: current_user._id,
             score: current_user.score

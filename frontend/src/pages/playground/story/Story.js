@@ -32,7 +32,7 @@ import {
     story_talk_box,
     story_question,
     story_smith,
-    story_go_button
+    story_go_button, story_background
 } from '../../../images';
 import {increase_time, reset_time} from "../../navbar/TimerSlice";
 import {set_score} from "../../../ScoreSlice";
@@ -45,7 +45,12 @@ const END_GAME_MESSAGE = 'Congratulation, you have finished the game';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        'position': 'relative'
+        'height': '100%',
+        'background-image': `url(${story_background})`,
+        'background-size': '100% 100%'
+    },
+    story_container: {
+        'margin-top': '50px'
     },
     context: {
         'backgroundImage': `url(${story_talk_box})`,
@@ -247,7 +252,7 @@ function Story() {
                             correctness: true,
                             message: nextChallenge === null ? END_GAME_MESSAGE : SUCCESS_MESSAGE
                         }
-                        ));
+                    ));
                 }
                 // Wrong Answer
                 else {
@@ -295,7 +300,7 @@ function Story() {
                     correctness: true,
                     message: nextChallenge === null ? END_GAME_MESSAGE : SUCCESS_MESSAGE
                 }
-                ));
+            ));
         } else {
             const message = failTimes < 2 ? FAIL_MESSAGE : current_challenge.hint;
             dispatch(open_confirm_submission_dialog({correctness: false, message: message}));
@@ -421,58 +426,62 @@ function Story() {
         return <PracticeMode practice={current_practice}/>
     } else {
         return (
-            <Grid container item direction={'row'} justify={'center'} alignItems={'center'} className={styles.root}>
-                <Slide direction={'left'} in={show_up.stable_content} mountOnEnter unmountOnExit>
-                    <img className={styles.smith} src={story_smith}/>
-                </Slide>
-                <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
-                <ChooseLicenseDialog click_on_submit_button={click_on_submit_button}/>
-                <Grid container item direction={'row'} justify={'center'} xs={11}>
-                    <Grid container item xs={12} justify={'flex-start'}>
-                        <Slide direction={'right'} in={show_up.stable_content} mountOnEnter unmountOnExit>
-                            <Grid container item xs={11} className={styles.context}
-                                  justify={'center'}>
-                                {current_challenge.context}
-                            </Grid>
-                        </Slide>
-                    </Grid>
-                    <Grid container item xs={12} justify={'flex-start'}>
-                        <Slide direction={'right'} in={show_up.unstable_content} mountOnEnter unmountOnExit>
-                            <Grid container item xs={7} className={styles.picture} justify={'center'}
-                                  alignItems={'center'}>
-                                <img className={styles.image_container} src={story_description_image_container}/>
-                                <img className={styles.image} src={current_challenge.description_image}/>
-                            </Grid>
-                        </Slide>
-                    </Grid>
-                    <Slide direction={'left'} in={show_up.unstable_content} mountOnEnter unmountOnExit>
-                        <Grid container item className={styles.question} justify={'center'}
-                              alignItems={'center'} xs={11}>
-                            {current_challenge.question}
-                        </Grid>
+            <Grid container item direction={'row'} justify={'center'} className={styles.root}>
+                <Grid container item direction={'row'} justify={'center'} alignItems={'center'}
+                      className={styles.story_container}>
+                    <Slide direction={'left'} in={show_up.stable_content} mountOnEnter unmountOnExit>
+                        <img className={styles.smith} src={story_smith}/>
                     </Slide>
-                    <Grid container item xs={12} justify={'space-between'}>
+                    <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
+                    <ChooseLicenseDialog click_on_submit_button={click_on_submit_button}/>
+                    <Grid container item direction={'row'} justify={'center'} xs={11}>
+                        <Grid container item xs={12} justify={'flex-start'}>
+                            <Slide direction={'right'} in={show_up.stable_content} mountOnEnter unmountOnExit>
+                                <Grid container item xs={11} className={styles.context}
+                                      justify={'center'}>
+                                    {current_challenge.context}
+                                </Grid>
+                            </Slide>
+                        </Grid>
+                        <Grid container item xs={12} justify={'flex-start'}>
+                            <Slide direction={'right'} in={show_up.unstable_content} mountOnEnter unmountOnExit>
+                                <Grid container item xs={7} className={styles.picture} justify={'center'}
+                                      alignItems={'center'}>
+                                    <img className={styles.image_container} src={story_description_image_container}/>
+                                    <img className={styles.image} src={current_challenge.description_image}/>
+                                </Grid>
+                            </Slide>
+                        </Grid>
+                        <Slide direction={'left'} in={show_up.unstable_content} mountOnEnter unmountOnExit>
+                            <Grid container item className={styles.question} justify={'center'}
+                                  alignItems={'center'} xs={11}>
+                                {current_challenge.question}
+                            </Grid>
+                        </Slide>
+                        <Grid container item xs={12} justify={'space-between'}>
+                            {
+                                [...Array(4).keys()].map(choiceNumber => {
+                                    return (
+                                        <Choice key={'storymode-choice-' + choiceNumber}
+                                                click_on_a_choice={click_on_a_choice}
+                                                display_text={current_challenge.choices[choiceNumber].display_text}
+                                                choice_number={choiceNumber}
+                                                is_selected={choices[choiceNumber].is_selected}
+                                                show_up={show_up.unstable_content}/>
+                                    )
+                                })
+                            }
+                        </Grid>
                         {
-                            [...Array(4).keys()].map(choiceNumber => {
-                                return (
-                                    <Choice key={'storymode-choice-' + choiceNumber} click_on_a_choice={click_on_a_choice}
-                                            display_text={current_challenge.choices[choiceNumber].display_text}
-                                            choice_number={choiceNumber}
-                                            is_selected={choices[choiceNumber].is_selected}
-                                            show_up={show_up.unstable_content}/>
-                                )
-                            })
+                            current_challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES &&
+                            <Grid container item xs={12} justify={'center'}>
+                                <Grid container item className={styles.go_button_container}>
+                                    <Button fullWidth className={styles.go_button}
+                                            onClick={click_on_go_button}>Go</Button>
+                                </Grid>
+                            </Grid>
                         }
                     </Grid>
-                    {
-                        current_challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES &&
-                        <Grid container item xs={12} justify={'center'}>
-                            <Grid container item className={styles.go_button_container}>
-                                <Button fullWidth className={styles.go_button}
-                                        onClick={click_on_go_button}>Go</Button>
-                            </Grid>
-                        </Grid>
-                    }
                 </Grid>
             </Grid>
         );

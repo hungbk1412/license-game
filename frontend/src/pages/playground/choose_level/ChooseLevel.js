@@ -1,16 +1,21 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {to_level} from "../story/CurrentChallangeSlice";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import {menu_button_background} from "../../../images";
+import {main_background, menu_button_background} from "../../../images";
 import {color} from '../../../definitions/Types';
 import Story from "../story/Story";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        'margin': '100px 0px 100px 0px',
+        'height': '100%',
+        'background-image': `url(${main_background})`,
+        'background-size': '100% 100%'
+    },
+    choose_level_container: {
+        'margin-top': '150px',
         'width': '100%'
     },
     level_clickable: {
@@ -59,34 +64,37 @@ const ChooseLevel = (props) => {
 
     if (current_challenge.level === -1) {
         return (
-            <Grid container direction={'column'} spacing={1} className={styles.root}>
-                <Grid container item justify={'center'}>
-                    <Grid item className={styles.header}>
-                        Choose Level
+            <Grid container item xs={12} justify={'center'} className={styles.root}>
+                <Grid container direction={'column'} spacing={1} className={styles.choose_level_container}>
+                    <Grid container item justify={'center'}>
+                        <Grid item className={styles.header}>
+                            Choose Level
+                        </Grid>
                     </Grid>
+                    {
+                        helper_arr.map(index => {
+                            if (index <= number_of_unlocked_level) {
+                                return (
+                                    <Grid container item justify={'center'} key={'choose-level-' + index}>
+                                        <Grid item xs={6} md={3}>
+                                            <Button className={styles.level_clickable} fullWidth
+                                                    onClick={() => onClickLevel(index)}>{index + 1}</Button>
+                                        </Grid>
+                                    </Grid>
+                                )
+                            } else {
+                                return (
+                                    <Grid container item justify={'center'} key={'choose-level-' + index}>
+                                        <Grid item xs={6} md={3}>
+                                            <Button className={styles.level_not_clickable}
+                                                    fullWidth>{index + 1}</Button>
+                                        </Grid>
+                                    </Grid>
+                                )
+                            }
+                        })
+                    }
                 </Grid>
-                {
-                    helper_arr.map(index => {
-                        if (index <= number_of_unlocked_level) {
-                            return (
-                                <Grid container item justify={'center'} key={'choose-level-' + index}>
-                                    <Grid item xs={6} md={3}>
-                                        <Button className={styles.level_clickable} fullWidth
-                                                onClick={() => onClickLevel(index)}>{index + 1}</Button>
-                                    </Grid>
-                                </Grid>
-                            )
-                        } else {
-                            return (
-                                <Grid container item justify={'center'} key={'choose-level-' + index}>
-                                    <Grid item xs={6} md={3}>
-                                        <Button className={styles.level_not_clickable} fullWidth>{index + 1}</Button>
-                                    </Grid>
-                                </Grid>
-                            )
-                        }
-                    })
-                }
             </Grid>
         );
     } else {

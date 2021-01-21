@@ -24,9 +24,7 @@ const useStyles = makeStyles(theme => {
         game: {
             'position': 'relative',
             'border': '1px solid black',
-            'height': '100vh',
-            'background-image': `url(${main_background})`,
-            'background-size': '100% 100%'
+            'height': '100vh'
         },
         root: {
             'background-color': '#6d3003',

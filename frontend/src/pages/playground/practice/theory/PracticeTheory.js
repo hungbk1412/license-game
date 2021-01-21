@@ -6,7 +6,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
 import MatchRow from "./MatchRow";
 import lodash from 'lodash';
-import {menu_button_background, story_question} from "../../../../images";
+import {menu_button_background, story_background, story_question} from "../../../../images";
 import {color, game_types} from "../../../../definitions/Types";
 import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
 import {
@@ -22,7 +22,12 @@ const FAIL_MESSAGE = 'Please try again';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        'margin-top': '20px'
+        'height': '100%',
+        'background-image': `url(${story_background})`,
+        'background-size': '100% 100%'
+    },
+    practice_theory_container: {
+        'margin-top': '70px'
     },
     header: {
         'color': color.NORMAL_TEXT_WHITE
@@ -192,7 +197,8 @@ function PracticeTheory(props) {
         set_helper_array([...Array(numberOfMatches).keys()]);
     }, [practice.id, current_challenge.level]);
     return (
-        <Grid container item direction={'row'} justify={'center'} alignItems={'flex-start'} alignContent={'flex-start'} xs={10} className={styles.root}>
+        <Grid container item direction={'row'} justify={'center'} xs={12} className={styles.root}>
+           <Grid container item direction={'row'} justify={'center'} alignItems={'flex-start'} alignContent={'flex-start'} xs={10} className={styles.practice_theory_container}>
             <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
             <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
                 <Grid container item direction={'row'} className={styles.header_container} xs={10} justify={'center'}
@@ -225,6 +231,7 @@ function PracticeTheory(props) {
                     </Grid>
                 </Grid>
             </Slide>
+           </Grid>
         </Grid>
     )
 }
