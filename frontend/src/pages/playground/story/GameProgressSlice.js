@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {getProgress} from "../../../utils/Requests";
 
 const init_fetch_game_progress = createAsyncThunk(
@@ -20,8 +20,7 @@ const GameProgressSlice = createSlice({
     reducers: {
         set_result_for_level: (current_game_progress, action) => {
             const level = action.payload.level;
-            const result = action.payload.result;
-            current_game_progress[level] = result;
+            current_game_progress[level] = action.payload.result;
             return current_game_progress;
         }
     },

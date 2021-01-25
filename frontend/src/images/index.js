@@ -8,13 +8,9 @@ export const CC_BY_ND = require ('./licenses/CC_BY_ND.png');
 export const CC_BY_NC_ND = require ('./licenses/CC_BY_NC_ND.png');
 
 // other folder
-export const badge = require ('./other/badge.png');
-export const unachieved_badge = require ('./other/unachieved_badge.svg');
 export const main_background = require('./other/main_background.png');
-export const menu_button_background = require('./other/menu_button_background.png');
 
 //story_mode folder
-export const iron_ore = require('./story_mode/iron_ore.png');
 export const story_background = require('./story_mode/background.png');
 export const story_smith = require('./story_mode/smith.png');
 export const story_choice = require('./story_mode/choice.png');
@@ -29,7 +25,7 @@ export const correct_symbol = require('./story_mode/dialog/correct_symbol.png');
 export const incorrect_symbol = require('./story_mode/dialog/incorrect_symbol.png');
 
 //practice folder
-export const practice_theory_symbol = require('./practice/symbol.png');
+export const practice_theory_concept = require('./practice/symbol.png');
 export const practice_theory_description = require('./practice/description.png');
 export const practice_lava_frame = require('./practice/lava_frame.png');
 
@@ -45,7 +41,10 @@ export const navbar_logout_button = require ('./navbar/logout_button.png');
 export const navbar_back_button = require ('./navbar/back_button.png');
 
 //high_score
-export const high_score_background = require ('./high_score/high_score_background.png');
 export const high_score_rank1 = require ('./high_score/high_score_rank1.png');
 export const high_score_rank2 = require ('./high_score/high_score_rank2.png');
 export const high_score_rank3 = require ('./high_score/high_score_rank3.png');
+
+//common
+export const leather_background = require ('./common/leather_background.png');
+export const system_button_background = require('./common/system_button_background.png');

@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import {useSelector} from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {
-    high_score_background,
+    leather_background,
     high_score_rank1,
     high_score_rank2,
     high_score_rank3, main_background
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
         'padding-top': '50px',
         'height': '580px',
         'width': '700px',
-        'background-image': `url(${high_score_background})`,
+        'background-image': `url(${leather_background})`,
         'background-size': '100% 100%'
     },
     header: {

@@ -3,29 +3,29 @@ import {license_types, resource_types, game_types} from "../../definitions/Types
 const generatePracticeTheoryLevel0 = () => {
     let data = [
         {[license_types.CC_BY]: `Original authors must be credited`},
-        {[license_types.CC_BY_SA]: `Original authors must be credited; redistribution with the exact same license`},
-        {[license_types.CC_BY_NC]: `Original authors must be credited; commercial use is NOT allowed`}
+        {[license_types.CC_BY_SA]: `Redistributions must have the same license with the original one`},
+        {[license_types.CC_BY_NC]: `Commercial use is NOT allowed`}
     ];
     return {
         type: game_types.PRACTICE_THEORY,
         level: 0,
         data: data,
-        description: 'Match the CC licences with the corresponding definitions',
+        description: 'Match the licences with the corresponding descriptions',
         numberOfMatches: data.length
     };
 };
 
 const generatePracticeTheoryLevel1 = () => {
     let data = [
-        {[license_types.CC_BY_NC_SA]: `Original authors must be credited; commercial use is NOT allowed; redistribution with the exact same license`},
-        {[license_types.CC_BY_ND]: `Original authors must be credited; modification is NOT allowed`},
-        {[license_types.CC_BY_NC_ND]: `Original authors must be credited; modification is NOT allowed; commercial use is NOT allowed`},
+        {[license_types.CC_BY_NC_SA]: `Commercial use is NOT allowed; Redistributions must have the same license with the original one`},
+        {[license_types.CC_BY_ND]: `Modification is NOT allowed`},
+        {[license_types.CC_BY_NC_ND]: `Modification and commercial use are NOT allowed`},
     ];
     return {
         type: game_types.PRACTICE_THEORY,
         level: 1,
         data: data,
-        description: 'Match the CC licences with the corresponding definitions',
+        description: 'Match the licences with the corresponding descriptions',
         numberOfMatches: data.length
     };
 };
@@ -39,7 +39,7 @@ const generatePracticeTheoryLevel2 = () => {
         type: game_types.PRACTICE_THEORY,
         level: 2,
         data: data,
-        description: 'Match the CC licences with the corresponding definitions',
+        description: 'Match the concepts with the corresponding descriptions',
         numberOfMatches: data.length
     }
 };

@@ -7,19 +7,36 @@ import {practice_theory_description} from "../../../../images";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        'position': 'relative',
         'color': color.NORMAL_TEXT_WHITE,
         'height': '90px',
         'text-align': 'center',
         'background-image': `url(${practice_theory_description})`,
         'background-size': '100% 100%',
         'padding-left': '25px',
-        'padding-right': '25px'
+        'padding-right': '25px',
+        '&:hover': {
+            'cursor': 'pointer'
+        }
+    },
+    transparent_layer: {
+        'backgroundColor': color.BACKGROUND_GREEN,
+        'position': 'absolute',
+        'top': '50%',
+        'left': '50%',
+        'transform': 'translate(-50%, -50%)',
+        'width': '88%',
+        'height': '65%',
+        'opacity': '0.3'
     }
 }));
 
 const DescriptionInPracticeTheory = (props) => {
     const description = props.description;
     const styles = useStyles();
+
+    // there is another item hovering on top of the current item
+    const is_over = props.is_over;
     const [{isDragging}, drag] = useDrag({
         item: {
             type: item_types.PRACTICE_THEORY,
@@ -31,8 +48,12 @@ const DescriptionInPracticeTheory = (props) => {
     });
 
     return (
-        <Grid container item justify={'center'} alignItems={'center'} xs={11} ref={drag} className={styles.root}>
-            {description}
+        <Grid container item justify={'center'} alignItems={'center'} alignContent={'center'} xs={11} ref={drag}
+              className={styles.root}>
+            <Grid item>
+                {description}
+            </Grid>
+            <Grid item className={is_over ? styles.transparent_layer : ''}/>
         </Grid>
     );
 };

@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from '@material-ui/core/Button';
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect} from 'react-router-dom';
-import {main_background, menu_button_background} from "../../images";
+import {main_background, system_button_background} from "../../images";
 import {fetch_high_score_board} from "../high_score/HighScoreBoardSlice";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +14,9 @@ const useStyles = makeStyles((theme) => ({
         'position': 'absolute',
         'height': '100%',
         'background-image': `url(${main_background})`,
-        'background-size': '100% 100%'
+        'background-size': '100% 100%',
+        // This is only a temporary fix
+        'z-index': 1
     },
     mainmenu_container: {
         'margin-top': '160px'
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
             'height': '50px',
             'font-size': '14px'
         },
-        'background-image': `url(${menu_button_background})`,
+        'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%'
     }
 }));

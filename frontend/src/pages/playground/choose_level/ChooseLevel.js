@@ -4,7 +4,7 @@ import {to_level} from "../story/CurrentChallangeSlice";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import {main_background, menu_button_background} from "../../../images";
+import {main_background, system_button_background} from "../../../images";
 import {color} from '../../../definitions/Types';
 import Story from "../story/Story";
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
             'height': '50px',
             'font-size': '14px'
         },
-        'background-image': `url(${menu_button_background})`,
+        'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%'
     },
     level_not_clickable: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
             'height': '50px',
             'font-size': '14px'
         },
-        'background-image': `url(${menu_button_background})`,
+        'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%'
     },
     header: {

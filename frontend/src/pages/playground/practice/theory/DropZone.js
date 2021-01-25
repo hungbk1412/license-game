@@ -10,20 +10,20 @@ const DropZone = (props) => {
     const swap_position_of_two_rows = props.swap_position_of_two_rows;
     const reset_color = props.reset_color;
 
-    const [{isOver}, drop] = useDrop({
+    const [{is_over}, drop] = useDrop({
         accept: item_types.PRACTICE_THEORY,
         drop: (item, monitor) => {
             swap_position_of_two_rows(item.position, index);
             reset_color();
         },
         collect: monitor => ({
-            isOver: !!monitor.isOver()
+            is_over: !!monitor.isOver()
         })
     });
 
     return (
         <Grid container item xs={7} ref={drop} justify={'flex-start'} alignItems={'center'}>
-            <DescriptionInPracticeTheory description={description} position={index}/>
+            <DescriptionInPracticeTheory description={description} position={index} is_over={is_over}/>
         </Grid>
     );
 };

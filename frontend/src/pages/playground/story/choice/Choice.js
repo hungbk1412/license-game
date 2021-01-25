@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     chosen_choice: {
-        'background-color': color.NORMAL_TEXT_WHITE
+        'background-color': color.BACKGROUND_GREEN
     },
     choice_button: {
         'backgroundImage': `url(${story_choice})`,

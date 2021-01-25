@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import DropZone from "./DropZone";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {color} from "../../../../definitions/Types";
-import {practice_theory_symbol, practice_lava_frame} from "../../../../images";
+import {practice_theory_concept, practice_lava_frame} from "../../../../images";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,17 +18,17 @@ const useStyles = makeStyles((theme) => ({
     wrong_notification: {
         'background-color': '#F64A0A'
     },
-    symbol: {
+    concept: {
         'color': color.NORMAL_TEXT_WHITE,
         'height': '90px',
-        'background-image': `url(${practice_theory_symbol})`,
+        'background-image': `url(${practice_theory_concept})`,
         'background-size': '100% 100%'
     }
 }));
 
 const MatchRow = (props) => {
     const styles = useStyles();
-    const symbol = props.symbol;
+    const concept = props.concept ? props.concept.toUpperCase() : null;
     const description = props.description;
     const index = props.index;
     const color = props.color;
@@ -50,9 +50,9 @@ const MatchRow = (props) => {
         <Grid container item xs={12}
               className={styles.root}
               ref={matchRow}>
-            <Grid container item xs={5} justify={'flex-end'} alignItems={'center'}>
-                <Grid container item justify={'center'} alignItems={'center'} xs={10} className={styles.symbol}>
-                    {symbol}
+            <Grid container item xs={5} justify={'flex-end'} alignItems={'center'} alignContent={'center'}>
+                <Grid container item justify={'center'} alignItems={'center'} xs={10} className={styles.concept}>
+                    {concept}
                 </Grid>
             </Grid>
             <DropZone index={index} swap_position_of_two_rows={swap_position_of_two_rows} description={description} reset_color={reset_color}/>

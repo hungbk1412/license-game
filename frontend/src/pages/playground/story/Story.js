@@ -37,6 +37,7 @@ import {
 import {increase_time, reset_time} from "../../navbar/TimerSlice";
 import {set_score} from "../../../ScoreSlice";
 import {postScore} from "../../../utils/Requests";
+import Introduction from "./Introduction";
 
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
@@ -171,6 +172,7 @@ function Story() {
     const score = useSelector(state => state.score);
     const [finalLicense, setFinalLicense] = useState('');
     const [failTimes, setFailTimes] = useState(0);
+    const [seen_introduction, set_seen_introduction] = useState(false);
 
     // Only used for questions requiring players to choose many answer (choices)
     const [choices, setChoices] = useState([
@@ -421,8 +423,11 @@ function Story() {
             clearInterval(timer);
         };
     });
-
-    if (current_practice !== null) {
+    if (current_challenge.level === 1 && !seen_introduction) {
+        return (
+            <Introduction set_seen_introduction={set_seen_introduction}/>
+        );
+    } else if (current_practice !== null) {
         return <PracticeMode practice={current_practice}/>
     } else {
         return (

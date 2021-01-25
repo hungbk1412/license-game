@@ -6,7 +6,7 @@ import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import {story_dialog, menu_button_background, correct_symbol, incorrect_symbol} from '../../../../images';
+import {story_dialog, system_button_background, correct_symbol, incorrect_symbol} from '../../../../images';
 import {color} from "../../../../definitions/Types";
 import confetti from "canvas-confetti";
 
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         'color': color.NORMAL_TEXT_WHITE
     },
     confirm_button: {
-        'background-image': `url(${menu_button_background})`,
+        'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
         'width': '120px',
         'margin-top': '15px'

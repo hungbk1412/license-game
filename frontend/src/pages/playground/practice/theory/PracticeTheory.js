@@ -6,7 +6,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
 import MatchRow from "./MatchRow";
 import lodash from 'lodash';
-import {menu_button_background, story_background, story_question} from "../../../../images";
+import {system_button_background, story_background, story_question} from "../../../../images";
 import {color, game_types} from "../../../../definitions/Types";
 import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
 import {
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         'bottom': '25px'
     },
     button: {
-        'background-image': `url(${menu_button_background})`,
+        'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
         'height': '50px',
         'color': color.NORMAL_TEXT_WHITE
@@ -66,21 +66,21 @@ const initOrder = (descriptions) => {
 };
 
 const extractSymbolAndDescriptionFromData = (data) => {
-    let symbols = [];
+    let concepts = [];
     let descriptions = [];
     data.forEach(elem => {
-        for (const symbol in elem) {
-            if (elem.hasOwnProperty(symbol)) {
-                symbols.push(symbol);
-                descriptions.push(elem[symbol]);
+        for (const concept in elem) {
+            if (elem.hasOwnProperty(concept)) {
+                concepts.push(concept);
+                descriptions.push(elem[concept]);
             }
         }
     });
 
     return {
-        symbols: symbols,
+        concepts: concepts,
         descriptions: descriptions,
-        numberOfMatches: symbols.length
+        numberOfMatches: concepts.length
     }
 };
 
@@ -108,7 +108,7 @@ function PracticeTheory(props) {
     const dispatch = useDispatch();
     const practice = props.practice;
     const current_challenge = useSelector(state => state.current_challenge);
-    const {symbols, descriptions, numberOfMatches} = extractSymbolAndDescriptionFromData(practice.data);
+    const {concepts, descriptions, numberOfMatches} = extractSymbolAndDescriptionFromData(practice.data);
     const [helper_array, set_helper_array] = useState([...Array(numberOfMatches).keys()]);
     const [orderedDescriptions, setOrderedDescriptions] = useState(initOrder(shuffle(descriptions)));
     const [show_up, set_show_up] = useState(true);
@@ -169,8 +169,8 @@ function PracticeTheory(props) {
             details: [],
             result: true
         };
-        for (let i = 0; i < symbols.length; i++) {
-            if (practice.data[i][symbols[i]] !== orderedDescriptions[i].description) {
+        for (let i = 0; i < concepts.length; i++) {
+            if (practice.data[i][concepts[i]] !== orderedDescriptions[i].description) {
                 correctness.result = false;
                 correctness.details.push(false);
             } else {
@@ -211,8 +211,8 @@ function PracticeTheory(props) {
                     {
                         helper_array.map(index => {
                             return (
-                                <MatchRow key={symbols[index] + '_' + descriptions[index]} index={index}
-                                          symbol={symbols[index]} description={orderedDescriptions[index].description}
+                                <MatchRow key={concepts[index] + '_' + descriptions[index]} index={index}
+                                          concept={concepts[index]} description={orderedDescriptions[index].description}
                                           swap_position_of_two_rows={swap_position_of_two_rows} color={orderedDescriptions[index].color}
                                           reset_color={reset_color}/>
                             );

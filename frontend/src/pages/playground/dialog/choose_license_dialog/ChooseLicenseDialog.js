@@ -8,7 +8,7 @@ import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
 import {license_types, color} from "../../../../definitions/Types";
 import {story_dialog} from "../../../../images";
-import {menu_button_background} from "../../../../images";
+import {system_button_background} from "../../../../images";
 
 const useStyles = makeStyles((theme) => ({
     pop_up: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     },
     submit_button: {
         'margin-bottom': '20px',
-        'background-image': `url(${menu_button_background})`,
+        'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
     },
     submit_button_container: {

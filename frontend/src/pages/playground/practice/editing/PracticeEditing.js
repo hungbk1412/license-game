@@ -18,7 +18,7 @@ import {
     select_license
 } from "../../dialog/choose_license_dialog/ChooseLicenseDialogSlice";
 import {checkCompatible} from "../../../../utils/Requests";
-import {menu_button_background, practice_lava_frame, story_background, story_question} from "../../../../images";
+import {system_button_background, practice_lava_frame, story_background, story_question} from "../../../../images";
 import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
 import {reset_time} from "../../../navbar/TimerSlice";
 import {set_score} from "../../../../ScoreSlice";
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     button: {
-        'background-image': `url(${menu_button_background})`,
+        'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
         'height': '50px',
         'color': color.NORMAL_TEXT_WHITE
