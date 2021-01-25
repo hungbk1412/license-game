@@ -44,8 +44,7 @@ function App() {
                 <CSSTransition key={location.key} classNames={"route-switch"} timeout={1000}>
                     <Switch location={location}>
                         <Route path={'/'}
-                               component={() => <MainMenu/>}
-                               exact/>
+                               component={MainMenu} exact/>
                         <Route path={'/play'} component={() => <ChooseLevel/>} exact/>
                         <Route path={'/high-score'} component={HighScoreBoard} exact/>
                     </Switch>

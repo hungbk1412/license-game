@@ -11,6 +11,7 @@ import {fetch_high_score_board} from "../high_score/HighScoreBoardSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        'position': 'absolute',
         'height': '100%',
         'background-image': `url(${main_background})`,
         'background-size': '100% 100%'

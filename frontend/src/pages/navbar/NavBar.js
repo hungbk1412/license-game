@@ -12,7 +12,8 @@ import jwt_decode from 'jwt-decode';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        'position': 'fixed'
+        'position': 'fixed',
+        'z-index': 1
     },
     navbar_container: {
         'margin-top': '10px'

@@ -10,6 +10,7 @@ import Story from "../story/Story";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        'position': 'absolute',
         'height': '100%',
         'background-image': `url(${main_background})`,
         'background-size': '100% 100%'
