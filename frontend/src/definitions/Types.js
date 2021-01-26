@@ -34,8 +34,10 @@ const questionTypes = {
 };
 
 const color = {
-    NORMAL_TEXT_WHITE: '#BFB7AF',
-    BACKGROUND_GREEN: '#89F781'
+    WHITE: '#BFB7AF',
+    GREEN: '#89F781',
+    BROWN: '#78281F',
+    LIGHT_BROWN: '#712409'
 };
 
 const background = {

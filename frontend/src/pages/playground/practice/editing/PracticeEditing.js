@@ -11,16 +11,16 @@ import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/Conf
 import {
     open_confirm_submission_dialog,
     close_confirm_submission_dialog
-} from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
+} from "../../../../redux_slices/ConfirmSubmissionDialogSlice";
 import {
     open_choose_license_dialog,
     close_choose_license_dialog,
     select_license
-} from "../../dialog/choose_license_dialog/ChooseLicenseDialogSlice";
+} from "../../../../redux_slices/ChooseLicenseDialogSlice";
 import {checkCompatible} from "../../../../utils/Requests";
 import {system_button_background, practice_lava_frame, story_background, story_question} from "../../../../images";
-import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
-import {reset_time} from "../../../navbar/TimerSlice";
+import {finish_a_practice} from "../../../../redux_slices/CurrentPracticesListSlice";
+import {reset_time} from "../../../../redux_slices/TimerSlice";
 import {set_score} from "../../../../ScoreSlice";
 import Slide from "@material-ui/core/Slide";
 
@@ -36,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
         'background-image': `url(${story_background})`,
         'background-size': '100% 100%'
     },
-    header: {
-        'color': color.NORMAL_TEXT_WHITE
+    description: {
+        'color': color.WHITE
     },
-    header_container: {
+    description_container: {
         'background-image': `url(${story_question})`,
         'background-size': '100% 100%',
         [theme.breakpoints.up('sm')]: {
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
         'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
         'height': '50px',
-        'color': color.NORMAL_TEXT_WHITE
+        'color': color.WHITE
     }
 }));
 
@@ -203,10 +203,10 @@ function PracticeEditing(props) {
                 <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
                 <Grid container item justify={'center'}>
                     <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
-                        <Grid container item direction={'row'} className={styles.header_container} xs={10}
+                        <Grid container item direction={'row'} className={styles.description_container} xs={10}
                               justify={'center'}
                               alignItems={'center'}>
-                            <Grid item className={styles.header}>{practice.description}</Grid>
+                            <Grid item className={styles.description}>{practice.description}</Grid>
                         </Grid>
                     </Slide>
                     <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>

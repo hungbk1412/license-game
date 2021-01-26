@@ -8,7 +8,7 @@ import {practice_theory_description} from "../../../../images";
 const useStyles = makeStyles((theme) => ({
     root: {
         'position': 'relative',
-        'color': color.NORMAL_TEXT_WHITE,
+        'color': color.WHITE,
         'height': '90px',
         'text-align': 'center',
         'background-image': `url(${practice_theory_description})`,
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     transparent_layer: {
-        'backgroundColor': color.BACKGROUND_GREEN,
+        'backgroundColor': color.GREEN,
         'position': 'absolute',
         'top': '50%',
         'left': '50%',

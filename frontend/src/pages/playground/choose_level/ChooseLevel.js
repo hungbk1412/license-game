@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {to_level} from "../story/CurrentChallangeSlice";
+import {to_level} from "../../../redux_slices/CurrentChallangeSlice";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
     header: {
         'font-size': '30px',
-        'color': color.NORMAL_TEXT_WHITE
+        'color': color.WHITE
     }
 }));
 

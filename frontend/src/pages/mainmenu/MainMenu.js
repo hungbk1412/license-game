@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from "react-redux";
-import {reset_to_default_challenge} from "../playground/story/CurrentChallangeSlice";
-import {reset_to_default_practices_list} from "../playground/story/CurrentPracticesListSlice";
+import {reset_to_default_challenge} from "../../redux_slices/CurrentChallangeSlice";
+import {reset_to_default_practices_list} from "../../redux_slices/CurrentPracticesListSlice";
 import Grid from "@material-ui/core/Grid";
 import Button from '@material-ui/core/Button';
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect} from 'react-router-dom';
 import {main_background, system_button_background} from "../../images";
-import {fetch_high_score_board} from "../high_score/HighScoreBoardSlice";
+import {fetch_high_score_board} from "../../redux_slices/HighScoreBoardSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {

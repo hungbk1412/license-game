@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     chosen_choice: {
-        'background-color': color.BACKGROUND_GREEN
+        'background-color': color.GREEN
     },
     choice_button: {
         'backgroundImage': `url(${story_choice})`,
         'background-size': '100% 100%',
-        'color': color.NORMAL_TEXT_WHITE,
+        'color': color.WHITE,
 
     }
 }));

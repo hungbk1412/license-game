@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from "react-redux";
-import {close_confirm_submission_dialog} from "./ConfirmSubmissionDialogSlice";
+import {close_confirm_submission_dialog} from "../../../../redux_slices/ConfirmSubmissionDialogSlice";
 import {Redirect} from 'react-router-dom';
 import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
     congratulation_message: {
         'margin-top': '10px',
-        'color': color.NORMAL_TEXT_WHITE
+        'color': color.WHITE
     },
     confirm_button: {
         'background-image': `url(${system_button_background})`,

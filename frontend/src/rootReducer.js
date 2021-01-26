@@ -1,11 +1,11 @@
-import currentChallengeReducer from './pages/playground/story/CurrentChallangeSlice';
-import currentPracticesListReducer from './pages/playground/story/CurrentPracticesListSlice';
-import confirmSubmissionDialogReducer from './pages/playground/dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice';
-import chooseLicenseDialogReducer from './pages/playground/dialog/choose_license_dialog/ChooseLicenseDialogSlice';
-import gameProgressReducer from './pages/playground/story/GameProgressSlice';
+import currentChallengeReducer from './redux_slices/CurrentChallangeSlice';
+import currentPracticesListReducer from './redux_slices/CurrentPracticesListSlice';
+import confirmSubmissionDialogReducer from './redux_slices/ConfirmSubmissionDialogSlice';
+import chooseLicenseDialogReducer from './redux_slices/ChooseLicenseDialogSlice';
+import gameProgressReducer from './redux_slices/GameProgressSlice';
 import scoreReducer from './ScoreSlice';
-import elapsedTimeReducer from './pages/navbar/TimerSlice';
-import highScoreReducer from './pages/high_score/HighScoreBoardSlice';
+import elapsedTimeReducer from './redux_slices/TimerSlice';
+import highScoreReducer from './redux_slices/HighScoreBoardSlice';
 import { combineReducers } from '@reduxjs/toolkit'
 
 const rootReducer = combineReducers({

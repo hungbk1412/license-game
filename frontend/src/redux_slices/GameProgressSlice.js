@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {getProgress} from "../../../utils/Requests";
+import {getProgress} from "../utils/Requests";
 
 const init_fetch_game_progress = createAsyncThunk(
     'game_progress/init_fetch_game_progress',

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         'background-color': '#F64A0A'
     },
     concept: {
-        'color': color.NORMAL_TEXT_WHITE,
+        'color': color.WHITE,
         'height': '90px',
         'background-image': `url(${practice_theory_concept})`,
         'background-size': '100% 100%'

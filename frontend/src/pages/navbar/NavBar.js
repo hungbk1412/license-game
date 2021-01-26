@@ -42,11 +42,11 @@ const useStyles = makeStyles((theme) => ({
         'background-size': '100% 100%'
     },
     player_name: {
-        'color': color.NORMAL_TEXT_WHITE,
+        'color': color.WHITE,
         'font-size': '20px'
     },
     score_and_time: {
-        'color': color.NORMAL_TEXT_WHITE,
+        'color': color.WHITE,
         'font-size': '20px'
     }
 }));

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {close_choose_license_dialog, select_license} from "./ChooseLicenseDialogSlice";
+import {close_choose_license_dialog, select_license} from "../../../../redux_slices/ChooseLicenseDialogSlice";
 import Form from "react-bootstrap/Form";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
     message: {
         'margin-top': '10px',
-        'color': color.NORMAL_TEXT_WHITE
+        'color': color.WHITE
     },
     submit_button: {
         'margin-bottom': '20px',

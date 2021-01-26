@@ -3,7 +3,7 @@ import {license_types, resource_types, game_types} from "../../definitions/Types
 const generatePracticeTheoryLevel0 = () => {
     let data = [
         {[license_types.CC_BY]: `Original authors must be credited`},
-        {[license_types.CC_BY_SA]: `Redistributions must have the same license with the original one`},
+        {[license_types.CC_BY_SA]: `Redistributions under the same license as the original`},
         {[license_types.CC_BY_NC]: `Commercial use is NOT allowed`}
     ];
     return {
@@ -17,9 +17,9 @@ const generatePracticeTheoryLevel0 = () => {
 
 const generatePracticeTheoryLevel1 = () => {
     let data = [
-        {[license_types.CC_BY_NC_SA]: `Commercial use is NOT allowed; Redistributions must have the same license with the original one`},
-        {[license_types.CC_BY_ND]: `Modification is NOT allowed`},
-        {[license_types.CC_BY_NC_ND]: `Modification and commercial use are NOT allowed`},
+        {[license_types.CC_BY_NC_SA]: `Commercial use is NOT allowed; Redistributions under the same license as the original`},
+        {[license_types.CC_BY_ND]: `Adaptation is NOT allowed`},
+        {[license_types.CC_BY_NC_ND]: `Adaptation and commercial use are NOT allowed`},
     ];
     return {
         type: game_types.PRACTICE_THEORY,

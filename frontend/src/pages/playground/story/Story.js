@@ -6,20 +6,20 @@ import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import challengeGenerator from '../../../utils/game_generator/Story';
-import {to_level, prepare_choice_for_last_level, prepare_oer_resources} from "./CurrentChallangeSlice";
-import {set_practices_list} from "./CurrentPracticesListSlice";
+import {to_level, prepare_choice_for_last_level, prepare_oer_resources} from "../../../redux_slices/CurrentChallangeSlice";
+import {set_practices_list} from "../../../redux_slices/CurrentPracticesListSlice";
 import {
     open_confirm_submission_dialog,
     close_confirm_submission_dialog
-} from "../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
+} from "../../../redux_slices/ConfirmSubmissionDialogSlice";
 import {
     open_choose_license_dialog,
     set_message_for_choose_license_dialog,
     close_choose_license_dialog,
     set_licenses_to_be_excluded_from_answer,
     select_license
-} from "../dialog/choose_license_dialog/ChooseLicenseDialogSlice";
-import {set_result_for_level} from "./GameProgressSlice";
+} from "../../../redux_slices/ChooseLicenseDialogSlice";
+import {set_result_for_level} from "../../../redux_slices/GameProgressSlice";
 import {questionTypes, color, game_types} from '../../../definitions/Types';
 import PracticeMode from '../practice/PracticeMode';
 import ChooseLicenseDialog from '../dialog/choose_license_dialog/ChooseLicenseDialog';
@@ -34,7 +34,7 @@ import {
     story_smith,
     story_go_button, story_background
 } from '../../../images';
-import {increase_time, reset_time} from "../../navbar/TimerSlice";
+import {increase_time, reset_time} from "../../../redux_slices/TimerSlice";
 import {set_score} from "../../../ScoreSlice";
 import {postScore} from "../../../utils/Requests";
 import Introduction from "./Introduction";
@@ -125,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
     go_button: {
         'backgroundImage': `url(${story_go_button})`,
         'background-size': '100% 100%',
-        'color': color.NORMAL_TEXT_WHITE,
+        'color': color.WHITE,
         'font-size': '20px',
         [theme.breakpoints.up('sm')]: {
             'margin-top': '20px'
@@ -423,7 +423,7 @@ function Story() {
             clearInterval(timer);
         };
     });
-    if (current_challenge.level === 1 && !seen_introduction) {
+    if (current_challenge.level === 0 && !seen_introduction) {
         return (
             <Introduction set_seen_introduction={set_seen_introduction}/>
         );

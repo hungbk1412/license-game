@@ -15,7 +15,7 @@ import {HTML5Backend} from 'react-dnd-html5-backend';
 import {TransitionGroup, CSSTransition} from "react-transition-group";
 import './App.css';
 import {useDispatch} from "react-redux";
-import {init_fetch_game_progress} from "./pages/playground/story/GameProgressSlice";
+import {init_fetch_game_progress} from "./redux_slices/GameProgressSlice";
 import HighScoreBoard from "./pages/high_score/HighScoreBoard";
 import {main_background} from "./images";
 

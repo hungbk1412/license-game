@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
-import challengeGenerator from "../../../utils/game_generator/Story";
-import {license_types} from "../../../definitions/Types";
+import challengeGenerator from "../utils/game_generator/Story";
+import {license_types} from "../definitions/Types";
 
 const initial_state = {
     type: 'default',

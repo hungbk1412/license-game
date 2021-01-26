@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {getHighScoreBoard} from "../../utils/Requests";
+import {getHighScoreBoard} from "../utils/Requests";
 
 const fetch_high_score_board = createAsyncThunk(
     'high_score_board/init_fetch_high_score',

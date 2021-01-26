@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {finish_a_practice} from "../../story/CurrentPracticesListSlice";
+import {finish_a_practice} from "../../../../redux_slices/CurrentPracticesListSlice";
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
@@ -12,8 +12,8 @@ import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/Conf
 import {
     open_confirm_submission_dialog,
     close_confirm_submission_dialog
-} from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialogSlice";
-import {reset_time} from "../../../navbar/TimerSlice";
+} from "../../../../redux_slices/ConfirmSubmissionDialogSlice";
+import {reset_time} from "../../../../redux_slices/TimerSlice";
 import {set_score} from "../../../../ScoreSlice";
 import Slide from "@material-ui/core/Slide";
 
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         'margin-top': '70px'
     },
     header: {
-        'color': color.NORMAL_TEXT_WHITE
+        'color': color.WHITE
     },
     header_container: {
         [theme.breakpoints.up('sm')]: {
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
         'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
         'height': '50px',
-        'color': color.NORMAL_TEXT_WHITE
+        'color': color.WHITE
     }
 }));
 
