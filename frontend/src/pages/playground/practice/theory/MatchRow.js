@@ -7,8 +7,8 @@ import {practice_theory_concept, practice_lava_frame} from "../../../../images";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        'height': '150px',
-        'margin-top': '30px',
+        'height': '16vh',
+        'margin-top': '3vh',
         'background-image': `url(${practice_lava_frame})`,
         'background-size': '100% 100%'
     },
@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
     },
     concept: {
         'color': color.WHITE,
-        'height': '90px',
+        'height': '10vh',
+        'font-size': '1.8vh',
         'background-image': `url(${practice_theory_concept})`,
         'background-size': '100% 100%'
     }

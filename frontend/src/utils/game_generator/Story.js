@@ -18,10 +18,10 @@ const generateLevel0 = () => {
                     ...practiceTheoryGenerator(1)
                 }
             ],
-        context: 'Nowadays, swords are often made from steel',
+        context: 'For the best quality, we choose steel as the metal making up the blade',
         description_image: null,
         question: `Steel is an alloy of carbon and a mysterious metal X. Given that X
-                   is associated with a CC license, which does not allow any commercial usages. What is X?`,
+                   is associated with a CC license, which prohibits any commercial use. What is X?`,
         choices: [
             {
                 display_text: 'Aluminium (CC-BY)',
@@ -41,7 +41,7 @@ const generateLevel0 = () => {
             }
         ],
         correctAnswer: 2,
-        hint: 'Hint level 0'
+        hint: 'NC means non-commercial'
     };
 };
 
@@ -59,8 +59,8 @@ const generateLevel1 = () => {
                 ...practiceEditingGenerator(0, game_types.PRACTICE_EDITING_COLLAGE)
             }
         ],
-        context: `Ok, so to make steel, we need to mix iron and carbon, but at which ratio?
-                  Too little carbon makes the sword soft, too much carbon makes the sword can be broken easily`,
+        context: `The secret for high quality steel is the carbon content in it. Too little carbon makes the blade too soft,
+        too much carbon makes the sword can be broken easily`,
         description_image: null,
         question: `How much carbon should we use to make the steel? Given that steel is a COLLAGE of carbon and iron. The steel should be CC-BY-SA
                    and the iron should be CC-ZERO`,
@@ -101,11 +101,10 @@ const generateLevel2 = () => {
                 ...practiceEditingGenerator(1, game_types.PRACTICE_EDITING_COLLAGE)
             }
         ],
-        context: `A royal gift has to be flawless. Iron and carbon are not enough. The king want the sword to last after decades.
-                  Therefore, we will put a secret substance into our steel. This small addition is what make you the best blacksmith of the country`,
+        context: `A royal gift has to be flawless must last for decades. To achieve this kind top-tier quality,
+                  we will add a secret substance into our steel.`,
         description_image: null,
-        question: `Given that steel is a COLLAGE of carbon, iron and secret substance X. The steel, the iron and the carbon are respectively
-        CC-BY-SA-NC, CC-ZERO and CC-BY-NC. What is X?`,
+        question: `Given that steel (CC-BY-NC-SA) is a COLLAGE of carbon (CC-ZERO), iron (CC-BY-NC) and secret substance X. What is X?`,
         choices: [
             {
                 display_text: 'Chromium (CC-BY-SA)',
@@ -125,7 +124,7 @@ const generateLevel2 = () => {
             }
         ],
         correctAnswer: 1,
-        hint: 'Hint level 2'
+        hint: 'Be careful with the SA licenses'
     };
 };
 
@@ -136,10 +135,11 @@ const generateLevel3 = () => {
         type: questionTypes.SELF_GENERATED,
         combination_type: 'composition',
         level: 3,
-        context: `After several days of hard working, we forged a fine blade. Our job now is to attach the blade to a hilt.`,
+        context: `After several days of hard working, we finally created a fine blade. Our job now is to attach the blade to a hilt.
+        Our beloved king granted you the freedom to choose any style of hilt you feel suitable.`,
         description_image: null,
-        question: `Given that the sword is a COMPOSITION of the blade and the hilt and the blade is ${blade_license}. Our beloved king granted you the freedom to choose
-                   any style of hilt you feel suitable.`,
+        question: `Given that the sword is a COMPOSITION of the blade (${blade_license.toUpperCase()}) and the hilt. Choose one in 4 following
+        styles and then license the sword accordingly`,
         choices: [
             {
                 display_text: 'Italian Style (CC-BY-SA)',
@@ -159,7 +159,7 @@ const generateLevel3 = () => {
             }
         ],
         correctAnswer: null,
-        hint: 'Hint level 3',
+        hint: 'Beware of the NC when creating composition',
         oer_resources: [blade_license]
     };
 };
@@ -168,7 +168,8 @@ const generateLevel4 = () => {
     return {
         type: questionTypes.SELF_GENERATED_WITH_TWO_CHOICES,
         level: 4,
-        context: `Because the sword is a royal gift, our king would like to add some gems to the sword`,
+        context: `To show the wealthy of the kingdom, our King wants to attach some gems to the sword. You are free to choose
+        any gem from the national treasure storehouse.`,
         description_image: null,
         question: `Please choose two types of gem to attach to the sword. As a special request from the king himself, the final sword must not be CC_BY_ND or CC_BY_NC_ND. This is a COMPOSITION`,
         choices: [
@@ -190,7 +191,7 @@ const generateLevel4 = () => {
             }
         ],
         correctAnswer: null,
-        hint: 'Hint level 4',
+        hint: 'Be careful if you include an "NC" gem',
         oer_resources: [],
         combination_type: 'composition',
         require_result_of_levels: [3],
@@ -202,7 +203,7 @@ const generateLevel5 = () => {
     return {
         type: questionTypes.MULTIPLE_CHOICE,
         level: 5,
-        context: `Now we need to prepare a sword box`,
+        context: `A sword, especially as a royal gift, must be contained in a box.`,
         description_image: null,
         question: `The sword box is built up from three main components: the wooden box (CC-Zero), the lock (CC-BY-NC),
          and the decoration silk inside the box (CC-BY-NC-SA). This is a COLLAGE. What is the license of the box?`,
@@ -225,7 +226,7 @@ const generateLevel5 = () => {
             }
         ],
         correctAnswer: 1,
-        hint: 'Hint level 5',
+        hint: 'Be careful of the NC-SA license',
         oer_resources: []
     };
 };
@@ -234,9 +235,9 @@ const generateLevel6 = () => {
     return {
         type: questionTypes.MULTIPLE_CHOICE,
         level: 6,
-        context: `Finally, the gift is completed. Let's put the sword in the box`,
+        context: `Finally, all the components are completed. Let's put the sword in the box`,
         description_image: null,
-        question: `The gift is a COLLAGE of the sword and the box. What license should this gift have?`,
+        question: null,
         choices: [
             {
                 display_text: null,

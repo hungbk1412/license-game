@@ -21,6 +21,7 @@ const resource_types = {
 };
 
 const game_types = {
+    PRACTICE: 'practice',
     PRACTICE_THEORY: 'practice_theory',
     PRACTICE_EDITING_COMPOSITION: 'practice_editing_composition',
     PRACTICE_EDITING_COLLAGE: 'practice_editing_collage',

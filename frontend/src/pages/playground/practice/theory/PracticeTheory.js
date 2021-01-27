@@ -16,6 +16,7 @@ import {
 import {reset_time} from "../../../../redux_slices/TimerSlice";
 import {set_score} from "../../../../ScoreSlice";
 import Slide from "@material-ui/core/Slide";
+import {set_practice_or_story} from "../../../../redux_slices/PracticeOrStorySlice";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -27,29 +28,26 @@ const useStyles = makeStyles((theme) => ({
         'background-size': '100% 100%'
     },
     practice_theory_container: {
-        'margin-top': '70px'
+        'margin-top': '7vh'
     },
     header: {
-        'color': color.WHITE
+        'color': color.WHITE,
+        'font-size': '1.8vh'
     },
     header_container: {
-        [theme.breakpoints.up('sm')]: {
-            'height': '90px'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'height': '120px'
-        },
+        'height': '10vh',
         'background-image': `url(${story_question})`,
         'background-size': '100% 100%'
     },
     buttons_container: {
         'position': 'absolute',
-        'bottom': '25px'
+        'bottom': '2.5vh'
     },
     button: {
         'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
-        'height': '50px',
+        'height': '6vh',
+        'font-size': '1.8vh',
         'color': color.WHITE
     }
 }));
@@ -196,42 +194,51 @@ function PracticeTheory(props) {
         setOrderedDescriptions(initOrder(shuffle(descriptions)));
         set_helper_array([...Array(numberOfMatches).keys()]);
     }, [practice.id, current_challenge.level]);
+
+    useEffect(() => {
+        dispatch(set_practice_or_story(game_types.PRACTICE));
+    });
+
     return (
         <Grid container item direction={'row'} justify={'center'} xs={12} className={styles.root}>
-           <Grid container item direction={'row'} justify={'center'} alignItems={'flex-start'} alignContent={'flex-start'} xs={10} className={styles.practice_theory_container}>
-            <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
-            <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
-                <Grid container item direction={'row'} className={styles.header_container} xs={10} justify={'center'}
-                      alignItems={'center'}>
-                    <Grid item className={styles.header}>{practice.description}</Grid>
-                </Grid>
-            </Slide>
-            <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
-                <Grid container item direction={'row'} xs={12}>
-                    {
-                        helper_array.map(index => {
-                            return (
-                                <MatchRow key={concepts[index] + '_' + descriptions[index]} index={index}
-                                          concept={concepts[index]} description={orderedDescriptions[index].description}
-                                          swap_position_of_two_rows={swap_position_of_two_rows} color={orderedDescriptions[index].color}
-                                          reset_color={reset_color}/>
-                            );
-                        })
-                    }
-                </Grid>
-            </Slide>
-            <Slide direction={'up'} in={show_up} mountOnEnter unmountOnExit>
-                <Grid container item xs={12} justify={'space-around'} className={styles.buttons_container}>
-                    <Grid container item xs={4} justify={'center'}>
-                        <Button fullWidth color={"primary"}
-                                onClick={click_on_submit} className={styles.button}>Submit</Button>
+            <Grid container item direction={'row'} justify={'center'} alignItems={'flex-start'}
+                  alignContent={'flex-start'} xs={10} className={styles.practice_theory_container}>
+                <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
+                <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
+                    <Grid container item direction={'row'} className={styles.header_container} xs={10}
+                          justify={'center'}
+                          alignItems={'center'}>
+                        <Grid item className={styles.header}>{practice.description}</Grid>
                     </Grid>
-                    <Grid container item xs={4} justify={'center'}>
-                        <Button fullWidth onClick={click_on_skip} className={styles.button}>Skip</Button>
+                </Slide>
+                <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
+                    <Grid container item direction={'row'} xs={12}>
+                        {
+                            helper_array.map(index => {
+                                return (
+                                    <MatchRow key={concepts[index] + '_' + descriptions[index]} index={index}
+                                              concept={concepts[index]}
+                                              description={orderedDescriptions[index].description}
+                                              swap_position_of_two_rows={swap_position_of_two_rows}
+                                              color={orderedDescriptions[index].color}
+                                              reset_color={reset_color}/>
+                                );
+                            })
+                        }
                     </Grid>
-                </Grid>
-            </Slide>
-           </Grid>
+                </Slide>
+                <Slide direction={'up'} in={show_up} mountOnEnter unmountOnExit>
+                    <Grid container item xs={12} justify={'space-around'} className={styles.buttons_container}>
+                        <Grid container item xs={4} justify={'center'}>
+                            <Button fullWidth color={"primary"}
+                                    onClick={click_on_submit} className={styles.button}>Submit</Button>
+                        </Grid>
+                        <Grid container item xs={4} justify={'center'}>
+                            <Button fullWidth onClick={click_on_skip} className={styles.button}>Skip</Button>
+                        </Grid>
+                    </Grid>
+                </Slide>
+            </Grid>
         </Grid>
     )
 }

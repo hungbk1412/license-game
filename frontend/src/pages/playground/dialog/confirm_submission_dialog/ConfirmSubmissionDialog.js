@@ -14,37 +14,30 @@ const useStyles = makeStyles((theme) => ({
     pop_up: {
         'background-image': `url(${story_dialog})`,
         'background-size': '100% 100%',
-        [theme.breakpoints.up('sm')]: {
-            'position': 'absolute',
-            'width': '350px',
-            'height': '250px',
-            'top': '50%',
-            'left': '50%',
-            'transform': 'translate(-50%,-50%)'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'position': 'absolute',
-            'width': '400px',
-            'height': '200px',
-            'top': '50%',
-            'left': '50%',
-            'transform': 'translate(-50%,-50%)'
-        }
+        'position': 'absolute',
+        'width': '20vw',
+        'height': '30vh',
+        'top': '50%',
+        'left': '50%',
+        'transform': 'translate(-50%,-50%)'
     },
     symbol: {
-        'margin-top': '40px',
-        'max-width': '30%',
-        'max-height': '30%'
+        'margin-top': '5vh',
+         'max-width': '4.5vw',
+         'max-height': '9vh'
     },
     congratulation_message: {
-        'margin-top': '10px',
-        'color': color.WHITE
+        'margin-top': '1.5vh',
+        'color': color.WHITE,
+        'font-size': '1.8vh'
     },
     confirm_button: {
         'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
-        'width': '120px',
-        'margin-top': '15px'
+        'width': '8vw',
+        'margin-top': '2.3vh',
+        'color': color.WHITE,
+        'font-size': '1.7vh'
     }
 }));
 
@@ -88,7 +81,7 @@ const ConfirmSubmissionDialog = (props) => {
     let buttonLabel = correctness ? 'Next Level' : 'Okay';
 
     if (is_last_level) {
-        buttonLabel = 'Back To Main Menu'
+        buttonLabel = 'Exit'
     }
     const onClickConfirm = () => {
         if (is_last_level) {

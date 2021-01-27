@@ -10,56 +10,53 @@ import {
 } from "../../images";
 
 const useStyles = makeStyles({
-    root: {
+    'root': {
         'height': '100%',
         'background-image': `url(${main_background})`,
         'background-size': '100% 100%'
     },
-    board_container: {
-        'padding-top': '50px',
-        'height': '580px',
-        'width': '700px',
+    'board_container': {
+        'padding-top': '5vh',
+        'height': '70vh',
+        'width': '33vw',
         'background-image': `url(${leather_background})`,
         'background-size': '100% 100%'
     },
-    header: {
-        'font-size': '40px'
+    'header': {
+        'font-size': '5vh'
     },
     'row': {
-        'margin-top': '20px'
+        'margin-top': '2vh'
     },
-    position: {
-        'font-size': '20px'
+    'position': {
+        'font-size': '2.3vh'
     },
     'position_0': {
-        'font-size': '20px',
+        'font-size': '2vh',
         'background-image': `url(${high_score_rank1})`,
         'background-size': '100% 100%',
-        'height': '75px',
-        'width': '60px'
+        'height': '8vh',
+        'width': '3vw'
     },
     'position_1': {
-        'font-size': '20px',
+        'font-size': '2vh',
         'background-image': `url(${high_score_rank2})`,
         'background-size': '100% 100%',
-        'height': '75px',
-        'width': '60px'
+        'height': '8vh',
+        'width': '3vw'
     },
     'position_2': {
-        'font-size': '20px',
+        'font-size': '2vh',
         'background-image': `url(${high_score_rank3})`,
         'background-size': '100% 100%',
-        'height': '75px',
-        'width': '60px'
+        'height': '8vh',
+        'width': '3vw'
     },
-
-    user_name: {
-
-        'font-size': '20px'
+    'user_name': {
+        'font-size': '2.3vh'
     },
-    score: {
-
-        'font-size': '20px'
+    'score': {
+        'font-size': '2.3vh'
     }
 });
 const HighScoreBoard = () => {

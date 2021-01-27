@@ -23,13 +23,14 @@ import {finish_a_practice} from "../../../../redux_slices/CurrentPracticesListSl
 import {reset_time} from "../../../../redux_slices/TimerSlice";
 import {set_score} from "../../../../ScoreSlice";
 import Slide from "@material-ui/core/Slide";
+import {set_practice_or_story} from "../../../../redux_slices/PracticeOrStorySlice";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
 
 const useStyles = makeStyles((theme) => ({
     practice_editing_container: {
-        'margin-top': '70px'
+        'margin-top': '7vh'
     },
     root: {
         'height': '100%',
@@ -37,45 +38,30 @@ const useStyles = makeStyles((theme) => ({
         'background-size': '100% 100%'
     },
     description: {
-        'color': color.WHITE
+        'color': color.WHITE,
+        'font-size': '1.8vh'
     },
     description_container: {
         'background-image': `url(${story_question})`,
         'background-size': '100% 100%',
-        [theme.breakpoints.up('sm')]: {
-            'height': '90px',
-            'margin-bottom': '10px'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'height': '70px',
-            'margin-bottom': '10px'
-        },
+        'height': '9vh',
+        'margin-bottom': '1vh'
     },
     result_box: {
         'background-image': `url(${practice_lava_frame})`,
         'background-size': '100% 100%',
-        [theme.breakpoints.up('sm')]: {
-            'height': '200px',
-            'margin-top': '25px'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'height': '350px',
-            'margin-top': '25px'
-        }
+        'height': '22vh',
+        'margin-top': '2.5vh'
     },
     button_container: {
         'position': 'absolute',
-        [theme.breakpoints.up('sm')]: {
-            'bottom': '25px'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'bottom': '25px'
-        }
+        'bottom': '2.5vh'
     },
     button: {
         'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
-        'height': '50px',
+        'height': '6vh',
+        'font-size': '1.8vh',
         'color': color.WHITE
     }
 }));
@@ -194,6 +180,9 @@ function PracticeEditing(props) {
         setChosenResourcesArray(initChosenResourcesArray(practice.resources));
     }, [practice.id, current_challenge.level]);
 
+    useEffect(() => {
+        dispatch(set_practice_or_story(game_types.PRACTICE));
+    });
 
     return (
         <Grid container item direction={'row'} justify={'center'} className={styles.root}>

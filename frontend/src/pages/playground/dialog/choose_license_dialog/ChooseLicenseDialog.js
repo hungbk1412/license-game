@@ -14,42 +14,34 @@ const useStyles = makeStyles((theme) => ({
     pop_up: {
         'background-image': `url(${story_dialog})`,
         'background-size': '100% 100%',
-        [theme.breakpoints.up('sm')]: {
-            'position': 'absolute',
-            'width': '400px',
-            'height': '250px',
-            'top': '50%',
-            'left': '50%',
-            'transform': 'translate(-50%,-50%)'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'position': 'absolute',
-            'width': '400px',
-            'height': '200px',
-            'top': '50%',
-            'left': '50%',
-            'transform': 'translate(-50%,-50%)'
-        }
+        'position': 'absolute',
+        'width': '23vw',
+        'height': '33vh',
+        'top': '50%',
+        'left': '50%',
+        'transform': 'translate(-50%,-50%)'
     },
     full_size: {
         'height': '100%',
         'width': '100%'
     },
     message: {
-        'margin-top': '10px',
+        'margin-top': '5vh',
+        'text-align': 'center',
         'color': color.WHITE
     },
     submit_button: {
-        'margin-bottom': '20px',
+        'margin-bottom': '4vh',
         'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
+        'color': color.WHITE,
+        'font-size': '1.7vh'
     },
     submit_button_container: {
-        'width': '100px'
+        'height': '6vh',
+        'width': '7vw'
     },
-    dropdown: {
-
-    }
+    dropdown: {}
 }));
 
 function ChooseLicenseDialog(props) {
@@ -77,14 +69,16 @@ function ChooseLicenseDialog(props) {
                onClose={() => dispatch(close_choose_license_dialog())}>
             <Grid className={styles.pop_up}>
                 <Form onSubmit={click_on_submit_button} className={styles.full_size}>
-                    <Grid container direction={'column'} alignItems={'center'} justify={'space-around'} className={styles.full_size}>
-                        <Grid item className={styles.message}>
+                    <Grid container direction={'row'} alignItems={'space-around'} justify={'center'}
+                          className={styles.full_size}>
+                        <Grid container item className={styles.message} xs={10}>
                             {message}
                         </Grid>
-                        <Grid item>
+                        <Grid container item xs={12} justify={'center'}>
                             <Form.Group>
                                 <Form.Control as="select" value={chosen_license}
-                                              onChange={(e) => dispatch(select_license(e.target.value))} className={styles.dropdown}>
+                                              onChange={(e) => dispatch(select_license(e.target.value))}
+                                              className={styles.dropdown}>
                                     <option value={'none'}>Not combinable</option>
                                     {
                                         getToBeDisplayedLicenses().map(license => {
@@ -97,7 +91,7 @@ function ChooseLicenseDialog(props) {
                                 </Form.Control>
                             </Form.Group>
                         </Grid>
-                        <Grid item className={styles.submit_button_container}>
+                        <Grid container item className={styles.submit_button_container} xs={3} justify={'center'}>
                             <Button type={'submit'} fullWidth className={styles.submit_button}>
                                 Submit
                             </Button>

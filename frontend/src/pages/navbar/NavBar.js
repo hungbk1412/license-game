@@ -16,44 +16,45 @@ const useStyles = makeStyles((theme) => ({
         'z-index': 2
     },
     navbar_container: {
-        'margin-top': '10px'
+        'margin-top': '1vh'
     },
     back_button: {
-        'margin-left': '10px',
+        'margin-left': '0.5vw',
         'min-width': '0px',
-        'width': '35px',
-        'height': '35px',
+        'width': '2vw',
+        'height': '4vh',
         'background-image': `url(${navbar_back_button})`,
         'background-size': '100% 100%'
     },
     logout_button: {
-        'margin-right': '10px',
+        'margin-right': '0.5vw',
         'min-width': '0px',
-        'width': '35px',
-        'height': '35px',
+        'width': '2vw',
+        'height': '4vh',
         'background-image': `url(${navbar_logout_button})`,
         'background-size': '100% 100%'
     },
     setting_button: {
         'min-width': '0px',
-        'width': '35px',
-        'height': '35px',
+        'width': '2vw',
+        'height': '4vh',
         'background-image': `url(${navbar_setting_button})`,
         'background-size': '100% 100%'
     },
     player_name: {
         'color': color.WHITE,
-        'font-size': '20px'
+        'font-size': '2vh'
     },
-    score_and_time: {
+    score_and_time_and_game_type: {
         'color': color.WHITE,
-        'font-size': '20px'
+        'font-size': '2vh'
     }
 }));
 
 
 const NavBar = () => {
     let history = useHistory();
+    const current_game_type = useSelector(state => state.practice_or_story);
     const total_score = useSelector(state => state.score.total_score);
     const elapsed_time = useSelector(state => state.elapsed_time);
     const decoded_token = jwt_decode(window.accessToken);
@@ -86,12 +87,21 @@ const NavBar = () => {
                     </Button>
                 </Grid>
                 <Grid container item xs={8} justify={'center'}>
-                    <Grid container item xs={6} justify={'space-around'}>
-                        <Grid item className={styles.score_and_time}>
-                            Score: {total_score}
+                    <Grid container item xs={12} justify={'flex-start'}>
+                        <Grid container item xs={3} justify={'flex-start'}>
+                            <Grid item className={styles.score_and_time_and_game_type}>
+                                Score: {total_score}
+                            </Grid>
                         </Grid>
-                        <Grid item className={styles.score_and_time}>
-                            Elapsed Time: {elapsed_time}
+                        <Grid container item xs={5} justify={'flex-start'}>
+                            <Grid item className={styles.score_and_time_and_game_type}>
+                                Game mode: {current_game_type.toUpperCase()}
+                            </Grid>
+                        </Grid>
+                        <Grid container item xs={4} justify={'flex-start'}>
+                            <Grid item className={styles.score_and_time_and_game_type}>
+                                Elapsed Time: {elapsed_time}
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>

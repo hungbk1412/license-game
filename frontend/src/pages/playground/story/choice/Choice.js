@@ -8,14 +8,11 @@ import {color} from "../../../../definitions/Types";
 
 const useStyles = makeStyles((theme) => ({
     choice: {
-        'margin-top': '5px',
-        'padding-left': '10px',
-        'padding-right': '10px',
         [theme.breakpoints.up('sm')]: {
-            'height': '90px'
+            'height': '12vh'
         },
         [theme.breakpoints.up('xl')]: {
-            'height': '75px'
+            'height': '12vh'
         }
     },
     chosen_choice: {
@@ -25,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
         'backgroundImage': `url(${story_choice})`,
         'background-size': '100% 100%',
         'color': color.WHITE,
+        'font-size': '1.6vh'
 
     }
 }));

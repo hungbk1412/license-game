@@ -16,36 +16,25 @@ const useStyles = makeStyles((theme) => ({
         'background-size': '100% 100%'
     },
     choose_level_container: {
-        'margin-top': '150px',
+        'margin-top': '15vh',
         'width': '100%'
     },
     level_clickable: {
-        [theme.breakpoints.up('xl')]: {
-            'height': '90px',
-            'font-size': '20px'
-        },
-        [theme.breakpoints.down('xl')]: {
-            'height': '50px',
-            'font-size': '14px'
-        },
+        'height': '6vh',
+        'font-size': '2vh',
         'background-image': `url(${system_button_background})`,
-        'background-size': '100% 100%'
+        'background-size': '100% 100%',
+        'color': color.WHITE
     },
     level_not_clickable: {
         'opacity': '0.3',
-        [theme.breakpoints.up('xl')]: {
-            'height': '90px',
-            'font-size': '20px'
-        },
-        [theme.breakpoints.down('xl')]: {
-            'height': '50px',
-            'font-size': '14px'
-        },
+        'height': '6vh',
+        'font-size': '2vh',
         'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%'
     },
     header: {
-        'font-size': '30px',
+        'font-size': '3vh',
         'color': color.WHITE
     }
 }));

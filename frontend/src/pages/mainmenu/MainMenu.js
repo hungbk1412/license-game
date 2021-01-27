@@ -8,6 +8,8 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Redirect} from 'react-router-dom';
 import {main_background, system_button_background} from "../../images";
 import {fetch_high_score_board} from "../../redux_slices/HighScoreBoardSlice";
+import {color} from "../../definitions/Types";
+import {reset_time} from "../../redux_slices/TimerSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,22 +18,17 @@ const useStyles = makeStyles((theme) => ({
         'background-image': `url(${main_background})`,
         'background-size': '100% 100%',
         // This is only a temporary fix
-        'z-index': 1
+        // 'z-index': 1
     },
     mainmenu_container: {
-        'margin-top': '160px'
+        'margin-top': '16vh'
     },
     button: {
-        [theme.breakpoints.up('xl')]: {
-            'height': '90px',
-            'font-size': '20px'
-        },
-        [theme.breakpoints.down('xl')]: {
-            'height': '50px',
-            'font-size': '14px'
-        },
+        'height': '6vh',
+        'font-size': '1.7vh',
         'background-image': `url(${system_button_background})`,
-        'background-size': '100% 100%'
+        'background-size': '100% 100%',
+        'color': color.WHITE
     }
 }));
 
@@ -61,6 +58,7 @@ function MainMenu() {
     useEffect(() => {
         dispatch(reset_to_default_challenge());
         dispatch(reset_to_default_practices_list());
+        dispatch(reset_time());
     });
 
     if (to_choose_level) {

@@ -46,7 +46,7 @@ const CurrentChallengeSlice = createSlice({
             });
             return current_challenge;
         },
-        prepare_choice_for_last_level: (current_challenge, action) => {
+        prepare_choice_and_question_for_last_level: (current_challenge, action) => {
             current_challenge.choices[current_challenge.correctAnswer].CC_license = action.payload.correctAnswer;
             current_challenge.choices[current_challenge.correctAnswer].display_text = action.payload.correctAnswer;
             let availableLicenses = Object.values(license_types).filter(elem => elem !== action.payload.correctAnswer);
@@ -61,13 +61,14 @@ const CurrentChallengeSlice = createSlice({
                     return license;
                 }
             });
+            current_challenge.question = `The gift is a COLLAGE of the sword (${current_challenge.oer_resources[0].toUpperCase()}) and the box (${current_challenge.oer_resources[1].toUpperCase()}). What license should we assign to the gift?`;
             return current_challenge;
         },
         reset_to_default_challenge: (state, action) => initial_state
     }
 });
 
-const { actions, reducer } = CurrentChallengeSlice;
-export const {to_level, prepare_oer_resources, prepare_choice_for_last_level, reset_to_default_challenge} = actions;
+const {actions, reducer} = CurrentChallengeSlice;
+export const {to_level, prepare_oer_resources, prepare_choice_and_question_for_last_level, reset_to_default_challenge} = actions;
 
 export default reducer

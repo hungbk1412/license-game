@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {Redirect} from 'react-router-dom';
 import {useSelector, useDispatch} from "react-redux";
 import lodash from 'lodash';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import challengeGenerator from '../../../utils/game_generator/Story';
-import {to_level, prepare_choice_for_last_level, prepare_oer_resources} from "../../../redux_slices/CurrentChallangeSlice";
+import {
+    to_level,
+    prepare_choice_and_question_for_last_level,
+    prepare_oer_resources
+} from "../../../redux_slices/CurrentChallangeSlice";
 import {set_practices_list} from "../../../redux_slices/CurrentPracticesListSlice";
 import {
     open_confirm_submission_dialog,
@@ -32,12 +35,13 @@ import {
     story_talk_box,
     story_question,
     story_smith,
-    story_go_button, story_background
+    story_next_button, story_background
 } from '../../../images';
 import {increase_time, reset_time} from "../../../redux_slices/TimerSlice";
 import {set_score} from "../../../ScoreSlice";
 import {postScore} from "../../../utils/Requests";
 import Introduction from "./Introduction";
+import {set_practice_or_story} from "../../../redux_slices/PracticeOrStorySlice";
 
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
@@ -51,25 +55,23 @@ const useStyles = makeStyles((theme) => ({
         'background-size': '100% 100%'
     },
     story_container: {
-        'margin-top': '50px'
+        'margin-top': '7vh'
     },
     context: {
         'backgroundImage': `url(${story_talk_box})`,
         'background-size': '100% 100%',
-        [theme.breakpoints.up('sm')]: {
-            'padding-top': '40px',
-            'padding-left': '70px',
-            'padding-right': '30px',
-            'height': '180px'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'height': '150px'
-        }
+        'padding-top': '4vh',
+        'padding-left': '3vw',
+        'padding-right': '2.5vw',
+        'height': '23vh',
+        'font-size': '1.8vh'
+
     },
     picture: {
         'position': 'relative',
+        'margin-top': '-2vh',
         [theme.breakpoints.up('sm')]: {
-            'height': '225px'
+            'height': '26vh'
         },
         [theme.breakpoints.up('xl')]: {
             'height': '300px'
@@ -77,16 +79,8 @@ const useStyles = makeStyles((theme) => ({
     },
     image_container: {
         'position': 'absolute',
-        'max-width': '100%',
-        'max-height': '100%',
-        [theme.breakpoints.up('sm')]: {
-            'top': '25px',
-            'left': '107px'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'top': '25px',
-            'left': '107px'
-        }
+        'max-width': '14vw',
+        'max-height': '26vh',
     },
     image: {
         'position': 'absolute',
@@ -98,55 +92,31 @@ const useStyles = makeStyles((theme) => ({
         'backgroundImage': `url(${story_question})`,
         'background-size': '100% 100%',
         'color': '#BFB7AF',
-        [theme.breakpoints.up('sm')]: {
-            'margin-top': '20px',
-            'padding-left': '40px',
-            'padding-right': '40px',
-            'height': '200px'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'height': '175px'
-        }
+        'margin-top': '2vh',
+        'padding-left': '4vw',
+        'padding-right': '4vw',
+        'height': '20vh',
+        'font-size': '1.8vh'
+
     },
-    submit_button: {
-        [theme.breakpoints.up('sm')]: {
-            'margin-top': '20px'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'margin-top': '20px'
-        }
-    },
-    go_button_container: {
+    next_button_container: {
         'position': 'absolute',
-        'bottom': '35px',
-        'height': '130px',
-        'width': '130px',
+        'bottom': '6vh',
+        'height': '12vh',
+        'width': '12vh',
     },
-    go_button: {
-        'backgroundImage': `url(${story_go_button})`,
+    next_button: {
+        'backgroundImage': `url(${story_next_button})`,
         'background-size': '100% 100%',
         'color': color.WHITE,
-        'font-size': '20px',
-        [theme.breakpoints.up('sm')]: {
-            'margin-top': '20px'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'margin-top': '20px'
-        }
+        'font-size': '2vh'
     },
     smith: {
         'z-index': '0',
         'position': 'absolute',
-        [theme.breakpoints.up('sm')]: {
-            'max-width': '45%',
-            'top': '100px',
-            'left': '500px'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'max-width': '25%',
-            'margin-left': '270px',
-            'margin-top': '120px',
-        }
+        'max-width': '25vw',
+        'top': '15vh',
+        'left': '30vw'
     }
 }));
 
@@ -203,12 +173,17 @@ function Story() {
         @param [int] choiceNumbers
      */
     const prepare_and_then_open_choose_license_dialog = (choiceNumbers) => {
-        let newMessage = current_challenge.oer_resources[0];
+        let newMessage = 'The ' + current_challenge.combination_type + ' of ' + current_challenge.oer_resources[0].toUpperCase();
         let newChosenLicenses = lodash.cloneDeep(chosenLicenses);
-        choiceNumbers.forEach(choiceNumber => {
-            newChosenLicenses.push(current_challenge.choices[choiceNumber].CC_license);
-            newMessage += '; ' + current_challenge.choices[choiceNumber].CC_license
-        });
+        for (let i = 0; i < choiceNumbers.length; i++) {
+            newChosenLicenses.push(current_challenge.choices[choiceNumbers[i]].CC_license);
+            if (i === choiceNumbers.length - 1) {
+                newMessage += ' and ' + current_challenge.choices[choiceNumbers[i]].CC_license.toUpperCase();
+                newMessage += ' is:';
+            } else {
+                newMessage += ', ' + current_challenge.choices[choiceNumbers[i]].CC_license.toUpperCase();
+            }
+        }
         setChosenLicenses(newChosenLicenses);
         dispatch(set_message_for_choose_license_dialog(newMessage));
         dispatch(select_license('none'));
@@ -258,8 +233,9 @@ function Story() {
                 }
                 // Wrong Answer
                 else {
-                    const message = failTimes === 1 ? FAIL_MESSAGE : current_challenge.hint;
+                    const message = failTimes < 2 ? FAIL_MESSAGE : current_challenge.hint;
                     dispatch(open_confirm_submission_dialog({correctness: false, message: message}));
+                    setFailTimes(failTimes + 1);
                 }
             })
             .catch(e => console.log(e));
@@ -398,7 +374,7 @@ function Story() {
             checkCompatible(window.accessToken, current_challenge.combination_type, current_challenge.oer_resources, 'check')
                 .then(res => {
                     if (res.hasOwnProperty('correctAnswer') && res.correctAnswer) {
-                        dispatch(prepare_choice_for_last_level({correctAnswer: res.correctAnswer}))
+                        dispatch(prepare_choice_and_question_for_last_level({correctAnswer: res.correctAnswer}))
                     }
                 })
                 .catch(e => console.log(e));
@@ -423,6 +399,11 @@ function Story() {
             clearInterval(timer);
         };
     });
+
+    useEffect(() => {
+        dispatch(set_practice_or_story(game_types.STORY));
+    });
+
     if (current_challenge.level === 0 && !seen_introduction) {
         return (
             <Introduction set_seen_introduction={set_seen_introduction}/>
@@ -432,7 +413,7 @@ function Story() {
     } else {
         return (
             <Grid container item direction={'row'} justify={'center'} className={styles.root}>
-                <Grid container item direction={'row'} justify={'center'} alignItems={'center'}
+                <Grid container item direction={'row'} justify={'center'}
                       className={styles.story_container}>
                     <Slide direction={'left'} in={show_up.stable_content} mountOnEnter unmountOnExit>
                         <img className={styles.smith} src={story_smith}/>
@@ -440,7 +421,7 @@ function Story() {
                     <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
                     <ChooseLicenseDialog click_on_submit_button={click_on_submit_button}/>
                     <Grid container item direction={'row'} justify={'center'} xs={11}>
-                        <Grid container item xs={12} justify={'flex-start'}>
+                        <Grid container item xs={10} justify={'flex-start'}>
                             <Slide direction={'right'} in={show_up.stable_content} mountOnEnter unmountOnExit>
                                 <Grid container item xs={11} className={styles.context}
                                       justify={'center'}>
@@ -480,9 +461,9 @@ function Story() {
                         {
                             current_challenge.type === questionTypes.SELF_GENERATED_WITH_TWO_CHOICES &&
                             <Grid container item xs={12} justify={'center'}>
-                                <Grid container item className={styles.go_button_container}>
-                                    <Button fullWidth className={styles.go_button}
-                                            onClick={click_on_go_button}>Go</Button>
+                                <Grid container item className={styles.next_button_container}>
+                                    <Button fullWidth className={styles.next_button}
+                                            onClick={click_on_go_button}>Next</Button>
                                 </Grid>
                             </Grid>
                         }

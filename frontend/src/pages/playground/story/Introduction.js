@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {leather_background, story_background} from "../../../images";
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
         'bottom': '15vh'
     },
     button_arrow: {
-        'font-size': '80px',
+        'font-size': '8vh',
         '&:hover': {
             'cursor': 'pointer'
         }
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
         'margin-top': '10vh',
         'color': color.LIGHT_BROWN,
         'font-family': 'Charmonman',
-        'font-size': '25px',
+        'font-size': '2.8vh',
         'text-align': 'justify'
     }
 });
