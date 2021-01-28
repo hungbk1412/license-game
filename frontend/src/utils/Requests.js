@@ -1,4 +1,4 @@
-import { BASE_URL_API } from '../definitions/config';
+import { BACKEND_BASE_URL_API } from '../definitions/config';
 import { API_PATH } from '../definitions/api';
 
 const checkCompatible = (token, combinationType, licenseArray, finalLicense) => {
@@ -14,7 +14,7 @@ const checkCompatible = (token, combinationType, licenseArray, finalLicense) => 
             licenseArray: licenseArray
         })
     };
-    return fetch(BASE_URL_API + API_PATH.CHECK_COMPATIBLE, requestOptions)
+    return fetch(BACKEND_BASE_URL_API + API_PATH.CHECK_COMPATIBLE, requestOptions)
         .then(res => {
             return res.json();
         })
@@ -31,7 +31,7 @@ const getProgress = (token) => {
             'Authorization': 'Bearer ' + token
         },
     };
-    return fetch(BASE_URL_API + API_PATH.PROGRESS_GET, requestOptions)
+    return fetch(BACKEND_BASE_URL_API + API_PATH.PROGRESS_GET, requestOptions)
         .then(res => res.json())
         .catch(e => {
             throw (e);
@@ -50,7 +50,7 @@ const postProgress = (token, level) => {
         })
     };
 
-    return fetch(BASE_URL_API + API_PATH.PROGRESS_POST, requestOptions)
+    return fetch(BACKEND_BASE_URL_API + API_PATH.PROGRESS_POST, requestOptions)
         .then(res => {
             return res;
         })
@@ -68,7 +68,7 @@ const getHighScoreBoard = (token) => {
         }
     };
 
-    return fetch(BASE_URL_API + API_PATH.HIGH_SCORE_GET, requestOptions)
+    return fetch(BACKEND_BASE_URL_API + API_PATH.HIGH_SCORE_GET, requestOptions)
         .then(res => {
             return res.json();
         })
@@ -89,7 +89,7 @@ const postScore = (token, score) => {
         })
     };
 
-    return fetch(BASE_URL_API + API_PATH.SCORE_POST, requestOptions)
+    return fetch(BACKEND_BASE_URL_API + API_PATH.SCORE_POST, requestOptions)
         .then(res => {
             return res;
         })
