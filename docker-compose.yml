@@ -1,6 +1,7 @@
 version: "3.8"
 services:
   frontend:
+    image: "frontend"
     stdin_open: true
     build:
       context: .
@@ -9,6 +10,7 @@ services:
       - "3000:3000"
 
   backend:
+    image: "backend"
     build:
       context: .
       dockerfile: ./backend/Dockerfile

@@ -1,4 +1,4 @@
-FROM node:14.15.4-alpine
+FROM node:11.15.0-alpine
 WORKDIR /app
 COPY ./backend .
 RUN npm install

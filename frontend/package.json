@@ -27,8 +27,8 @@
     "react-transition-group": "^4.4.1"
   },
   "scripts": {
-    "start": "NODE_ENV=prod react-scripts start",
-    "dev": "NODE_ENV=dev react-scripts start",
+    "start": "TEMP_ENV=prod react-scripts start",
+    "dev": "TEMP_ENV=dev react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
