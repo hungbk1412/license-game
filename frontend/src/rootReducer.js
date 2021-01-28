@@ -3,7 +3,7 @@ import currentPracticesListReducer from './redux_slices/CurrentPracticesListSlic
 import confirmSubmissionDialogReducer from './redux_slices/ConfirmSubmissionDialogSlice';
 import chooseLicenseDialogReducer from './redux_slices/ChooseLicenseDialogSlice';
 import gameProgressReducer from './redux_slices/GameProgressSlice';
-import scoreReducer from './ScoreSlice';
+import scoreReducer from './redux_slices/ScoreSlice';
 import elapsedTimeReducer from './redux_slices/TimerSlice';
 import highScoreReducer from './redux_slices/HighScoreBoardSlice';
 import practiceOrStoryReducer from './redux_slices/PracticeOrStorySlice';

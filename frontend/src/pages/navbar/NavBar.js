@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const NavBar = () => {
-    let history = useHistory();
+    const history = useHistory();
     const current_game_type = useSelector(state => state.practice_or_story);
     const total_score = useSelector(state => state.score.total_score);
     const elapsed_time = useSelector(state => state.elapsed_time);

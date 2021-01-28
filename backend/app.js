@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const jwt_decode = require('jwt-decode');
 const UserModel = require('./models/user');
 const HighScoreModel = require('./models/high_score');
-
+const {mongo_db_base_url} = require('./api');
 const app = express();
 
 const memoryStore = new session.MemoryStore();
@@ -190,7 +190,7 @@ const check_high_score = (slots, current_user) => {
     return slots;
 };
 
-mongoose.connect('mongodb://localhost:27017/license_game', {
+mongoose.connect(mongo_db_base_url + 'license_game', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(res => {

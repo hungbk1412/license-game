@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     message: {
         'margin-top': '5vh',
         'text-align': 'center',
+        'font-size': '1.7vh',
         'color': color.WHITE
     },
     submit_button: {

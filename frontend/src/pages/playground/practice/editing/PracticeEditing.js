@@ -21,7 +21,7 @@ import {checkCompatible} from "../../../../utils/Requests";
 import {system_button_background, practice_lava_frame, story_background, story_question} from "../../../../images";
 import {finish_a_practice} from "../../../../redux_slices/CurrentPracticesListSlice";
 import {reset_time} from "../../../../redux_slices/TimerSlice";
-import {set_score} from "../../../../ScoreSlice";
+import {set_score} from "../../../../redux_slices/ScoreSlice";
 import Slide from "@material-ui/core/Slide";
 import {set_practice_or_story} from "../../../../redux_slices/PracticeOrStorySlice";
 

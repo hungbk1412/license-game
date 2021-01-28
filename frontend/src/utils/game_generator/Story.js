@@ -1,5 +1,6 @@
 import {license_types, questionTypes, game_types} from '../../definitions/Types';
 import {practiceTheoryGenerator, practiceEditingGenerator} from "./Practice";
+import {level0_description, level1_description, level2_description} from "../../images";
 // For multiple_choice questions, declaring combination_type in the challenge is not necessary because the correct answer
 // is fixed. Hence no request to the server will be made.
 
@@ -19,7 +20,7 @@ const generateLevel0 = () => {
                 }
             ],
         context: 'For the best quality, we choose steel as the metal making up the blade',
-        description_image: null,
+        description_image: level0_description,
         question: `Steel is an alloy of carbon and a mysterious metal X. Given that X
                    is associated with a CC license, which prohibits any commercial use. What is X?`,
         choices: [
@@ -61,7 +62,7 @@ const generateLevel1 = () => {
         ],
         context: `The secret for high quality steel is the carbon content in it. Too little carbon makes the blade too soft,
         too much carbon makes the sword can be broken easily`,
-        description_image: null,
+        description_image: level1_description,
         question: `How much carbon should we use to make the steel? Given that steel is a COLLAGE of carbon and iron. The steel should be CC-BY-SA
                    and the iron should be CC-ZERO`,
         choices: [
@@ -103,7 +104,7 @@ const generateLevel2 = () => {
         ],
         context: `A royal gift has to be flawless must last for decades. To achieve this kind top-tier quality,
                   we will add a secret substance into our steel.`,
-        description_image: null,
+        description_image: level2_description,
         question: `Given that steel (CC-BY-NC-SA) is a COLLAGE of carbon (CC-ZERO), iron (CC-BY-NC) and secret substance X. What is X?`,
         choices: [
             {

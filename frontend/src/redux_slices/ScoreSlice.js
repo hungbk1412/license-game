@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {game_types} from "./definitions/Types";
+import {game_types} from "../definitions/Types";
 import lodash from 'lodash';
 
 const initial_state = {

@@ -20,6 +20,11 @@ import {
 } from '../../../../images';
 
 const useStyles = makeStyles((theme) => ({
+    resource_container: {
+      '&:hover': {
+          'cursor': 'pointer'
+      }
+    },
     close_button: {
         'position': 'absolute',
         'top': '-20px',
@@ -117,7 +122,7 @@ const ResourceInPracticeEditing = (props) => {
                   xs={3}
                   justify={'center'}
             >
-                <Grid container item direction={'row'} ref={drag} xs={6} justify={'center'}>
+                <Grid container item direction={'row'} ref={drag} xs={6} justify={'center'} className={styles.resource_container}>
                     <Grid item className={styles.resource_and_close_button}>
                         <IconButton className={styles.close_button} size={'small'}
                                     onClick={() => on_click_remove_resource(props.resource_id)}>
@@ -134,7 +139,7 @@ const ResourceInPracticeEditing = (props) => {
             <Grid container item direction={'row'} alignItems={'flex-end'}
                   xs={3}
                   justify={'center'}>
-                <Grid container item direction={'row'} ref={drag} xs={6} justify={'center'}>
+                <Grid container item direction={'row'} ref={drag} xs={6} justify={'center'} className={styles.resource_container}>
                     <img className={styles.images} src={resource_type}/>
                     <img className={styles.images} src={license}/>
                 </Grid>

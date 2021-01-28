@@ -38,7 +38,7 @@ import {
     story_next_button, story_background
 } from '../../../images';
 import {increase_time, reset_time} from "../../../redux_slices/TimerSlice";
-import {set_score} from "../../../ScoreSlice";
+import {set_score} from "../../../redux_slices/ScoreSlice";
 import {postScore} from "../../../utils/Requests";
 import Introduction from "./Introduction";
 import {set_practice_or_story} from "../../../redux_slices/PracticeOrStorySlice";
@@ -84,8 +84,8 @@ const useStyles = makeStyles((theme) => ({
     },
     image: {
         'position': 'absolute',
-        'max-width': '10%',
-        'max-height': '10%'
+        'max-width': '60%',
+        'max-height': '60%'
     },
     question: {
         'z-index': '1',

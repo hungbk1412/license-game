@@ -17,7 +17,7 @@ import './App.css';
 import {useDispatch} from "react-redux";
 import {init_fetch_game_progress} from "./redux_slices/GameProgressSlice";
 import HighScoreBoard from "./pages/high_score/HighScoreBoard";
-import {main_background} from "./images";
+import HowToPlay from "./pages/how_to_play/HowToPlay";
 
 const useStyles = makeStyles(theme => {
     return {
@@ -45,8 +45,9 @@ function App() {
                     <Switch location={location}>
                         <Route path={'/'}
                                component={MainMenu} exact/>
-                        <Route path={'/play'} component={() => <ChooseLevel/>} exact/>
+                        <Route path={'/play'} component={ChooseLevel}/>
                         <Route path={'/high-score'} component={HighScoreBoard} exact/>
+                        <Route path={'/how-to-play'} component={HowToPlay} exact />
                     </Switch>
                 </CSSTransition>
             </TransitionGroup>

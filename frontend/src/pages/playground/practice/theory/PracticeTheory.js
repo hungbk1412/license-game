@@ -14,7 +14,7 @@ import {
     close_confirm_submission_dialog
 } from "../../../../redux_slices/ConfirmSubmissionDialogSlice";
 import {reset_time} from "../../../../redux_slices/TimerSlice";
-import {set_score} from "../../../../ScoreSlice";
+import {set_score} from "../../../../redux_slices/ScoreSlice";
 import Slide from "@material-ui/core/Slide";
 import {set_practice_or_story} from "../../../../redux_slices/PracticeOrStorySlice";
 

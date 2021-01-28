@@ -67,7 +67,7 @@ function MainMenu() {
         )
     } else if (to_instruction) {
         return (
-            <Redirect to={'/instruction'}/>
+            <Redirect to={'/how-to-play'}/>
         )
     } else if (to_high_score) {
         return (
