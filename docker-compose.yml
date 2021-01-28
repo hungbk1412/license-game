@@ -1,6 +1,5 @@
 version: "3.8"
 services:
-
   frontend:
     build:
       context: .
@@ -9,12 +8,14 @@ services:
       - "3000:3000"
 
   backend:
-   build:
-     context: .
-     dockerfile: ./backend/Dockerfile
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
 
   keycloak:
     image: "jboss/keycloak"
+    ports:
+      - "8080:8080"
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
@@ -23,6 +24,8 @@ services:
       - ./realm-export.json:/tmp/realm-export.json
   mongo_db:
     image: "mongo:4.2-bionic"
+    ports:
+      - "27017:27017"
   mongo_db_web_interface:
     image: "mongo-express"
     ports:
