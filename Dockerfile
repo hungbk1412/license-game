@@ -1,6 +1,11 @@
-FROM docker:20.10.2-dind
+FROM docker:19.03-dind
 WORKDIR /app
 COPY . .
 RUN apk update
 RUN apk add docker-compose
-CMD ["docker-compose", "up"]
+RUN apk add --update npm
+RUN npm install -g serve
+RUN npm install --prefix ./backend
+RUN npm install --prefix ./frontend
+RUN npm run build --prefix ./frontend
+CMD ["npm", "start"]

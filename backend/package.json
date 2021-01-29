@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"node app.js\" \"cd ../frontend && serve -s build\"",
+    "start": "concurrently \"cd ../frontend && serve -s build\" \"docker-compose up\"",
     "dev": "npx nodemon app.js"
   },
   "author": "Vu Tuan Tran",
