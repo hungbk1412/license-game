@@ -28,6 +28,10 @@ const keycloak = require('./utils/keycloak-config').initKeycloak(memoryStore);
 
 app.use(keycloak.middleware());
 
+app.get('/health-check/', (req, res) => {
+    res.send('Server is on');
+});
+
 app.post('/api/v1/check-compatible', keycloak.checkSso(), (req, res) => {
     const {type} = req.body;
     const bearer_token = req.headers.authorization;
@@ -48,7 +52,10 @@ app.get('/api/v1/progress/get', keycloak.checkSso(), (req, res) => {
     UserModel
         .findOne({email: decoded_token.email})
         .then(userDoc => {
-            if (userDoc.sub === decoded_token.sub) {
+            if (!userDoc) {
+                const user = new UserModel({...decoded_token});
+                return user.save();
+            } else if (userDoc.sub === decoded_token.sub) {
                 res.status(200).json(userDoc.toJSON());
             } else {
                 res.status(200).json(null);
@@ -195,7 +202,7 @@ mongoose.connect(mongo_db_base_url + 'license_game', {
     useUnifiedTopology: true
 }).then(res => {
     console.log('connected to mongoDB');
-    app.listen(5000, () => {
-        console.log('App listening on port 5000');
+    app.listen(5001, () => {
+        console.log('App listening on port 5001');
     });
 }).catch(err => console.log(err));

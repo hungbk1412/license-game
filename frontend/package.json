@@ -12,6 +12,7 @@
     "bootstrap": "^4.5.3",
     "canvas-confetti": "^1.3.3",
     "classnames": "^2.2.6",
+    "dotenv": "^8.2.0",
     "fontsource-roboto": "^3.0.3",
     "jwt-decode": "^3.1.2",
     "keycloak-js": "^11.0.3",
@@ -27,8 +28,7 @@
     "react-transition-group": "^4.4.1"
   },
   "scripts": {
-    "start": "TEMP_ENV=prod react-scripts start",
-    "dev": "TEMP_ENV=dev react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
