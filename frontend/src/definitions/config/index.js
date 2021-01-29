@@ -1,11 +1,11 @@
 let BACKEND_BASE_URL_API = 'http://localhost:5001/api/v1';
 let KEYCLOAK_BASE_URL_API = 'http://localhost:8080/';
-
-// if (process.env.NODE_ENV === 'production') {
-//     BACKEND_BASE_URL_API = 'http://backend:5001/api/v1';
-// } else if (process.env.NODE_ENV === 'development') {
-//     BACKEND_BASE_URL_API = 'http://localhost:5001/api/v1';
-// }
+if (process.env.REACT_APP_KEYCLOAK_BASE_URL) {
+    KEYCLOAK_BASE_URL_API = process.env.REACT_APP_KEYCLOAK_BASE_URL;
+}
+if (process.env.REACT_APP_BACKEND_BASE_URL) {
+    BACKEND_BASE_URL_API = process.env.REACT_APP_BACKEND_BASE_URL;
+}
 
 
 export {BACKEND_BASE_URL_API, KEYCLOAK_BASE_URL_API};

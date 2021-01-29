@@ -619,7 +619,6 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://frontend:5000/*",
         "http://localhost:3000/*",
         "http://localhost:5000/*"
       ],
@@ -631,8 +630,7 @@
         "http://localhost:3000/",
         "http://localhost:5000/",
         "http://localhost:5000/*",
-        "http://localhost:3000",
-        "http://frontend:5000/"
+        "http://localhost:3000"
       ],
       "notBefore": 0,
       "bearerOnly": false,
