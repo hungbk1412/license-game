@@ -6,8 +6,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_USER=well
+      - KEYCLOAK_PASSWORD=whale
       - KEYCLOAK_IMPORT=/tmp/realm-export.json
     volumes:
       - ./realm-export.json:/tmp/realm-export.json

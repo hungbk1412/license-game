@@ -1,6 +1,14 @@
 import {license_types, questionTypes, game_types} from '../../definitions/Types';
 import {practiceTheoryGenerator, practiceEditingGenerator} from "./Practice";
-import {level0_description, level1_description, level2_description} from "../../images";
+import {
+    level_0_description,
+    level_1_description,
+    level_2_description,
+    level_3_description,
+    level_4_description,
+    level_5_description,
+    level_6_description
+} from "../../images";
 // For multiple_choice questions, declaring combination_type in the challenge is not necessary because the correct answer
 // is fixed. Hence no request to the server will be made.
 
@@ -20,7 +28,7 @@ const generateLevel0 = () => {
                 }
             ],
         context: 'For the best quality, we choose steel as the metal making up the blade',
-        description_image: level0_description,
+        description_image: level_0_description,
         question: `Steel is an alloy of carbon and a mysterious metal X. Given that X
                    is associated with a CC license, which prohibits any commercial use. What is X?`,
         choices: [
@@ -62,7 +70,7 @@ const generateLevel1 = () => {
         ],
         context: `The secret for high quality steel is the carbon content in it. Too little carbon makes the blade too soft,
         too much carbon makes the sword can be broken easily`,
-        description_image: level1_description,
+        description_image: level_1_description,
         question: `How much carbon should we use to make the steel? Given that steel is a COLLAGE of carbon and iron. The steel should be CC-BY-SA
                    and the iron should be CC-ZERO`,
         choices: [
@@ -104,7 +112,7 @@ const generateLevel2 = () => {
         ],
         context: `A royal gift has to be flawless must last for decades. To achieve this kind top-tier quality,
                   we will add a secret substance into our steel.`,
-        description_image: level2_description,
+        description_image: level_2_description,
         question: `Given that steel (CC-BY-NC-SA) is a COLLAGE of carbon (CC-ZERO), iron (CC-BY-NC) and secret substance X. What is X?`,
         choices: [
             {
@@ -138,7 +146,7 @@ const generateLevel3 = () => {
         level: 3,
         context: `After several days of hard working, we finally created a fine blade. Our job now is to attach the blade to a hilt.
         Our beloved king granted you the freedom to choose any style of hilt you feel suitable.`,
-        description_image: null,
+        description_image: level_3_description,
         question: `Given that the sword is a COMPOSITION of the blade (${blade_license.toUpperCase()}) and the hilt. Choose one in 4 following
         styles and then license the sword accordingly`,
         choices: [
@@ -171,7 +179,7 @@ const generateLevel4 = () => {
         level: 4,
         context: `To show the wealthy of the kingdom, our King wants to attach some gems to the sword. You are free to choose
         any gem from the national treasure storehouse.`,
-        description_image: null,
+        description_image: level_4_description,
         question: `Please choose two types of gem to attach to the sword. As a special request from the king himself, the final sword must not be CC_BY_ND or CC_BY_NC_ND. This is a COMPOSITION`,
         choices: [
             {
@@ -205,7 +213,7 @@ const generateLevel5 = () => {
         type: questionTypes.MULTIPLE_CHOICE,
         level: 5,
         context: `A sword, especially as a royal gift, must be contained in a box.`,
-        description_image: null,
+        description_image: level_5_description,
         question: `The sword box is built up from three main components: the wooden box (CC-Zero), the lock (CC-BY-NC),
          and the decoration silk inside the box (CC-BY-NC-SA). This is a COLLAGE. What is the license of the box?`,
         choices: [
@@ -237,7 +245,7 @@ const generateLevel6 = () => {
         type: questionTypes.MULTIPLE_CHOICE,
         level: 6,
         context: `Finally, all the components are completed. Let's put the sword in the box`,
-        description_image: null,
+        description_image: level_6_description,
         question: null,
         choices: [
             {

@@ -22,9 +22,13 @@ export const story_talk_box = require('./story_mode/talk_box.png');
 export const story_dialog= require('./story_mode/dialog/dialog_background.png');
 export const correct_symbol = require('./story_mode/dialog/correct_symbol.png');
 export const incorrect_symbol = require('./story_mode/dialog/incorrect_symbol.png');
-export const level0_description = require('./story_mode/level_0_description_img.png');
-export const level1_description = require('./story_mode/level_1_description_img.png');
-export const level2_description = require('./story_mode/level_2_description_img.png');
+export const level_0_description = require('./story_mode/level_0_description_img.png');
+export const level_1_description = require('./story_mode/level_1_description_img.png');
+export const level_2_description = require('./story_mode/level_2_description_img.png');
+export const level_3_description = require('./story_mode/level_3_description_img.png');
+export const level_4_description = require('./story_mode/level_4_description_img.png');
+export const level_5_description = require('./story_mode/level_5_description_img.png');
+export const level_6_description = require('./story_mode/level_6_description_img.png');
 
 
 //practice folder
