@@ -1,5 +1,6 @@
-let keycloak_base_url = 'http://localhost:8080/';
+let keycloak_base_url = 'http://localhost:8080/auth';
 let mongo_db_base_url = 'mongodb://localhost:27017/';
+
 if (process.env.KEYCLOAK_BASE_URL) {
     keycloak_base_url = process.env.KEYCLOAK_BASE_URL
 }

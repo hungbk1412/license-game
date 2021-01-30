@@ -28,8 +28,10 @@ const keycloak = require('./utils/keycloak-config').initKeycloak(memoryStore);
 
 app.use(keycloak.middleware());
 
-app.get('/health-check/', (req, res) => {
-    res.send('Server is on');
+app.get('/', (req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.send('Server is on no api/v1');
 });
 
 app.post('/api/v1/check-compatible', keycloak.checkSso(), (req, res) => {
@@ -196,6 +198,8 @@ const check_high_score = (slots, current_user) => {
     }
     return slots;
 };
+
+console.log(process.env.KEYCLOAK_BASE_URL);
 
 mongoose.connect(mongo_db_base_url + 'license_game', {
     useNewUrlParser: true,

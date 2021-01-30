@@ -9,13 +9,13 @@ import {KEYCLOAK_BASE_URL_API} from "./definitions/config";
 
 
 export const keycloak = Keycloak({
-    url: KEYCLOAK_BASE_URL_API + "auth/",
+    url: KEYCLOAK_BASE_URL_API,
     realm: 'License-game',
     clientId: 'react'
 });
 
 keycloak
-    .init({onLoad: 'login-required'})
+    .init({onLoad: 'login-required', checkLoginIframe : false})
     .then((authenticated) => {
         if (authenticated) {
             window.accessToken = keycloak.token;

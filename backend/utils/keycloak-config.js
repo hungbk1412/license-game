@@ -7,7 +7,7 @@ let keycloak;
 let kcConfig = {
   "realm": "License-game",
   "bearer-only": true,
-  "auth-server-url": keycloak_base_url + "auth/",
+  "auth-server-url": keycloak_base_url,
   "ssl-required": "external",
   "resource": "backend",
   "confidential-port": 0
