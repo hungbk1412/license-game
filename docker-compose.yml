@@ -1,27 +1,5 @@
 version: "3.3"
 services:
-#  frontend:
-#    image: "frontend"
-#    stdin_open: true
-#    build:
-#      context: .
-#      dockerfile: ./frontend/Dockerfile
-#    ports:
-#      - "5000:5000"
-#    environment:
-#      - REACT_APP_KEYCLOAK_BASE_URL=""
-#      - REACT_APP_BACKEND_BASE_URL=""
-
-#  backend:
-#    image: "backend"
-#    build:
-#      context: .
-#      dockerfile: ./backend/Dockerfile
-#    ports:
-#      - "5001:5001"
-#    environment:
-#      - KEYCLOAK_BASE_URL=""
-#      - MONGO_DB_BASE_URL=""
 
   keycloak:
     image: "jboss/keycloak"
