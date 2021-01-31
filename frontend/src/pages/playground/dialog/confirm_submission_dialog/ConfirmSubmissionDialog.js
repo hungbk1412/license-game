@@ -85,7 +85,7 @@ const ConfirmSubmissionDialog = (props) => {
     }
     const onClickConfirm = () => {
         if (is_last_level) {
-            dispatch(close_confirm_submission_dialog());
+            goToNextLevel();
             set_back_to_main_menu(true);
         } else if (correctness) {
             goToNextLevel();
