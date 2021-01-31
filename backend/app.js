@@ -199,8 +199,6 @@ const check_high_score = (slots, current_user) => {
     return slots;
 };
 
-console.log(process.env.KEYCLOAK_BASE_URL);
-
 mongoose.connect(mongo_db_base_url + 'license_game', {
     useNewUrlParser: true,
     useUnifiedTopology: true
