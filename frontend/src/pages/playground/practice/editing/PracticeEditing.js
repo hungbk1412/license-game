@@ -178,7 +178,7 @@ function PracticeEditing(props) {
 
     useEffect(() => {
         setChosenResourcesArray(initChosenResourcesArray(practice.resources));
-    }, [practice.id, current_challenge.level]);
+    }, [practice.id]);
 
     useEffect(() => {
         dispatch(set_practice_or_story(game_types.PRACTICE));

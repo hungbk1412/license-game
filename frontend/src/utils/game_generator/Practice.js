@@ -10,7 +10,7 @@ const generatePracticeTheoryLevel0 = () => {
         type: game_types.PRACTICE_THEORY,
         level: 0,
         data: data,
-        description: 'Match the licences with the corresponding descriptions',
+        description: 'Arrange the description (on the right) to match the licences (on the left)',
         numberOfMatches: data.length
     };
 };
@@ -67,7 +67,7 @@ const generatePracticeEditingLevel0 = (type) => {
         type,
         level: 0,
         number_of_required_resource: 2,
-        description: `Pick at least two resources and drop into the rectangle ${type}`,
+        description: `Pick at least two resources and drop onto the lava to combine a ${type === game_types.PRACTICE_EDITING_COLLAGE ? 'collage' : 'composition'}`,
         resources: []
     };
 
@@ -100,7 +100,7 @@ const generatePracticeEditingLevel1 = (type) => {
         type,
         level: 1,
         number_of_required_resource: 3,
-        description: `Pick at least three resources and drop into the rectangle ${type}`,
+        description: `Pick at least three resources and drop onto the lava to combine a ${type === game_types.PRACTICE_EDITING_COLLAGE ? 'collage' : 'composition'}`,
         resources: []
     };
 

@@ -9,6 +9,7 @@ import {
     level_5_description,
     level_6_description
 } from "../../images";
+import id_generator from 'uniqid';
 // For multiple_choice questions, declaring combination_type in the challenge is not necessary because the correct answer
 // is fixed. Hence no request to the server will be made.
 
@@ -19,11 +20,11 @@ const generateLevel0 = () => {
         practices:
             [
                 {
-                    id: 0,
+                    id: id_generator(),
                     ...practiceTheoryGenerator(0)
                 },
                 {
-                    id: 1,
+                    id: id_generator(),
                     ...practiceTheoryGenerator(1)
                 }
             ],
@@ -60,11 +61,11 @@ const generateLevel1 = () => {
         level: 1,
         practices: [
             {
-                id: 0,
+                id: id_generator(),
                 ...practiceTheoryGenerator(2)
             },
             {
-                id: 1,
+                id: id_generator(),
                 ...practiceEditingGenerator(0, game_types.PRACTICE_EDITING_COLLAGE)
             }
         ],
@@ -102,11 +103,11 @@ const generateLevel2 = () => {
         level: 2,
         practices: [
             {
-                id: 0,
+                id: id_generator(),
                 ...practiceEditingGenerator(0, game_types.PRACTICE_EDITING_COMPOSITION)
             },
             {
-                id: 1,
+                id: id_generator(),
                 ...practiceEditingGenerator(1, game_types.PRACTICE_EDITING_COLLAGE)
             }
         ],
