@@ -18,7 +18,6 @@ const useStyles = makeStyles({
     'board_container': {
         'padding-top': '5vh',
         'height': '70vh',
-        'width': '33vw',
         'background-image': `url(${leather_background})`,
         'background-size': '100% 100%'
     },
@@ -53,7 +52,8 @@ const useStyles = makeStyles({
         'width': '3vw'
     },
     'user_name': {
-        'font-size': '2.3vh'
+        'font-size': '2.3vh',
+        'word-break': 'break-word'
     },
     'score': {
         'font-size': '2.3vh'
@@ -65,7 +65,7 @@ const HighScoreBoard = () => {
     return (
         <Grid container item direction={'row'} justify={'center'} alignItems={"center"} xs={12} className={styles.root}>
             <Grid container item className={styles.board_container} justify={'center'} alignItems={'flex-start'}
-                  alignContent={'flex-start'} xs={6}>
+                  alignContent={'flex-start'} xs={8}>
                 <Grid container item className={styles.header} justify={'center'}>
                     <Grid item>
                         Leader Board
@@ -97,9 +97,7 @@ const HighScoreBoard = () => {
                                       alignItems={'center'} xs={4}/>
                                 <Grid container item className={styles.user_name} justify={'center'}
                                       alignItems={'center'} xs={4}>
-                                    <Grid item>
                                         {elem.user}
-                                    </Grid>
                                 </Grid>
                                 <Grid container item className={styles.score} justify={'center'} alignItems={'center'}
                                       xs={4}>

@@ -8,7 +8,6 @@ import Setting from "./setting/Setting";
 import {makeStyles} from "@material-ui/core/styles";
 import {color} from "../../definitions/Types";
 import {keycloak} from "../../index";
-import jwt_decode from 'jwt-decode';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,7 +42,8 @@ const useStyles = makeStyles((theme) => ({
     },
     player_name: {
         'color': color.WHITE,
-        'font-size': '2vh'
+        'font-size': '2vh',
+        'overflow': 'hidden'
     },
     score_and_time_and_game_type: {
         'color': color.WHITE,
@@ -57,7 +57,6 @@ const NavBar = () => {
     const current_game_type = useSelector(state => state.practice_or_story);
     const total_score = useSelector(state => state.score.total_score);
     const elapsed_time = useSelector(state => state.elapsed_time);
-    const decoded_token = jwt_decode(window.accessToken);
     const styles = useStyles();
     // true means open, false means close
     const [settingStatus, setSettingStatus] = useState(false);
@@ -106,18 +105,13 @@ const NavBar = () => {
                     </Grid>
                 </Grid>
                 <Grid container item justify={'flex-end'} xs={2}>
-                    <Grid container item justify={'space-between'} xs={12}>
-                        <Grid item className={styles.player_name}>
-                            {decoded_token.preferred_username}
-                        </Grid>
-                        <Grid item>
-                            <Button onClick={handleOpenSetting} className={styles.setting_button}>
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                            <Button onClick={logout} className={styles.logout_button}>
-                            </Button>
-                        </Grid>
+                    <Grid container item xs={5} justify={'center'}>
+                        <Button onClick={handleOpenSetting} className={styles.setting_button}>
+                        </Button>
+                    </Grid>
+                    <Grid container item xs={5} justify={'center'}>
+                        <Button onClick={logout} className={styles.logout_button}>
+                        </Button>
                     </Grid>
                 </Grid>
             </Grid>
