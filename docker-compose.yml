@@ -4,12 +4,15 @@ services:
   frontend:
     image: "tranvutuan2001/frontend"
     stdin_open: true
+    restart: always
 
   backend:
     image: "tranvutuan2001/backend"
+    restart: always
 
   keycloak:
     image: "jboss/keycloak"
+    restart: always
     environment:
       - KEYCLOAK_USER=well
       - KEYCLOAK_PASSWORD=whale
@@ -20,6 +23,7 @@ services:
 
   mongo_db:
     image: "mongo:4.2-bionic"
+    restart: always
     ports:
       - "27017:27017"
 
@@ -32,6 +36,7 @@ services:
 
   nginx:
     image: "nginx:1.18.0-alpine"
+    restart: always
     ports:
       - 80:80
     volumes:
