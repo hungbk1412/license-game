@@ -27,13 +27,6 @@ services:
     ports:
       - "27017:27017"
 
-  mongo_db_web_interface:
-    image: "mongo-express"
-    ports:
-      - "4000:8081"
-    environment:
-      - ME_CONFIG_MONGODB_SERVER=mongo_db
-
   nginx:
     image: "nginx:1.18.0-alpine"
     restart: always
