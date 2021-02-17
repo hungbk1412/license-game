@@ -2,7 +2,7 @@ version: "3.4"
 services:
 
   frontend:
-    image: "tranvutuan2001/frontend"
+    image: ./frontend
     stdin_open: true
     restart: always
 
