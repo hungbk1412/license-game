@@ -7,7 +7,7 @@ services:
     restart: always
 
   backend:
-    image: "tranvutuan2001/backend"
+    build: ./backend
     restart: always
 
   keycloak:
