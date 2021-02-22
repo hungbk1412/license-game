@@ -68,11 +68,11 @@ const HighScoreBoard = () => {
                   alignContent={'flex-start'} xs={8}>
                 <Grid container item className={styles.header} justify={'center'}>
                     <Grid item>
-                        Leader Board
+                        Leaderboard
                     </Grid>
                 </Grid>
                 <Grid container item className={styles.row} justify={'space-between'} xs={8}>
-                    <Grid container item className={styles.position} xs={4} justify={'center'} alignItems={'center'}>
+                    <Grid container item className={styles.position} xs={3} justify={'center'} alignItems={'center'}>
                         <Grid item>
                             Rank
                         </Grid>
@@ -94,7 +94,7 @@ const HighScoreBoard = () => {
                             <Grid container item key={'high-score-board-' + elem.position} className={styles.row}
                                   justify={'space-between'} xs={8}>
                                 <Grid container item className={styles['position_' + elem.position]} justify={'center'}
-                                      alignItems={'center'} xs={4}/>
+                                      alignItems={'center'} xs={3}/>
                                 <Grid container item className={styles.user_name} justify={'center'}
                                       alignItems={'center'} xs={4}>
                                         {elem.user}

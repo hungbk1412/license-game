@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
         'background-size': '100% 100%'
     },
     how_to_play_container: {
+        'position': 'relative',
         'height': '75vh',
         'background-image': `url(${how_to_play})`,
         'background-size': '100% 100%'
@@ -28,13 +29,14 @@ const useStyles = makeStyles((theme) => ({
     },
     button_container: {
         'position': 'absolute',
-        'bottom': '5vh'
+        'bottom': '2vh'
     },
     button: {
         'width': '10vw',
         'height': '5vh',
         'background-image': `url(${system_button_background})`,
-        'background-size': '100% 100%'
+        'background-size': '100% 100%',
+        'color': color.WHITE
     },
     text_container: {
         'font-family': 'Charmonman',
