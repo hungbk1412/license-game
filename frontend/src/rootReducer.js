@@ -6,7 +6,7 @@ import gameProgressReducer from './redux_slices/GameProgressSlice';
 import scoreReducer from './redux_slices/ScoreSlice';
 import elapsedTimeReducer from './redux_slices/TimerSlice';
 import highScoreReducer from './redux_slices/HighScoreBoardSlice';
-import practiceOrStoryReducer from './redux_slices/PracticeOrStorySlice';
+import currentGameModeReducer from './redux_slices/CurrentGameModeSlice';
 import { combineReducers } from '@reduxjs/toolkit'
 
 const rootReducer = combineReducers({
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
      score: scoreReducer,
      elapsed_time: elapsedTimeReducer,
      high_score_board: highScoreReducer,
-     practice_or_story: practiceOrStoryReducer
+     current_game_mode: currentGameModeReducer
 });
 
 

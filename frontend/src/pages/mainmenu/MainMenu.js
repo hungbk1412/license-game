@@ -10,6 +10,7 @@ import {main_background, system_button_background} from "../../images";
 import {fetch_high_score_board} from "../../redux_slices/HighScoreBoardSlice";
 import {color} from "../../definitions/Types";
 import {reset_time} from "../../redux_slices/TimerSlice";
+import {set_current_game_mode} from "../../redux_slices/CurrentGameModeSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -59,6 +60,7 @@ function MainMenu() {
         dispatch(reset_to_default_challenge());
         dispatch(reset_to_default_practices_list());
         dispatch(reset_time());
+        dispatch(set_current_game_mode(''));
     });
 
     if (to_choose_level) {

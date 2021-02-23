@@ -1,17 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initial_state = '';
-const PracticeOrStorySlice = createSlice({
+const CurrentGameModeSlice = createSlice({
     name: 'practice_or_story',
     initialState: initial_state,
     reducers: {
-        set_practice_or_story: (state, action) => {
+        set_current_game_mode: (state, action) => {
             return action.payload;
         }
     }
 });
 
-const {actions, reducer} = PracticeOrStorySlice;
-export const {set_practice_or_story} = actions;
+const {actions, reducer} = CurrentGameModeSlice;
+export const {set_current_game_mode} = actions;
 export {actions};
 export default reducer

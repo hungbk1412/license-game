@@ -41,7 +41,7 @@ import {increase_time, reset_time} from "../../../redux_slices/TimerSlice";
 import {set_score} from "../../../redux_slices/ScoreSlice";
 import {postScore} from "../../../utils/Requests";
 import Introduction from "./Introduction";
-import {set_practice_or_story} from "../../../redux_slices/PracticeOrStorySlice";
+import {set_current_game_mode} from "../../../redux_slices/CurrentGameModeSlice";
 
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
@@ -401,7 +401,7 @@ function Story() {
     });
 
     useEffect(() => {
-        dispatch(set_practice_or_story(game_types.STORY));
+        dispatch(set_current_game_mode(game_types.STORY));
     });
 
     if (current_challenge.level === 0 && !seen_introduction) {

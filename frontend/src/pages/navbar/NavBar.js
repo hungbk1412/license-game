@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = () => {
     const history = useHistory();
-    const current_game_type = useSelector(state => state.practice_or_story);
+    const current_game_mode = useSelector(state => state.current_game_mode);
     const total_score = useSelector(state => state.score.total_score);
     const elapsed_time = useSelector(state => state.elapsed_time);
     const styles = useStyles();
@@ -94,7 +94,7 @@ const NavBar = () => {
                         </Grid>
                         <Grid container item xs={5} justify={'flex-start'}>
                             <Grid item className={styles.score_and_time_and_game_type}>
-                                Game mode: {current_game_type.toUpperCase()}
+                                Game mode: {current_game_mode.toUpperCase()}
                             </Grid>
                         </Grid>
                         <Grid container item xs={4} justify={'flex-start'}>

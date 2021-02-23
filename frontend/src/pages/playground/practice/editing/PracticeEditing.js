@@ -23,7 +23,7 @@ import {finish_a_practice} from "../../../../redux_slices/CurrentPracticesListSl
 import {reset_time} from "../../../../redux_slices/TimerSlice";
 import {set_score} from "../../../../redux_slices/ScoreSlice";
 import Slide from "@material-ui/core/Slide";
-import {set_practice_or_story} from "../../../../redux_slices/PracticeOrStorySlice";
+import {set_current_game_mode} from "../../../../redux_slices/CurrentGameModeSlice";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -181,7 +181,7 @@ function PracticeEditing(props) {
     }, [practice.id]);
 
     useEffect(() => {
-        dispatch(set_practice_or_story(game_types.PRACTICE));
+        dispatch(set_current_game_mode(game_types.PRACTICE));
     });
 
     return (
