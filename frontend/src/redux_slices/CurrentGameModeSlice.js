@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-const initial_state = '';
+const initial_state = 'main_menu';
 const CurrentGameModeSlice = createSlice({
     name: 'practice_or_story',
     initialState: initial_state,

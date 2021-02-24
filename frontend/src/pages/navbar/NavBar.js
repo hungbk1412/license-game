@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {useSelector} from "react-redux";
-import {useHistory} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import Button from '@material-ui/core/Button';
 import {navbar_back_button, navbar_setting_button, navbar_logout_button} from "../../images";
 import Grid from '@material-ui/core/Grid';
@@ -8,6 +7,7 @@ import Setting from "./setting/Setting";
 import {makeStyles} from "@material-ui/core/styles";
 import {color} from "../../definitions/Types";
 import {keycloak} from "../../index";
+import {set_current_game_mode} from "../../redux_slices/CurrentGameModeSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const NavBar = () => {
-    const history = useHistory();
+    const dispatch = useDispatch();
     const current_game_mode = useSelector(state => state.current_game_mode);
     const total_score = useSelector(state => state.score.total_score);
     const elapsed_time = useSelector(state => state.elapsed_time);
@@ -70,7 +70,7 @@ const NavBar = () => {
     };
 
     const click_on_back_button = () => {
-        history.push('/');
+        dispatch(set_current_game_mode('main_menu'));
     };
 
     const logout = () => {

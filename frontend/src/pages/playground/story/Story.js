@@ -400,9 +400,9 @@ function Story() {
         };
     });
 
-    useEffect(() => {
-        dispatch(set_current_game_mode(game_types.STORY));
-    });
+    // useEffect(() => {
+    //     dispatch(set_current_game_mode(game_types.STORY));
+    // });
 
     if (current_challenge.level === 0 && !seen_introduction) {
         return (

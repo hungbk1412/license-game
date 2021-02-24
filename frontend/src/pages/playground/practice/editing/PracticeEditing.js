@@ -180,9 +180,9 @@ function PracticeEditing(props) {
         setChosenResourcesArray(initChosenResourcesArray(practice.resources));
     }, [practice.id]);
 
-    useEffect(() => {
-        dispatch(set_current_game_mode(game_types.PRACTICE));
-    });
+    // useEffect(() => {
+    //     dispatch(set_current_game_mode(game_types.PRACTICE));
+    // });
 
     return (
         <Grid container item direction={'row'} justify={'center'} className={styles.root}>

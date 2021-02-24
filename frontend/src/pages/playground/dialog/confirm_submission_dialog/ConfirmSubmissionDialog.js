@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import {close_confirm_submission_dialog} from "../../../../redux_slices/ConfirmSubmissionDialogSlice";
-import {Redirect} from 'react-router-dom';
+import {set_current_game_mode} from "../../../../redux_slices/CurrentGameModeSlice";
 import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -77,7 +77,6 @@ const ConfirmSubmissionDialog = (props) => {
     const {is_opening, correctness, message, is_last_level} = useSelector(state => state.confirm_submission_dialog);
     const symbol = correctness ? correct_symbol : incorrect_symbol;
     const goToNextLevel = props.go_to_next_level;
-    const [back_to_main_menu, set_back_to_main_menu] = useState(false);
     let buttonLabel = correctness ? 'Next Level' : 'Okay';
 
     if (is_last_level) {
@@ -86,7 +85,7 @@ const ConfirmSubmissionDialog = (props) => {
     const onClickConfirm = () => {
         if (is_last_level) {
             goToNextLevel();
-            set_back_to_main_menu(true);
+            dispatch(set_current_game_mode('main_menu'));
         } else if (correctness) {
             goToNextLevel();
         } else {
@@ -100,23 +99,19 @@ const ConfirmSubmissionDialog = (props) => {
         }
     });
 
-    if (back_to_main_menu) {
-        return (<Redirect to={'/'}/>)
-    } else {
-        return (
-            <Modal open={is_opening}
-                   onClose={() => dispatch(close_confirm_submission_dialog())}>
-                <Grid container item direction={'column'} alignItems={'center'}
-                      className={styles.pop_up}>
-                    <img src={symbol} className={styles.symbol}/>
-                    <Grid item className={styles.congratulation_message}>{message}</Grid>
-                    <Grid item>
-                        <Button onClick={onClickConfirm} className={styles.confirm_button}>{buttonLabel}</Button>
-                    </Grid>
+    return (
+        <Modal open={is_opening}
+               onClose={() => dispatch(close_confirm_submission_dialog())}>
+            <Grid container item direction={'column'} alignItems={'center'}
+                  className={styles.pop_up}>
+                <img src={symbol} className={styles.symbol}/>
+                <Grid item className={styles.congratulation_message}>{message}</Grid>
+                <Grid item>
+                    <Button onClick={onClickConfirm} className={styles.confirm_button}>{buttonLabel}</Button>
                 </Grid>
-            </Modal>
-        );
-    }
+            </Grid>
+        </Modal>
+    );
 };
 
 export default ConfirmSubmissionDialog;

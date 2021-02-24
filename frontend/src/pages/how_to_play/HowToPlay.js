@@ -1,10 +1,11 @@
 import React from "react";
 import {main_background, how_to_play, system_button_background} from "../../images";
-import {useHistory} from 'react-router-dom';
+import {set_current_game_mode} from "../../redux_slices/CurrentGameModeSlice";
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
 import {color} from "../../definitions/Types";
 import Button from "@material-ui/core/Button";
+import {useDispatch, useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,9 +49,9 @@ const useStyles = makeStyles((theme) => ({
 
 const HowToPlay = () => {
     const styles = useStyles();
-    const history = useHistory();
+    const dispatch = useDispatch();
     const click_on_to_main_menu = () => {
-        history.push('/');
+        dispatch(set_current_game_mode('main_menu'));
     };
     return (
         <Grid container item xs={12} justify={'center'} alignItems={'center'} className={styles.root}>
