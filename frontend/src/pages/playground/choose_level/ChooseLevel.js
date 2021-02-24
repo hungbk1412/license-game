@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import {main_background, system_button_background} from "../../../images";
 import {color} from '../../../definitions/Types';
-import {set_current_game_mode} from "../../../redux_slices/CurrentGameModeSlice";
+import {set_current_page} from "../../../redux_slices/CurrentPage";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,7 +48,7 @@ const ChooseLevel = (props) => {
 
     const onClickLevel = (level) => {
         dispatch(to_level(level));
-        dispatch(set_current_game_mode('story'));
+        dispatch(set_current_page('story'));
     };
 
     return (

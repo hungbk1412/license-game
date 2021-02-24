@@ -1,6 +1,6 @@
 import React from "react";
 import {main_background, how_to_play, system_button_background} from "../../images";
-import {set_current_game_mode} from "../../redux_slices/CurrentGameModeSlice";
+import {set_current_page} from "../../redux_slices/CurrentPage";
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
 import {color} from "../../definitions/Types";
@@ -51,7 +51,7 @@ const HowToPlay = () => {
     const styles = useStyles();
     const dispatch = useDispatch();
     const click_on_to_main_menu = () => {
-        dispatch(set_current_game_mode('main_menu'));
+        dispatch(set_current_page('main_menu'));
     };
     return (
         <Grid container item xs={12} justify={'center'} alignItems={'center'} className={styles.root}>

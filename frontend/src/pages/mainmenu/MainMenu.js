@@ -9,7 +9,7 @@ import {main_background, system_button_background} from "../../images";
 import {fetch_high_score_board} from "../../redux_slices/HighScoreBoardSlice";
 import {color} from "../../definitions/Types";
 import {reset_time} from "../../redux_slices/TimerSlice";
-import {set_current_game_mode} from "../../redux_slices/CurrentGameModeSlice";
+import {set_current_page} from "../../redux_slices/CurrentPage";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,18 +38,18 @@ function MainMenu() {
 
     const onClickPlay = (e) => {
         e.preventDefault();
-        dispatch(set_current_game_mode('choose_level'));
+        dispatch(set_current_page('choose_level'));
     };
 
     const onClickHowToPlay = (e) => {
         e.preventDefault();
-        dispatch(set_current_game_mode('how_to_play'));
+        dispatch(set_current_page('how_to_play'));
     };
 
     const onClickHighScore = (e) => {
         e.preventDefault();
         dispatch(fetch_high_score_board());
-        dispatch(set_current_game_mode('high_score_board'));
+        dispatch(set_current_page('high_score_board'));
     };
 
     useEffect(() => {

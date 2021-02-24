@@ -41,7 +41,7 @@ import {increase_time, reset_time} from "../../../redux_slices/TimerSlice";
 import {set_score} from "../../../redux_slices/ScoreSlice";
 import {postScore} from "../../../utils/Requests";
 import Introduction from "./Introduction";
-import {set_current_game_mode} from "../../../redux_slices/CurrentGameModeSlice";
+import {set_current_page} from "../../../redux_slices/CurrentPage";
 
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';

@@ -5,9 +5,10 @@ import HighScoreBoard from "./pages/high_score/HighScoreBoard";
 import HowToPlay from "./pages/how_to_play/HowToPlay";
 import ChooseLevel from "./pages/playground/choose_level/ChooseLevel";
 import Story from "./pages/playground/story/Story";
+import PracticeMode from "./pages/playground/practice/PracticeMode";
 
 const Game = () => {
-    const current_page = useSelector(state => state.current_game_mode);
+    const current_page = useSelector(state => state.current_page);
     switch (current_page) {
         case 'main_menu':
             return (
@@ -28,7 +29,7 @@ const Game = () => {
         case 'story':
             return (
                 <Story/>
-            )
+            );
     }
 };
 

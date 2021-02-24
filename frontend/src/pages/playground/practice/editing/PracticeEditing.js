@@ -23,7 +23,6 @@ import {finish_a_practice} from "../../../../redux_slices/CurrentPracticesListSl
 import {reset_time} from "../../../../redux_slices/TimerSlice";
 import {set_score} from "../../../../redux_slices/ScoreSlice";
 import Slide from "@material-ui/core/Slide";
-import {set_current_game_mode} from "../../../../redux_slices/CurrentGameModeSlice";
 
 const SUCCESS_MESSAGE = 'Congratulation !!!';
 const FAIL_MESSAGE = 'Please try again';
@@ -179,10 +178,6 @@ function PracticeEditing(props) {
     useEffect(() => {
         setChosenResourcesArray(initChosenResourcesArray(practice.resources));
     }, [practice.id]);
-
-    // useEffect(() => {
-    //     dispatch(set_current_game_mode(game_types.PRACTICE));
-    // });
 
     return (
         <Grid container item direction={'row'} justify={'center'} className={styles.root}>
