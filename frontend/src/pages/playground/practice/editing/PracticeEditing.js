@@ -25,6 +25,7 @@ import {reset_time} from "../../../../redux_slices/TimerSlice";
 import {set_score} from "../../../../redux_slices/ScoreSlice";
 import Slide from "@material-ui/core/Slide";
 import {get_success_message, get_fail_message} from "../../../../utils/GetMessage";
+import {set_game_mode} from "../../../../redux_slices/CurrentGameModeSlice";
 
 const useStyles = makeStyles((theme) => ({
     practice_editing_container: {
@@ -195,6 +196,10 @@ function PracticeEditing(props) {
     useEffect(() => {
         setChosenResourcesArray(initChosenResourcesArray(practice.resources));
     }, [practice.id]);
+
+    useEffect(() => {
+        dispatch(set_game_mode(game_types.PRACTICE))
+    });
 
     return (
         <Grid container item direction={'row'} justify={'center'} className={styles.root}>

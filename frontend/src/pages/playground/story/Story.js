@@ -39,6 +39,7 @@ import {
 } from '../../../images';
 import {increase_time, reset_time} from "../../../redux_slices/TimerSlice";
 import {set_score, submit_score} from "../../../redux_slices/ScoreSlice";
+import {set_game_mode} from "../../../redux_slices/CurrentGameModeSlice";
 import Introduction from "./Introduction";
 import {get_success_message, get_fail_message, get_end_game_message} from "../../../utils/GetMessage";
 
@@ -396,9 +397,9 @@ function Story() {
         };
     });
 
-    // useEffect(() => {
-    //     dispatch(set_current_game_mode(game_types.STORY));
-    // });
+    useEffect(() => {
+        dispatch(set_game_mode(game_types.STORY));
+    });
 
     if (current_challenge.level === 0 && !seen_introduction) {
         return (

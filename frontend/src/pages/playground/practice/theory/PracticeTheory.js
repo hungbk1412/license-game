@@ -17,6 +17,7 @@ import {reset_time} from "../../../../redux_slices/TimerSlice";
 import {set_score} from "../../../../redux_slices/ScoreSlice";
 import Slide from "@material-ui/core/Slide";
 import {get_fail_message, get_success_message} from "../../../../utils/GetMessage";
+import {set_game_mode} from "../../../../redux_slices/CurrentGameModeSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -191,6 +192,10 @@ function PracticeTheory(props) {
         setOrderedDescriptions(initOrder(shuffle(descriptions)));
         set_helper_array([...Array(numberOfMatches).keys()]);
     }, [practice.id, current_challenge.level]);
+
+    useEffect(() => {
+        dispatch(set_game_mode(game_types.PRACTICE))
+    });
 
     return (
         <Grid container item direction={'row'} justify={'center'} xs={12} className={styles.root}>

@@ -55,13 +55,13 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = () => {
     const dispatch = useDispatch();
+    const current_game_mode = useSelector(state => state.current_game_mode);
     const current_page = useSelector(state => state.current_page);
     const total_score = useSelector(state => state.score.total_score);
     const elapsed_time = useSelector(state => state.elapsed_time);
     const styles = useStyles();
     // true means open, false means close
     const [settingStatus, setSettingStatus] = useState(false);
-    const game_mode = current_page === 'story' || current_page === 'practice' ? current_page : '';
     const handleOpenSetting = () => {
         setSettingStatus(true);
     };
@@ -71,7 +71,11 @@ const NavBar = () => {
     };
 
     const click_on_back_button = () => {
-        dispatch(set_current_page('main_menu'));
+        if (current_page === 'story') {
+            dispatch(set_current_page('choose_level'));
+        } else {
+            dispatch(set_current_page('main_menu'));
+        }
     };
 
     const logout = () => {
@@ -95,7 +99,7 @@ const NavBar = () => {
                         </Grid>
                         <Grid container item xs={5} justify={'flex-start'}>
                             <Grid item className={styles.score_and_time_and_game_type}>
-                                Game Mode: {game_mode.toUpperCase()}
+                                Game Mode: {current_game_mode.toUpperCase()}
                             </Grid>
                         </Grid>
                         <Grid container item xs={4} justify={'flex-start'}>
