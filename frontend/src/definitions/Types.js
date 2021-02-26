@@ -35,7 +35,7 @@ const questionTypes = {
 };
 
 const color = {
-    WHITE: '#BFB7AF',
+    WHITE: '#FFFFFF',
     GREEN: '#89F781',
     BROWN: '#78281F',
     LIGHT_BROWN: '#712409'

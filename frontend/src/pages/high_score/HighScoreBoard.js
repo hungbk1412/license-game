@@ -22,41 +22,48 @@ const useStyles = makeStyles({
         'background-size': '100% 100%'
     },
     'header': {
-        'font-size': '5vh'
+        'font-size': '5vh',
+        'font-family': 'Charmonman'
     },
     'row': {
         'margin-top': '2vh'
     },
     'position': {
-        'font-size': '2.3vh'
+        'font-size': '2.4vh',
+        'font-family': 'Charmonman'
     },
     'position_0': {
-        'font-size': '2vh',
+        'font-size': '2.1vh',
         'background-image': `url(${high_score_rank1})`,
         'background-size': '100% 100%',
         'height': '8vh',
-        'width': '3vw'
+        'width': '3vw',
+        'font-family': 'Charmonman'
     },
     'position_1': {
-        'font-size': '2vh',
+        'font-size': '2.1vh',
         'background-image': `url(${high_score_rank2})`,
         'background-size': '100% 100%',
         'height': '8vh',
-        'width': '3vw'
+        'width': '3vw',
+        'font-family': 'Charmonman'
     },
     'position_2': {
-        'font-size': '2vh',
+        'font-size': '2.1vh',
         'background-image': `url(${high_score_rank3})`,
         'background-size': '100% 100%',
         'height': '8vh',
-        'width': '3vw'
+        'width': '3vw',
+        'font-family': 'Charmonman'
     },
     'user_name': {
-        'font-size': '2.3vh',
-        'word-break': 'break-word'
+        'font-size': '2.4vh',
+        'word-break': 'break-word',
+        'font-family': 'Charmonman'
     },
     'score': {
-        'font-size': '2.3vh'
+        'font-size': '2.4vh',
+        'font-family': 'Charmonman'
     }
 });
 const HighScoreBoard = () => {

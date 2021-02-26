@@ -47,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
     },
     score_and_time_and_game_type: {
         'color': color.WHITE,
-        'font-size': '2vh'
+        'font-size': '2vh',
+        'font-family': 'Charmonman'
     }
 }));
 
@@ -105,10 +106,6 @@ const NavBar = () => {
                     </Grid>
                 </Grid>
                 <Grid container item justify={'flex-end'} xs={2}>
-                    <Grid container item xs={5} justify={'center'}>
-                        <Button onClick={handleOpenSetting} className={styles.setting_button}>
-                        </Button>
-                    </Grid>
                     <Grid container item xs={5} justify={'center'}>
                         <Button onClick={logout} className={styles.logout_button}>
                         </Button>

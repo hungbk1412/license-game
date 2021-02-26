@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
         'font-size': '1.7vh',
         'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
-        'color': color.WHITE
+        'color': color.WHITE,
+        'font-family': 'Charmonman'
     }
 }));
 

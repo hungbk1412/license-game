@@ -41,7 +41,6 @@ import {increase_time, reset_time} from "../../../redux_slices/TimerSlice";
 import {set_score} from "../../../redux_slices/ScoreSlice";
 import {postScore} from "../../../utils/Requests";
 import Introduction from "./Introduction";
-import {set_current_page} from "../../../redux_slices/CurrentPage";
 
 const LAST_LEVEL = 6;
 const SUCCESS_MESSAGE = 'Congratulation !!!';
@@ -91,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
         'z-index': '1',
         'backgroundImage': `url(${story_question})`,
         'background-size': '100% 100%',
-        'color': '#BFB7AF',
+        'color': color.WHITE,
         'margin-top': '2vh',
         'padding-left': '4vw',
         'padding-right': '4vw',

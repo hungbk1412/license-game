@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
         'height': '5vh',
         'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
-        'color': color.WHITE
+        'color': color.WHITE,
+        'font-family': 'Charmonman'
     },
     text_container: {
         'font-family': 'Charmonman',
