@@ -75,7 +75,10 @@ const ChooseLevel = (props) => {
                                 <Grid container item justify={'center'} key={'choose-level-' + index}>
                                     <Grid item xs={6} md={3}>
                                         <Button className={styles.level_not_clickable}
-                                                fullWidth>{index + 1}</Button>
+                                                fullWidth
+                                                disabled>
+                                            {index + 1}
+                                        </Button>
                                     </Grid>
                                 </Grid>
                             )
