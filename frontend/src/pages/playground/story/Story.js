@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     },
     picture: {
         'position': 'relative',
-        'margin-top': '-2vh',
+        'margin-top': '-4vh',
         [theme.breakpoints.up('sm')]: {
             'height': '26vh'
         },
@@ -89,7 +89,6 @@ const useStyles = makeStyles((theme) => ({
         'backgroundImage': `url(${story_question})`,
         'background-size': '100% 100%',
         'color': color.WHITE,
-        'margin-top': '2vh',
         'padding-left': '4vw',
         'padding-right': '4vw',
         'height': '20vh',
@@ -136,7 +135,6 @@ function Story() {
     const current_practice = get_current_practice(current_practices_list);
     const nextChallenge = challengeGenerator(current_challenge.level + 1);
     const game_progress = useSelector(state => state.game_progress);
-    const score = useSelector(state => state.score);
     const [finalLicense, setFinalLicense] = useState('');
     const [failTimes, setFailTimes] = useState(0);
     const [seen_introduction, set_seen_introduction] = useState(false);

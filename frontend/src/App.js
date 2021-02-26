@@ -4,7 +4,6 @@ import NavBar from './pages/navbar/NavBar';
 import {makeStyles} from '@material-ui/core/styles';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
-import './App.css';
 import {useDispatch} from "react-redux";
 import {init_fetch_game_progress} from "./redux_slices/GameProgressSlice";
 import Game from './Game';
