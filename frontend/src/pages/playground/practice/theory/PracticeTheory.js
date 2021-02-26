@@ -16,9 +16,7 @@ import {
 import {reset_time} from "../../../../redux_slices/TimerSlice";
 import {set_score} from "../../../../redux_slices/ScoreSlice";
 import Slide from "@material-ui/core/Slide";
-
-const SUCCESS_MESSAGE = 'Congratulation !!!';
-const FAIL_MESSAGE = 'Please try again';
+import {get_fail_message, get_success_message} from "../../../../utils/GetMessage";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -140,7 +138,7 @@ function PracticeTheory(props) {
         e.preventDefault();
         let correctness = check_for_correctness();
         if (correctness.result) {
-            dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
+            dispatch(open_confirm_submission_dialog({correctness: true, message: get_success_message()}));
             dispatch(set_score({
                 type: game_types.PRACTICE_THEORY,
                 story_level: current_challenge.level,
@@ -157,7 +155,7 @@ function PracticeTheory(props) {
                 }
             }
             setOrderedDescriptions(newOrderedDescriptions);
-            dispatch(open_confirm_submission_dialog({correctness: false, message: FAIL_MESSAGE}));
+            dispatch(open_confirm_submission_dialog({correctness: false, message: get_fail_message()}));
         }
     };
 

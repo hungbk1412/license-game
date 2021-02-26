@@ -23,9 +23,7 @@ import {finish_a_practice} from "../../../../redux_slices/CurrentPracticesListSl
 import {reset_time} from "../../../../redux_slices/TimerSlice";
 import {set_score} from "../../../../redux_slices/ScoreSlice";
 import Slide from "@material-ui/core/Slide";
-
-const SUCCESS_MESSAGE = 'Congratulation !!!';
-const FAIL_MESSAGE = 'Please try again';
+import {get_success_message, get_fail_message} from "../../../../utils/GetMessage";
 
 const useStyles = makeStyles((theme) => ({
     practice_editing_container: {
@@ -104,7 +102,7 @@ function PracticeEditing(props) {
         }
 
         if (licenseArray.length < practice.number_of_required_resource) {
-            alert('Beware the number of resources');
+            alert('Please put more resources on the lava');
             return;
         }
 
@@ -113,7 +111,7 @@ function PracticeEditing(props) {
         checkCompatible(window.accessToken, combination_type, licenseArray, user_answer)
             .then(res => {
                 if (res.hasOwnProperty('result') && res.result) {
-                    dispatch(open_confirm_submission_dialog({correctness: true, message: SUCCESS_MESSAGE}));
+                    dispatch(open_confirm_submission_dialog({correctness: true, message: get_success_message()}));
                     dispatch(set_score({
                         type: game_types.PRACTICE_EDITING_COLLAGE,
                         story_level: current_challenge.level,
@@ -121,7 +119,7 @@ function PracticeEditing(props) {
                         practice_level: practice.level
                     }));
                 } else {
-                    dispatch(open_confirm_submission_dialog({correctness: false, message: FAIL_MESSAGE}));
+                    dispatch(open_confirm_submission_dialog({correctness: false, message: get_fail_message()}));
                 }
             })
             .catch(e => console.log(e));

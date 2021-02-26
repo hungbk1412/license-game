@@ -41,11 +41,9 @@ import {increase_time, reset_time} from "../../../redux_slices/TimerSlice";
 import {set_score} from "../../../redux_slices/ScoreSlice";
 import {postScore} from "../../../utils/Requests";
 import Introduction from "./Introduction";
+import {get_success_message, get_fail_message, get_end_game_message} from "../../../utils/GetMessage";
 
 const LAST_LEVEL = 6;
-const SUCCESS_MESSAGE = 'Congratulation !!!';
-const FAIL_MESSAGE = 'Please try again';
-const END_GAME_MESSAGE = 'Congratulation, you have finished the game';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -226,13 +224,13 @@ function Story() {
                         {
                             is_last_level: nextChallenge === null,
                             correctness: true,
-                            message: nextChallenge === null ? END_GAME_MESSAGE : SUCCESS_MESSAGE
+                            message: nextChallenge === null ? get_end_game_message() : get_success_message()
                         }
                     ));
                 }
                 // Wrong Answer
                 else {
-                    const message = failTimes < 2 ? FAIL_MESSAGE : current_challenge.hint;
+                    const message = failTimes < 2 ? get_fail_message() : current_challenge.hint;
                     dispatch(open_confirm_submission_dialog({correctness: false, message: message}));
                     setFailTimes(failTimes + 1);
                 }
@@ -275,11 +273,11 @@ function Story() {
                 {
                     is_last_level: nextChallenge === null,
                     correctness: true,
-                    message: nextChallenge === null ? END_GAME_MESSAGE : SUCCESS_MESSAGE
+                    message: nextChallenge === null ? get_end_game_message() : get_success_message()
                 }
             ));
         } else {
-            const message = failTimes < 2 ? FAIL_MESSAGE : current_challenge.hint;
+            const message = failTimes < 2 ? get_fail_message() : current_challenge.hint;
             dispatch(open_confirm_submission_dialog({correctness: false, message: message}));
             setFailTimes(failTimes + 1);
         }

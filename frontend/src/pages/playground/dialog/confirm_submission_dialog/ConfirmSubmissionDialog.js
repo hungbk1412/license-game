@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
     },
     symbol: {
         'margin-top': '5vh',
-         'max-width': '4.5vw',
-         'max-height': '9vh'
+        'max-width': '4.5vw',
+        'max-height': '9vh'
     },
     congratulation_message: {
         'margin-top': '1.5vh',
