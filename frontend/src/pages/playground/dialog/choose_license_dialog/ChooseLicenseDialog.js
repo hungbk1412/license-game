@@ -70,7 +70,7 @@ function ChooseLicenseDialog(props) {
                onClose={() => dispatch(close_choose_license_dialog())}>
             <Grid className={styles.pop_up}>
                 <Form onSubmit={click_on_submit_button} className={styles.full_size}>
-                    <Grid container direction={'row'} alignItems={'space-around'} justify={'center'}
+                    <Grid container direction={'row'} justify={'center'}
                           className={styles.full_size}>
                         <Grid container item justify={'center'} className={styles.message} xs={10}>
                             {message}
