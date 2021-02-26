@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {to_level} from "../../../redux_slices/CurrentChallangeSlice";
 import Grid from "@material-ui/core/Grid";
@@ -7,6 +7,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {main_background, system_button_background} from "../../../images";
 import {color} from '../../../definitions/Types';
 import {set_current_page} from "../../../redux_slices/CurrentPage";
+import {reset_time} from "../../../redux_slices/TimerSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,6 +51,10 @@ const ChooseLevel = (props) => {
         dispatch(to_level(level));
         dispatch(set_current_page('story'));
     };
+
+    useEffect(() => {
+        dispatch(reset_time());
+    });
 
     return (
         <Grid container item xs={12} justify={'center'} className={styles.root}>

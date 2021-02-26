@@ -91,7 +91,6 @@ const NavBar = () => {
                     </Button>
                 </Grid>
                 <Grid container item xs={8} justify={'center'}>
-                    <Grid container item xs={12} justify={'flex-start'}>
                         <Grid container item xs={3} justify={'flex-start'}>
                             <Grid item className={styles.score_and_time_and_game_type}>
                                 Score: {total_score}
@@ -107,7 +106,6 @@ const NavBar = () => {
                                 Elapsed Time: {elapsed_time}
                             </Grid>
                         </Grid>
-                    </Grid>
                 </Grid>
                 <Grid container item justify={'flex-end'} xs={2}>
                     <Grid container item xs={5} justify={'center'}>
