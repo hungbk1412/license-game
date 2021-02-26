@@ -187,7 +187,7 @@ const check_high_score = (slots, current_user) => {
             slots[pointer].user = current_user._id;
             slots[pointer].score = current_user.score;
         } else {
-            console.log('user diem qua kem');
+            console.log('user does not get into the leaderboard');
         }
     }
 

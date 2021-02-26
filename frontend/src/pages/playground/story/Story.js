@@ -38,8 +38,7 @@ import {
     story_next_button, story_background
 } from '../../../images';
 import {increase_time, reset_time} from "../../../redux_slices/TimerSlice";
-import {set_score} from "../../../redux_slices/ScoreSlice";
-import {postScore} from "../../../utils/Requests";
+import {set_score, submit_score} from "../../../redux_slices/ScoreSlice";
 import Introduction from "./Introduction";
 import {get_success_message, get_fail_message, get_end_game_message} from "../../../utils/GetMessage";
 
@@ -313,36 +312,36 @@ function Story() {
                 story_level: current_challenge.level,
                 failed_times: failTimes
             }
-        ));
-        postProgress(window.accessToken, {
-            [current_challenge.level]: {
-                answer: current_challenge.correctAnswer === null ? finalLicense : current_challenge.choices[current_challenge.correctAnswer].CC_license,
-                failTimes
-            }
-        })
-            .then((res) => {
-
-            })
-            .catch(err => {
-                console.log('err :>> ', err);
-            });
-        if (nextChallenge !== null) {
-            set_transition(false);
-
-            // time out is required for exiting animation
-            setTimeout((() => {
-                set_transition(true);
-                setFailTimes(0);
-                setChosenLicenses([]);
-                if (nextChallenge.hasOwnProperty('practices')) {
-                    dispatch(set_practices_list(nextChallenge.practices));
+        )).then(() => {
+            postProgress(window.accessToken, {
+                [current_challenge.level]: {
+                    answer: current_challenge.correctAnswer === null ? finalLicense : current_challenge.choices[current_challenge.correctAnswer].CC_license,
+                    failTimes
                 }
-                dispatch(to_level(current_challenge.level + 1));
-            }), 500);
-        } else {
-            postScore(window.accessToken, score.total_score).then(res => console.log(res)).catch(err => console.log(err));
-        }
-        dispatch(reset_time());
+            })
+                .then((res) => {
+                    if (nextChallenge !== null) {
+                        set_transition(false);
+
+                        // time out is required for exiting animation
+                        setTimeout((() => {
+                            set_transition(true);
+                            setFailTimes(0);
+                            setChosenLicenses([]);
+                            if (nextChallenge.hasOwnProperty('practices')) {
+                                dispatch(set_practices_list(nextChallenge.practices));
+                            }
+                            dispatch(to_level(current_challenge.level + 1));
+                        }), 500);
+                    } else {
+                        dispatch(submit_score());
+                    }
+                    dispatch(reset_time());
+                })
+                .catch(err => {
+                    console.log('err :>> ', err);
+                });
+        });
     };
 
     /*

@@ -1,4 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {postScore} from "../utils/Requests";
 import {game_types} from "../definitions/Types";
 import lodash from 'lodash';
 
@@ -7,8 +8,16 @@ const initial_state = {
     score_of_all_levels: {}
 };
 
+const submit_score = createAsyncThunk(
+    'score/set_score',
+    async (payload, thunkAPI) => {
+        const total_score = thunkAPI.getState().score.total_score;
+        return postScore(window.accessToken, total_score);
+    }
+);
+
 const set_score = createAsyncThunk(
-    'score/fetch_elapsed_time',
+    'score/set_score',
     async (payload, thunkAPI) => {
         const elapsed_time = thunkAPI.getState().elapsed_time;
         return {...payload, elapsed_time}
@@ -54,5 +63,5 @@ const ScoreSlice = createSlice({
 });
 
 const {reducer} = ScoreSlice;
-export {set_score};
+export {set_score, submit_score};
 export default reducer
