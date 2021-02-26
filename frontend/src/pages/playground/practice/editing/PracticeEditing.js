@@ -15,7 +15,8 @@ import {
 import {
     open_choose_license_dialog,
     close_choose_license_dialog,
-    select_license
+    select_license,
+    set_message_for_choose_license_dialog
 } from "../../../../redux_slices/ChooseLicenseDialogSlice";
 import {checkCompatible} from "../../../../utils/Requests";
 import {system_button_background, practice_lava_frame, story_background, story_question} from "../../../../images";
@@ -153,8 +154,26 @@ function PracticeEditing(props) {
 
     const click_on_next = (e) => {
         e.preventDefault();
-        dispatch(select_license('none'));
-        dispatch(open_choose_license_dialog());
+        let licenseArray = [];
+
+        for (let i = 0; i < chosenResourcesArray.length; i++) {
+            if (chosenResourcesArray[i].has_been_chosen) {
+                licenseArray.push(chosenResourcesArray[i].license);
+            }
+        }
+
+        if (licenseArray.length < practice.number_of_required_resource) {
+            dispatch(open_confirm_submission_dialog({
+                    correctness: false,
+                    message: 'Not enough resources on the lava',
+                    is_last_level: false,
+            }
+            ));
+        } else {
+            dispatch(select_license('none'));
+            dispatch(open_choose_license_dialog());
+            dispatch(set_message_for_choose_license_dialog('Choose a license for the combination on the lava'));
+        }
     };
 
     const click_on_skip = (e) => {

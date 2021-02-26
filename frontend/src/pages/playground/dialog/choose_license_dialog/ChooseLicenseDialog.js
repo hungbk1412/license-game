@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         'width': '100%'
     },
     message: {
-        'margin-top': '5vh',
+        'margin-top': '6vh',
         'text-align': 'center',
         'font-size': '1.7vh',
         'color': color.WHITE
@@ -72,7 +72,7 @@ function ChooseLicenseDialog(props) {
                 <Form onSubmit={click_on_submit_button} className={styles.full_size}>
                     <Grid container direction={'row'} alignItems={'space-around'} justify={'center'}
                           className={styles.full_size}>
-                        <Grid container item className={styles.message} xs={10}>
+                        <Grid container item justify={'center'} className={styles.message} xs={10}>
                             {message}
                         </Grid>
                         <Grid container item xs={12} justify={'center'}>
