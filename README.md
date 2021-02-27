@@ -6,7 +6,7 @@
 
 The game is now accessible at localhost:3000
 
-- There are three main stages of the deployment:
+- To deploy the game, there are three main stages:
 
 A. Adapt environment variables:
 
