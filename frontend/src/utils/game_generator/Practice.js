@@ -25,7 +25,7 @@ const generatePracticeTheoryLevel1 = () => {
         type: game_types.PRACTICE_THEORY,
         level: 1,
         data: data,
-        description: 'Match the licences with the corresponding descriptions',
+        description: 'Arrange the description (on the right) to match the licences (on the left)',
         numberOfMatches: data.length
     };
 };
@@ -39,7 +39,7 @@ const generatePracticeTheoryLevel2 = () => {
         type: game_types.PRACTICE_THEORY,
         level: 2,
         data: data,
-        description: 'Match the concepts with the corresponding descriptions',
+        description: 'Arrange the description (on the right) to match the concepts (on the left)',
         numberOfMatches: data.length
     }
 };
