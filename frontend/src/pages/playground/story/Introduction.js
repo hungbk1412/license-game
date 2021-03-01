@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     },
     buttons: {
         'position': 'absolute',
-        'bottom': '15vh'
+        'bottom': '13vh'
     },
     button_arrow: {
         'font-size': '8vh',
@@ -45,14 +45,14 @@ const Introduction = (props) => {
             To strengthen the relationship with our strongest ally, the Kingdom of Enchanted Fortress, our beloved King
             would like to give the Queen of the Enchanted Fortress a precious gift, a sword.
         </p>,
-        <p>As the most famous smithy in the Kingdom, we 're given an honorable mission of forging the sword.
+        <p>As the best smithy in the Kingdom, we 're given an honorable mission of forging the sword.
             Accomplishing
             the mission and the history shall be remember our name forever, failing the mission and we will be banished
             from
             our homeland forever.</p>,
         <p>But don't worry, I 've already got a plan for us to overcome this challenge. In fact, we will nail it and
             become
-            the most remembered blacksmiths of this Kingdom.<br/>
+            the most remembered blacksmiths of this Kingdom.<br/><br/>
             Due to the gravity of the request from the King, I believe we should do some practices before actually
             jumping into the real mission.
         </p>

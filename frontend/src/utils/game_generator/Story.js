@@ -114,7 +114,7 @@ const generateLevel2 = () => {
         context: `A royal gift has to be flawless must last for decades. To achieve this kind top-tier quality,
                   we will add a secret substance into our steel.`,
         description_image: level_2_description,
-        question: `Given that steel (CC-BY-NC-SA) is a COLLAGE of carbon (CC-ZERO), iron (CC-BY-NC) and secret substance X. What is X?`,
+        question: `Given that steel (CC-BY-NC-SA) is a COLLAGE of carbon (CC-ZERO), iron (CC-BY-NC) and a secret substance X. What is X?`,
         choices: [
             {
                 display_text: 'Chromium (CC-BY-SA)',
@@ -149,7 +149,7 @@ const generateLevel3 = () => {
         Our beloved king granted you the freedom to choose any style of hilt you feel suitable.`,
         description_image: level_3_description,
         question: `Given that the sword is a COMPOSITION of the blade (${blade_license.toUpperCase()}) and the hilt. Choose one in 4 following
-        styles and then license the sword accordingly`,
+        styles for the hilt and then license the sword accordingly`,
         choices: [
             {
                 display_text: 'Italian Style (CC-BY-SA)',
@@ -181,7 +181,7 @@ const generateLevel4 = () => {
         context: `To show the wealthy of the kingdom, our King wants to attach some gems to the sword. You are free to choose
         any gem from the national treasure storehouse.`,
         description_image: level_4_description,
-        question: `Please choose two types of gem to attach to the sword. As a special request from the king himself, the final sword must not be licensed under CC_BY_ND or CC_BY_NC_ND. This is a COMPOSITION`,
+        question: `Please choose two gems to attach to the sword. As a special request from the king himself, the final sword must not be licensed under CC_BY_ND or CC_BY_NC_ND. This is a COMPOSITION`,
         choices: [
             {
                 display_text: 'Ruby (CC-BY-SA)',
@@ -215,7 +215,7 @@ const generateLevel5 = () => {
         level: 5,
         context: `A sword, especially as a royal gift, must be contained in a box.`,
         description_image: level_5_description,
-        question: `The sword box is built up from three main components: the wooden box (CC-Zero), the lock (CC-BY-NC),
+        question: `The sword box consists of three main components: the wooden box (CC-Zero), the lock (CC-BY-NC),
          and the decoration silk inside the box (CC-BY-NC-SA). This is a COLLAGE. What is the license of the box?`,
         choices: [
             {

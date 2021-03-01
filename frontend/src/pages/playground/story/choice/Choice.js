@@ -8,12 +8,7 @@ import {color} from "../../../../definitions/Types";
 
 const useStyles = makeStyles((theme) => ({
     choice: {
-        [theme.breakpoints.up('sm')]: {
-            'height': '12vh'
-        },
-        [theme.breakpoints.up('xl')]: {
-            'height': '12vh'
-        }
+        'height': '12vh'
     },
     chosen_choice: {
         'background-color': color.GREEN

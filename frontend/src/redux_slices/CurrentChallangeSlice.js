@@ -61,7 +61,7 @@ const CurrentChallengeSlice = createSlice({
                     return license;
                 }
             });
-            current_challenge.question = `The gift is a COLLAGE of the sword (${current_challenge.oer_resources[0].toUpperCase()}) and the box (${current_challenge.oer_resources[1].toUpperCase()}). What license should we assign to the gift?`;
+            current_challenge.question = `The gift is a COLLAGE of the sword (${current_challenge.oer_resources[0].toUpperCase()}) and the box (${current_challenge.oer_resources[1].toUpperCase()}). Which license should we assign to the gift?`;
             return current_challenge;
         },
         reset_to_default_challenge: (state, action) => initial_state
