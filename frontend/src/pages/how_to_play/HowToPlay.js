@@ -63,13 +63,12 @@ const HowToPlay = () => {
                     <Grid item className={styles.header}>Game Rules</Grid>
                 </Grid>
                 <Grid container item xs={10} justify={'flex-start'} className={styles.text_container}>
-                    <Grid item>This game is a question-based game and has 7 levels in total. You overcome a level by
-                        giving the
-                        correct answer.
+                    <Grid item>This game is a question-based game, and has 7 levels in total. You overcome a level by
+                        giving the correct answer.
                         <br/><br/>
-                        In the first three levels, some practices are prepared for you. You can skip them if you want,
+                        In the first three levels, there are some practices prepared for you. You can skip them if you want,
                         but it is recommended to finish these practices before jumping into the main challenge. To check
-                        whether you are practicing or solving a main challenge, take a look at the Game mode on the top
+                        whether you are practicing or solving a main challenge, please take a look at the Game Mode on the top
                         side of the game.
                     </Grid>
                 </Grid>
@@ -78,10 +77,10 @@ const HowToPlay = () => {
                     <Grid item className={styles.header}>Scoring system</Grid>
                 </Grid>
                 <Grid container item xs={10} justify={'flex-start'} className={styles.text_container}>
-                    <Grid item>For every passed challenge and practice, you will get a certain amount of points. The
-                        score is calculated based on the time
+                    <Grid item>For every passed challenge and practice, you will get a certain amount of points calculated based
+                        on the time you required to overcome the challenge and the number of failed attempts.
                         <br/><br/>
-                        By clicking on the High Score button in the main menu, you can see the top three players with
+                        By clicking on the High Score button in the main menu, you can see the name of three players with
                         the highest score</Grid>
                 </Grid>
                 <Grid container item xs={4} className={styles.button_container} justify={'center'}>
