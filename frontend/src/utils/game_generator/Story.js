@@ -76,7 +76,7 @@ const generateLevel1 = () => {
                    and the iron should be CC-ZERO`,
         choices: [
             {
-                display_text: 'From 0.2% to 1.5% (CC-BY-NC)',
+                display_text: 'From 0.2% to 1.5% (CC-BY-SA)',
                 CC_license: license_types.CC_BY_NC
             },
             {
@@ -181,7 +181,7 @@ const generateLevel4 = () => {
         context: `To show the wealthy of the kingdom, our King wants to attach some gems to the sword. You are free to choose
         any gem from the national treasure storehouse.`,
         description_image: level_4_description,
-        question: `Please choose two types of gem to attach to the sword. As a special request from the king himself, the final sword must not be CC_BY_ND or CC_BY_NC_ND. This is a COMPOSITION`,
+        question: `Please choose two types of gem to attach to the sword. As a special request from the king himself, the final sword must not be licensed under CC_BY_ND or CC_BY_NC_ND. This is a COMPOSITION`,
         choices: [
             {
                 display_text: 'Ruby (CC-BY-SA)',

@@ -381,7 +381,9 @@ function Story() {
      */
     useEffect(() => {
         if (current_challenge.hasOwnProperty('licenses_to_be_excluded_from_answer')) {
-            dispatch(set_licenses_to_be_excluded_from_answer(current_challenge.licenses_to_be_excluded_from_answer))
+            dispatch(set_licenses_to_be_excluded_from_answer(current_challenge.licenses_to_be_excluded_from_answer));
+        } else {
+            dispatch(set_licenses_to_be_excluded_from_answer([]));
         }
     }, [current_challenge.level]);
 
