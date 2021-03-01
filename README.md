@@ -34,3 +34,8 @@ C. Configure Keycloak:
 8. The game is now accessible at your chosen address.
 
 If the keycloak container exits with error message similar to "user ... is already exist", delete the container and run the command docker-compose up again.
+
+*******************************************************************************
+Important note:
+1. The application has not been configured to serve https request. Please configure your host accordingly
+2. Up until this point, there has been no plan for database backup. That means if the containers keycloak and mongoDB crash, we will lose user data.
