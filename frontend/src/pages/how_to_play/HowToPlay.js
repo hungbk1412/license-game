@@ -78,7 +78,7 @@ const HowToPlay = () => {
                 </Grid>
                 <Grid container item xs={10} justify={'flex-start'} className={styles.text_container}>
                     <Grid item>For every passed challenge and practice, you will get a certain amount of points calculated based
-                        on the time you required to overcome the challenge and the number of failed attempts.
+                        on the time you require to overcome the challenge and the number of failed attempts.
                         <br/><br/>
                         By clicking on the High Score button in the main menu, you can see the name of three players with
                         the highest score</Grid>
