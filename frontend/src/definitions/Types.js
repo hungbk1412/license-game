@@ -38,7 +38,8 @@ const color = {
     WHITE: '#FFFFFF',
     GREEN: '#89F781',
     BROWN: '#78281F',
-    LIGHT_BROWN: '#712409'
+    LIGHT_BROWN: '#712409',
+    RED: '#FF2C2C'
 };
 
 const background = {

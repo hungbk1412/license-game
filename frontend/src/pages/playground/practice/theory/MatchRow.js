@@ -4,7 +4,7 @@ import DropZone from "./DropZone";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {color} from "../../../../definitions/Types";
 import {practice_theory_concept, practice_lava_frame} from "../../../../images";
-
+import NotDropZone from "./NotDropZone";
 const useStyles = makeStyles((theme) => ({
     root: {
         'height': '16vh',
@@ -51,11 +51,7 @@ const MatchRow = (props) => {
         <Grid container item xs={12}
               className={styles.root}
               ref={matchRow}>
-            <Grid container item xs={5} justify={'flex-end'} alignItems={'center'} alignContent={'center'}>
-                <Grid container item justify={'center'} alignItems={'center'} xs={10} className={styles.concept}>
-                    {concept}
-                </Grid>
-            </Grid>
+            <NotDropZone concept={concept}/>
             <DropZone index={index} swap_position_of_two_rows={swap_position_of_two_rows} description={description} reset_color={reset_color}/>
         </Grid>
     );
