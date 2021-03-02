@@ -8,6 +8,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {color} from "../../definitions/Types";
 import {keycloak} from "../../index";
 import {set_current_page} from "../../redux_slices/CurrentPage";
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -87,30 +88,34 @@ const NavBar = () => {
             <Grid container item md={6} className={styles.navbar_container}>
                 <Setting settingStatus={settingStatus} handleCloseSetting={handleCloseSetting}/>
                 <Grid container item xs={2} justify={'flex-start'}>
-                    <Button onClick={() => click_on_back_button()} className={styles.back_button}>
-                    </Button>
+                    <Tooltip title={"Go Back"}>
+                        <Button onClick={() => click_on_back_button()} className={styles.back_button}>
+                        </Button>
+                    </Tooltip>
                 </Grid>
                 <Grid container item xs={8} justify={'center'}>
-                        <Grid container item xs={3} justify={'flex-start'}>
-                            <Grid item className={styles.score_and_time_and_game_type}>
-                                Score: {total_score}
-                            </Grid>
+                    <Grid container item xs={3} justify={'flex-start'}>
+                        <Grid item className={styles.score_and_time_and_game_type}>
+                            Score: {total_score}
                         </Grid>
-                        <Grid container item xs={5} justify={'flex-start'}>
-                            <Grid item className={styles.score_and_time_and_game_type}>
-                                Game Mode: {current_game_mode.toUpperCase()}
-                            </Grid>
+                    </Grid>
+                    <Grid container item xs={5} justify={'flex-start'}>
+                        <Grid item className={styles.score_and_time_and_game_type}>
+                            Game Mode: {current_game_mode.toUpperCase()}
                         </Grid>
-                        <Grid container item xs={4} justify={'flex-start'}>
-                            <Grid item className={styles.score_and_time_and_game_type}>
-                                Elapsed Time: {elapsed_time}
-                            </Grid>
+                    </Grid>
+                    <Grid container item xs={4} justify={'flex-start'}>
+                        <Grid item className={styles.score_and_time_and_game_type}>
+                            Elapsed Time: {elapsed_time}
                         </Grid>
+                    </Grid>
                 </Grid>
                 <Grid container item justify={'flex-end'} xs={2}>
                     <Grid container item xs={5} justify={'center'}>
-                        <Button onClick={logout} className={styles.logout_button}>
-                        </Button>
+                        <Tooltip title={"Log Out"}>
+                            <Button onClick={logout} className={styles.logout_button}>
+                            </Button>
+                        </Tooltip>
                     </Grid>
                 </Grid>
             </Grid>

@@ -139,7 +139,7 @@ const ResourceInPracticeEditing = (props) => {
             <Grid container item direction={'row'} alignItems={'flex-end'}
                   xs={3}
                   justify={'center'}>
-                <Grid container item direction={'row'} ref={drag} xs={6} justify={'center'} className={styles.resource_container}>
+                <Grid container item direction={'row'} ref={drag} xs={10} justify={'center'} className={styles.resource_container}>
                     <img className={styles.images} src={resource_type}/>
                     <img className={styles.images} src={license}/>
                 </Grid>
