@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         'background-image': `url(${story_dialog})`,
         'background-size': '100% 100%',
         'position': 'absolute',
-        'width': '23vw',
+        'width': '27vw',
         'height': '33vh',
         'top': '50%',
         'left': '50%',

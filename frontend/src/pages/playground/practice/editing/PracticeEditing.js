@@ -168,12 +168,26 @@ function PracticeEditing(props) {
                     correctness: false,
                     message: 'Not enough resources on the lava',
                     is_last_level: false,
-            }
+                }
             ));
         } else {
             dispatch(select_license('none'));
             dispatch(open_choose_license_dialog());
-            dispatch(set_message_for_choose_license_dialog('Choose a license for the combination on the lava'));
+            let licenses_to_be_combined = '';
+            for (let i = 0; i < licenseArray.length; i++) {
+                if (i === 0) {
+                    licenses_to_be_combined = licenseArray[i].toUpperCase();
+                } else {
+                    licenses_to_be_combined += ' + ' + licenseArray[i].toUpperCase();
+                }
+            }
+            dispatch(set_message_for_choose_license_dialog(
+                <p>
+                    Please choose a license for the combination of:
+                    <br/>
+                    {licenses_to_be_combined}
+                </p>
+            ));
         }
     };
 
