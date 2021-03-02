@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
 import {color} from "../../definitions/Types";
 import Button from "@material-ui/core/Button";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     root: {

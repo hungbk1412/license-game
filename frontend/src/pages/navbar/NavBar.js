@@ -63,9 +63,6 @@ const NavBar = () => {
     const styles = useStyles();
     // true means open, false means close
     const [settingStatus, setSettingStatus] = useState(false);
-    const handleOpenSetting = () => {
-        setSettingStatus(true);
-    };
 
     const handleCloseSetting = () => {
         setSettingStatus(false);
