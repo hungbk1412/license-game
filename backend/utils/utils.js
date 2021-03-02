@@ -1,79 +1,79 @@
 const self = this;
 
 exports.COMPATIBILITY_TABLE = {
-    'cc_zero': {
-        'cc_zero': 'cc_zero',
-        'cc_by': 'cc_by',
-        'cc_by_sa': 'cc_by_sa',
-        'cc_by_nc': 'cc_by_nc',
-        'cc_by_nd': false,
-        'cc_by_nc_sa': 'cc_by_nc_sa',
-        'cc_by_nc_nd': false,
+    'cc zero': {
+        'cc zero': 'cc zero',
+        'cc by': 'cc by',
+        'cc by-sa': 'cc by-sa',
+        'cc by-nc': 'cc by-nc',
+        'cc by-nd': false,
+        'cc by-nc-sa': 'cc by-nc-sa',
+        'cc by-nc-nd': false,
     },
-    'cc_by': {
-        'cc_zero': 'cc_by',
-        'cc_by': 'cc_by',
-        'cc_by_sa': 'cc_by_sa',
-        'cc_by_nc': 'cc_by_nc',
-        'cc_by_nd': false,
-        'cc_by_nc_sa': 'cc_by_nc_sa',
-        'cc_by_nc_nd': false,
+    'cc by': {
+        'cc zero': 'cc by',
+        'cc by': 'cc by',
+        'cc by-sa': 'cc by-sa',
+        'cc by-nc': 'cc by-nc',
+        'cc by-nd': false,
+        'cc by-nc-sa': 'cc by-nc-sa',
+        'cc by-nc-nd': false,
     },
-    'cc_by_sa': {
-        'cc_zero': 'cc_by_sa',
-        'cc_by': 'cc_by_sa',
-        'cc_by_sa': 'cc_by_sa',
-        'cc_by_nc': false,
-        'cc_by_nd': false,
-        'cc_by_nc_sa': false,
-        'cc_by_nc_nd': false,
+    'cc by-sa': {
+        'cc zero': 'cc by-sa',
+        'cc by': 'cc by-sa',
+        'cc by-sa': 'cc by-sa',
+        'cc by-nc': false,
+        'cc by-nd': false,
+        'cc by-nc-sa': false,
+        'cc by-nc-nd': false,
     },
-    'cc_by_nc': {
-        'cc_zero': 'cc_by_nc',
-        'cc_by': 'cc_by_nc',
-        'cc_by_sa': false,
-        'cc_by_nc': 'cc_by_nc',
-        'cc_by_nd': false,
-        'cc_by_nc_sa': 'cc_by_nc_sa',
-        'cc_by_nc_nd': false,
+    'cc by-nc': {
+        'cc zero': 'cc by-nc',
+        'cc by': 'cc by-nc',
+        'cc by-sa': false,
+        'cc by-nc': 'cc by-nc',
+        'cc by-nd': false,
+        'cc by-nc-sa': 'cc by-nc-sa',
+        'cc by-nc-nd': false,
     },
-    'cc_by_nd': {
-        'cc_zero': false,
-        'cc_by': false,
-        'cc_by_sa': false,
-        'cc_by_nc': false,
-        'cc_by_nd': false,
-        'cc_by_nc_sa': false,
-        'cc_by_nc_nd': false,
+    'cc by-nd': {
+        'cc zero': false,
+        'cc by': false,
+        'cc by-sa': false,
+        'cc by-nc': false,
+        'cc by-nd': false,
+        'cc by-nc-sa': false,
+        'cc by-nc-nd': false,
     },
-    'cc_by_nc_sa': {
-        'cc_zero': 'cc_by_nc_sa',
-        'cc_by': 'cc_by_nc_sa',
-        'cc_by_sa': false,
-        'cc_by_nc': 'cc_by_nc',
-        'cc_by_nd': false,
-        'cc_by_nc_sa': 'cc_by_nc_sa',
-        'cc_by_nc_nd': false,
+    'cc by-nc-sa': {
+        'cc zero': 'cc by-nc-sa',
+        'cc by': 'cc by-nc-sa',
+        'cc by-sa': false,
+        'cc by-nc': 'cc by-nc',
+        'cc by-nd': false,
+        'cc by-nc-sa': 'cc by-nc-sa',
+        'cc by-nc-nd': false,
     },
-    'cc_by_nc_nd': {
-        'cc_zero': false,
-        'cc_by': false,
-        'cc_by_sa': false,
-        'cc_by_nc': false,
-        'cc_by_nd': false,
-        'cc_by_nc_sa': false,
-        'cc_by_nc_nd': false,
+    'cc by-nc-nd': {
+        'cc zero': false,
+        'cc by': false,
+        'cc by-sa': false,
+        'cc by-nc': false,
+        'cc by-nd': false,
+        'cc by-nc-sa': false,
+        'cc by-nc-nd': false,
     },
 };
 
 exports.LICENSE_POWER_LEVEL = {
-    'cc_zero': 1,
-    'cc_by': 2,
-    'cc_by_sa': 3,
-    'cc_by_nc': 4,
-    'cc_by_nd': 5,
-    'cc_by_nc_sa': 6,
-    'cc_by_nc_nd': 7,
+    'cc zero': 1,
+    'cc by': 2,
+    'cc by-sa': 3,
+    'cc by-nc': 4,
+    'cc by-nd': 5,
+    'cc by-nc-sa': 6,
+    'cc by-nc-nd': 7,
 };
 
 exports.checkCompatibilityComposition = ({licenseArray, clientLicenseAnswer}) => {
@@ -83,7 +83,7 @@ exports.checkCompatibilityComposition = ({licenseArray, clientLicenseAnswer}) =>
             error_message: 'The answer cannot be none'
         }
     }
-    const NC_LICENSES = ['cc_by_nc', 'cc_by_nc_nd', 'cc_by_nc_sa'];
+    const NC_LICENSES = ['cc by-nc', 'cc by-nc-nd', 'cc by-nc-sa'];
     let checker = false;
     let response = {
         error_message: null,

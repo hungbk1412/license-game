@@ -80,12 +80,12 @@ function ChooseLicenseDialog(props) {
                                 <Form.Control as="select" value={chosen_license}
                                               onChange={(e) => dispatch(select_license(e.target.value))}
                                               className={styles.dropdown}>
-                                    <option value={'none'}>Not combinable</option>
+                                    <option value={'none'}>Not Combinable</option>
                                     {
                                         getToBeDisplayedLicenses().map(license => {
                                             return (
                                                 <option value={license}
-                                                        key={'ChooseLicenseDialog-' + license}>{license}</option>
+                                                        key={'ChooseLicenseDialog-' + license}>{license.toUpperCase()}</option>
                                             );
                                         })
                                     }

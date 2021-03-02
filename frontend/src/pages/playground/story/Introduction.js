@@ -17,14 +17,14 @@ const useStyles = makeStyles({
         'position': 'relative',
         'background-image': `url(${leather_background})`,
         'background-size': '100% 100%',
-        'height': '70vh'
+        'height': '80vh'
     },
     buttons: {
         'position': 'absolute',
-        'bottom': '13vh'
+        'bottom': '17vh'
     },
     button_arrow: {
-        'font-size': '8vh',
+        'font-size': '13vh',
         '&:hover': {
             'cursor': 'pointer'
         }
@@ -50,7 +50,7 @@ const Introduction = (props) => {
             the mission and the history shall be remember our name forever, failing the mission and we will be banished
             from
             our homeland forever.</p>,
-        <p>But don't worry, I 've already got a plan for us to overcome this challenge. In fact, we will nail it and
+        <p>But don't worry, I've already got a plan for us to overcome this challenge. In fact, we will nail it and
             become
             the most remembered blacksmiths of this Kingdom.<br/><br/>
             Due to the gravity of the request from the King, I believe we should do some practices before actually

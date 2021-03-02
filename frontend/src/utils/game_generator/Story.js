@@ -34,19 +34,19 @@ const generateLevel0 = () => {
                    is associated with a CC license, which prohibits any commercial use. What is X?`,
         choices: [
             {
-                display_text: 'Aluminium (CC-BY)',
+                display_text: 'Aluminium (CC BY)',
                 CC_license: license_types.CC_BY
             },
             {
-                display_text: 'Copper (CC-BY-ND)',
+                display_text: 'Copper (CC BY-ND)',
                 CC_license: license_types.CC_BY_ND
             },
             {
-                display_text: 'Iron (CC-BY-NC)',
+                display_text: 'Iron (CC BY-NC)',
                 CC_license: license_types.CC_BY_NC
             },
             {
-                display_text: 'Zinc (CC-ZERO)',
+                display_text: 'Zinc (CC ZERO)',
                 CC_license: license_types.CC_ZERO
             }
         ],
@@ -72,23 +72,23 @@ const generateLevel1 = () => {
         context: `The secret for high quality steel is the carbon content in it. Too little carbon makes the blade too soft,
         too much carbon makes the sword can be broken easily`,
         description_image: level_1_description,
-        question: `How much carbon should we use to make the steel? Given that steel is a COLLAGE of carbon and iron. The steel should be CC-BY-SA
-                   and the iron should be CC-ZERO`,
+        question: `How much carbon should we use to make the steel? Given that steel is a COLLAGE of carbon and iron. The steel should be CC BY-SA
+                   and the iron should be CC ZERO`,
         choices: [
             {
-                display_text: 'From 0.2% to 1.5% (CC-BY-SA)',
+                display_text: 'From 0.2% to 1.5% (CC BY-SA)',
                 CC_license: license_types.CC_BY_NC
             },
             {
-                display_text: 'From 1.5% to 2.3% (CC-BY-ND)',
+                display_text: 'From 1.5% to 2.3% (CC BY-ND)',
                 CC_license: license_types.CC_BY_ND
             },
             {
-                display_text: 'From 2.3% to 3.0% (CC-BY)',
+                display_text: 'From 2.3% to 3.0% (CC BY)',
                 CC_license: license_types.CC_BY
             },
             {
-                display_text: 'From 3.0% to 4.1% (CC-ZERO)',
+                display_text: 'From 3.0% to 4.1% (CC ZERO)',
                 CC_license: license_types.CC_ZERO
             }
         ],
@@ -114,22 +114,22 @@ const generateLevel2 = () => {
         context: `A royal gift has to be flawless must last for decades. To achieve this kind top-tier quality,
                   we will add a secret substance into our steel.`,
         description_image: level_2_description,
-        question: `Given that steel (CC-BY-NC-SA) is a COLLAGE of carbon (CC-ZERO), iron (CC-BY-NC) and a secret substance X. What is X?`,
+        question: `Given that steel (CC BY-NC-SA) is a COLLAGE of carbon (CC ZERO), iron (CC BY-NC) and a secret substance X. What is X?`,
         choices: [
             {
-                display_text: 'Chromium (CC-BY-SA)',
+                display_text: 'Chromium (CC BY-SA)',
                 CC_license: license_types.CC_BY_SA
             },
             {
-                display_text: 'Tungsten (CC-BY-NC-SA)',
+                display_text: 'Tungsten (CC BY-NC-SA)',
                 CC_license: license_types.CC_BY_NC_SA
             },
             {
-                display_text: 'Nickel (CC-BY-ND)',
+                display_text: 'Nickel (CC BY-ND)',
                 CC_license: license_types.CC_BY_ND
             },
             {
-                display_text: 'Manganese (CC-ZERO)',
+                display_text: 'Manganese (CC ZERO)',
                 CC_license: license_types.CC_ZERO
             }
         ],
@@ -152,19 +152,19 @@ const generateLevel3 = () => {
         styles for the hilt and then license the sword accordingly`,
         choices: [
             {
-                display_text: 'Italian Style (CC-BY-SA)',
+                display_text: 'Italian Style (CC BY-SA)',
                 CC_license: license_types.CC_BY_SA
             },
             {
-                display_text: 'Western Europe Style (CC-BY-NC-SA)',
+                display_text: 'Western Europe Style (CC BY-NC-SA)',
                 CC_license: license_types.CC_BY_NC_SA
             },
             {
-                display_text: 'Eastern Europe Style (CC-BY-ND)',
+                display_text: 'Eastern Europe Style (CC BY-ND)',
                 CC_license: license_types.CC_BY_ND
             },
             {
-                display_text: 'England Style (CC-ZERO)',
+                display_text: 'England Style (CC ZERO)',
                 CC_license: license_types.CC_ZERO
             }
         ],
@@ -181,22 +181,22 @@ const generateLevel4 = () => {
         context: `To show the wealthy of the kingdom, our King wants to attach some gems to the sword. You are free to choose
         any gem from the national treasure storehouse.`,
         description_image: level_4_description,
-        question: `Please choose two gems to attach to the sword. As a special request from the king himself, the final sword must not be licensed under CC_BY_ND or CC_BY_NC_ND. This is a COMPOSITION`,
+        question: `Please choose two gems to attach to the sword. As a special request from the king himself, the final sword must not be licensed under CC BY-ND or CC BY-NC-ND. This is a COMPOSITION`,
         choices: [
             {
-                display_text: 'Ruby (CC-BY-SA)',
+                display_text: 'Ruby (CC BY-SA)',
                 CC_license: license_types.CC_BY_SA
             },
             {
-                display_text: 'Diamond (CC-BY-NC-SA)',
+                display_text: 'Diamond (CC BY-NC-SA)',
                 CC_license: license_types.CC_BY_NC_SA
             },
             {
-                display_text: 'Sapphire (CC-BY-ND)',
+                display_text: 'Sapphire (CC BY-ND)',
                 CC_license: license_types.CC_BY_ND
             },
             {
-                display_text: 'Pearl (CC-ZERO)',
+                display_text: 'Pearl (CC ZERO)',
                 CC_license: license_types.CC_ZERO
             }
         ],
@@ -215,23 +215,23 @@ const generateLevel5 = () => {
         level: 5,
         context: `A sword, especially as a royal gift, must be contained in a box.`,
         description_image: level_5_description,
-        question: `The sword box consists of three main components: the wooden box (CC-Zero), the lock (CC-BY-NC),
-         and the decoration silk inside the box (CC-BY-NC-SA). This is a COLLAGE. What is the license of the box?`,
+        question: `The sword box consists of three main components: the wooden box (CC Zero), the lock (CC BY-NC),
+         and the decoration silk inside the box (CC BY-NC-SA). This is a COLLAGE. What is the license of the box?`,
         choices: [
             {
-                display_text: 'CC-BY-SA',
+                display_text: 'CC BY-SA',
                 CC_license: license_types.CC_BY_SA
             },
             {
-                display_text: 'CC-BY-NC-SA',
+                display_text: 'CC BY-NC-SA',
                 CC_license: license_types.CC_BY_NC_SA
             },
             {
-                display_text: 'CC-BY-ND',
+                display_text: 'CC BY-ND',
                 CC_license: license_types.CC_BY_ND
             },
             {
-                display_text: 'CC-ZERO',
+                display_text: 'CC ZERO',
                 CC_license: license_types.CC_ZERO
             }
         ],

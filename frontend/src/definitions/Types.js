@@ -4,13 +4,13 @@ const item_types = {
 };
 
 const license_types = {
-    CC_ZERO: 'cc_zero',
-    CC_BY: 'cc_by',
-    CC_BY_SA: 'cc_by_sa',
-    CC_BY_NC: 'cc_by_nc',
-    CC_BY_NC_ND: 'cc_by_nc_nd',
-    CC_BY_NC_SA: 'cc_by_nc_sa',
-    CC_BY_ND: 'cc_by_nd',
+    CC_ZERO: 'cc zero',
+    CC_BY: 'cc by',
+    CC_BY_SA: 'cc by-sa',
+    CC_BY_NC: 'cc by-nc',
+    CC_BY_NC_ND: 'cc by-nc-nd',
+    CC_BY_NC_SA: 'cc by-nc-sa',
+    CC_BY_ND: 'cc by-nd',
 };
 
 const resource_types = {
