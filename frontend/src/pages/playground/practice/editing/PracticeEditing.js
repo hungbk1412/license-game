@@ -6,8 +6,8 @@ import {item_types, color, game_types} from "../../../../definitions/Types";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ResourceInPracticeEditing from "./ResourceInPracticeEditing";
-import ChooseLicenseDialog from "../../dialog/choose_license_dialog/ChooseLicenseDialog";
-import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
+import ChooseLicenseDialog from "../../dialog/ChooseLicenseDialog";
+import ConfirmSubmissionDialog from "../../dialog/ConfirmSubmissionDialog";
 import {
     open_confirm_submission_dialog,
     close_confirm_submission_dialog

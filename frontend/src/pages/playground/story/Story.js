@@ -25,11 +25,11 @@ import {
 import {set_result_for_level} from "../../../redux_slices/GameProgressSlice";
 import {questionTypes, color, game_types} from '../../../definitions/Types';
 import PracticeMode from '../practice/PracticeMode';
-import ChooseLicenseDialog from '../dialog/choose_license_dialog/ChooseLicenseDialog';
+import ChooseLicenseDialog from '../dialog/ChooseLicenseDialog';
 import {checkCompatible, postProgress} from '../../../utils/Requests';
 import Choice from './choice/Choice';
 import Slide from '@material-ui/core/Slide';
-import ConfirmSubmissionDialog from "../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
+import ConfirmSubmissionDialog from "../dialog/ConfirmSubmissionDialog";
 import {
     story_description_image_container,
     story_talk_box,

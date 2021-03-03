@@ -8,7 +8,7 @@ import MatchRow from "./MatchRow";
 import lodash from 'lodash';
 import {system_button_background, story_background, story_question} from "../../../../images";
 import {color, game_types} from "../../../../definitions/Types";
-import ConfirmSubmissionDialog from "../../dialog/confirm_submission_dialog/ConfirmSubmissionDialog";
+import ConfirmSubmissionDialog from "../../dialog/ConfirmSubmissionDialog";
 import {
     open_confirm_submission_dialog,
     close_confirm_submission_dialog

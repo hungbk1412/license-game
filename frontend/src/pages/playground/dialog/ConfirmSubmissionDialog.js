@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from "react-redux";
-import {close_confirm_submission_dialog} from "../../../../redux_slices/ConfirmSubmissionDialogSlice";
-import {set_current_page} from "../../../../redux_slices/CurrentPage";
+import {close_confirm_submission_dialog} from "../../../redux_slices/ConfirmSubmissionDialogSlice";
+import {set_current_page} from "../../../redux_slices/CurrentPage";
 import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import {story_dialog, system_button_background, correct_symbol, incorrect_symbol} from '../../../../images';
-import {color} from "../../../../definitions/Types";
+import {story_dialog, system_button_background, correct_symbol, incorrect_symbol} from '../../../images';
+import {color} from "../../../definitions/Types";
 import confetti from "canvas-confetti";
 
 const useStyles = makeStyles((theme) => ({

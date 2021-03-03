@@ -1,14 +1,14 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {close_choose_license_dialog, select_license} from "../../../../redux_slices/ChooseLicenseDialogSlice";
+import {close_choose_license_dialog, select_license} from "../../../redux_slices/ChooseLicenseDialogSlice";
 import Form from "react-bootstrap/Form";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import {makeStyles} from "@material-ui/core/styles";
-import {license_types, color} from "../../../../definitions/Types";
-import {story_dialog} from "../../../../images";
-import {system_button_background} from "../../../../images";
+import {license_types, color} from "../../../definitions/Types";
+import {story_dialog} from "../../../images";
+import {system_button_background} from "../../../images";
 
 const useStyles = makeStyles((theme) => ({
     pop_up: {
