@@ -26,6 +26,7 @@ import {set_score} from "../../../../redux_slices/ScoreSlice";
 import Slide from "@material-ui/core/Slide";
 import {get_success_message, get_fail_message} from "../../../../utils/GetMessage";
 import {set_game_mode} from "../../../../redux_slices/CurrentGameModeSlice";
+import SureToSkipDialog from "../../dialog/SureToSkipDialog";
 
 const useStyles = makeStyles((theme) => ({
     practice_editing_container: {
@@ -83,6 +84,7 @@ function PracticeEditing(props) {
     const choose_license_dialog = useSelector(state => state.choose_license_dialog);
     const [chosenResourcesArray, setChosenResourcesArray] = useState(initChosenResourcesArray(practice.resources));
     const [show_up, set_show_up] = useState(true);
+    const [is_skip_dialog_opening, set_is_skip_dialog_opening] = useState(false);
 
     const has_resources_been_chosen = (resource_id) => {
         const resource = chosenResourcesArray.find(element => element.resource_id === resource_id);
@@ -194,7 +196,7 @@ function PracticeEditing(props) {
 
     const click_on_skip = (e) => {
         e.preventDefault();
-        go_to_next_level();
+        set_is_skip_dialog_opening(true);
     };
 
     const go_to_next_level = () => {
@@ -222,6 +224,8 @@ function PracticeEditing(props) {
                   className={styles.practice_editing_container}>
                 <ChooseLicenseDialog click_on_submit_button={click_on_submit_button}/>
                 <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
+                <SureToSkipDialog go_to_next_level={go_to_next_level} is_skip_dialog_opening={is_skip_dialog_opening}
+                                  set_is_skip_dialog_opening={set_is_skip_dialog_opening}/>
                 <Grid container item justify={'center'}>
                     <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
                         <Grid container item direction={'row'} className={styles.description_container} xs={10}

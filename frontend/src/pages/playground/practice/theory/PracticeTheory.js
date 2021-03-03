@@ -18,6 +18,7 @@ import {set_score} from "../../../../redux_slices/ScoreSlice";
 import Slide from "@material-ui/core/Slide";
 import {get_fail_message, get_success_message} from "../../../../utils/GetMessage";
 import {set_game_mode} from "../../../../redux_slices/CurrentGameModeSlice";
+import SureToSkipDialog from "../../dialog/SureToSkipDialog";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -108,7 +109,7 @@ function PracticeTheory(props) {
     const [helper_array, set_helper_array] = useState([...Array(numberOfMatches).keys()]);
     const [orderedDescriptions, setOrderedDescriptions] = useState(initOrder(shuffle(descriptions)));
     const [show_up, set_show_up] = useState(true);
-
+    const [is_skip_dialog_opening, set_is_skip_dialog_opening] = useState(false);
     const swap_position_of_two_rows = (from, to) => {
         const source = orderedDescriptions[from];
         const target = orderedDescriptions[to];
@@ -132,7 +133,7 @@ function PracticeTheory(props) {
 
     const click_on_skip = (e) => {
         e.preventDefault();
-        go_to_next_level();
+        set_is_skip_dialog_opening(true);
     };
 
     const click_on_submit = (e) => {
@@ -202,6 +203,8 @@ function PracticeTheory(props) {
             <Grid container item direction={'row'} justify={'center'} alignItems={'flex-start'}
                   alignContent={'flex-start'} xs={10} className={styles.practice_theory_container}>
                 <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
+                <SureToSkipDialog go_to_next_level={go_to_next_level} is_skip_dialog_opening={is_skip_dialog_opening}
+                                  set_is_skip_dialog_opening={set_is_skip_dialog_opening}/>
                 <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
                     <Grid container item direction={'row'} className={styles.header_container} xs={10}
                           justify={'center'}
