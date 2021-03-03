@@ -66,7 +66,7 @@ const About = (props) => {
                     <br/>
                     Original work: https://www.deviantart.com/gogots/art/Bannire-vide-01-788445292
                     <br/>
-                    4. Author: hu zheng
+                    4. Author: Hu Zheng
                     <br/>
                     Original work: https://www.artstation.com/artwork/claymore-1bf4e020-a644-47c8-b52f-baa873b102cc
                     <br/>
