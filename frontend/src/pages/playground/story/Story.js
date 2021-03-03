@@ -170,7 +170,7 @@ function Story() {
         let licenses_to_be_combined = current_challenge.oer_resources[0].toUpperCase();
         let newChosenLicenses = lodash.cloneDeep(chosenLicenses);
         for (let i = 0; i < choiceNumbers.length; i++) {
-            newChosenLicenses.push(current_challenge.choices[choiceNumtuanbers[i]].CC_license);
+            newChosenLicenses.push(current_challenge.choices[choiceNumbers[i]].CC_license);
             if (i === choiceNumbers.length - 1) {
                 licenses_to_be_combined += ' and ' + current_challenge.choices[choiceNumbers[i]].CC_license.toUpperCase();
             } else {
