@@ -50,9 +50,9 @@ const ScoreSlice = createSlice({
                     object_state.total_score = object_state.total_score - current_point + total_point;
                 }
             } else {
-                let current_point = lodash.get(object_state, ['score_of_all_levels', story_level, practice_id, 'value'], 0);
+                let current_point = lodash.get(object_state, ['score_of_all_levels', story_level, practice_level, 'value'], 0);
                 if (current_point < total_point) {
-                    lodash.set(object_state, `score_of_all_levels.${story_level}.${practice_id}.value`, total_point);
+                    lodash.set(object_state, `score_of_all_levels.${story_level}.${practice_level}.value`, total_point);
                     object_state.total_score = object_state.total_score - current_point + total_point;
                 }
             }
