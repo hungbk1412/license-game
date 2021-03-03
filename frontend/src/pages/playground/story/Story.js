@@ -327,6 +327,8 @@ function Story() {
                             set_transition(true);
                             setFailTimes(0);
                             setChosenLicenses([]);
+
+                            // this is not completely necessary but this makes the transition smoother.
                             if (nextChallenge.hasOwnProperty('practices')) {
                                 dispatch(set_practices_list(nextChallenge.practices));
                             }
@@ -344,7 +346,7 @@ function Story() {
     };
 
     /*
-    Get list of practices for each level
+    Get list of practices for each level. Necessary if players directly go to one of first three levels from the main menu
      */
     useEffect(() => {
         if (current_challenge.hasOwnProperty('practices')) {

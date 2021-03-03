@@ -181,9 +181,10 @@ function PracticeEditing(props) {
                     licenses_to_be_combined += ' + ' + licenseArray[i].toUpperCase();
                 }
             }
+            let combination_type = practice.type === game_types.PRACTICE_EDITING_COLLAGE ? 'collage' : 'composition';
             dispatch(set_message_for_choose_license_dialog(
                 <p>
-                    Please choose a license for the combination of:
+                    Please choose a license for the {combination_type} of:
                     <br/>
                     {licenses_to_be_combined}
                 </p>
