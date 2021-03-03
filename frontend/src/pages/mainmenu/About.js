@@ -78,7 +78,7 @@ const About = (props) => {
                     <br/>
                     Original work: https://www.behance.net/gallery/48802895/chests-
                     <br/>
-                    I do not own these images. This game is used for educational purpose only. All credit goes to the
+                    I do not own these images. This game is used for educational purpose only and is licensed with CC BY-NC. All credit goes to the
                     original authors. For any problem concerning
                     licenses or copyright, please contact me via email: vu.tuan.tran@rwth-aachen.de
                 </Grid>
