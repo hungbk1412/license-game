@@ -19,17 +19,20 @@ const useStyles = makeStyles((theme) => ({
         'height': '30vh',
         'top': '50%',
         'left': '50%',
-        'transform': 'translate(-50%,-50%)'
+        'transform': 'translate(-50%,-50%)',
+        'padding-left': '1.5vw',
+        'padding-right': '1.5vw'
     },
     symbol: {
-        'margin-top': '5vh',
         'max-width': '4.5vw',
         'max-height': '9vh'
     },
     congratulation_message: {
-        'margin-top': '1.5vh',
         'color': color.WHITE,
-        'font-size': '1.8vh'
+        'margin-top': '1vh',
+        'font-size': '2vh',
+        'text-alignt': 'center',
+        'font-family': 'Charmonman'
     },
     confirm_button: {
         'background-image': `url(${system_button_background})`,
@@ -102,10 +105,10 @@ const ConfirmSubmissionDialog = (props) => {
     return (
         <Modal open={is_opening}
                onClose={() => dispatch(close_confirm_submission_dialog())}>
-            <Grid container item direction={'column'} alignItems={'center'}
+            <Grid container item direction={'column'} alignItems={'center'} justify={'center'}
                   className={styles.pop_up}>
-                <img src={symbol} className={styles.symbol}/>
-                <Grid item className={styles.congratulation_message}>{message}</Grid>
+                {!is_last_level && <img src={symbol} className={styles.symbol}/>}
+                <Grid container item className={styles.congratulation_message} justify={'center'}>{message}</Grid>
                 <Grid item>
                     <Button onClick={onClickConfirm} className={styles.confirm_button}>{buttonLabel}</Button>
                 </Grid>

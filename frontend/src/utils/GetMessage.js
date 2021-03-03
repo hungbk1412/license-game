@@ -1,6 +1,7 @@
 const SUCCESS_MESSAGES = ['Congratulation!', 'Good job!', 'Well done'];
 const FAIL_MESSAGES = ['That was close', 'Let\'s give it another try', 'Please try again'];
-const END_GAME_MESSAGE = 'Thank you, the Queen is very satisfied with the sword. You have brought the peace to both kingdoms. The whole realm owns you this.';
+const END_GAME_MESSAGE = `Thank you my dear friend. The Queen is very satisfied with the gift. You have brought the peace to both kingdoms. The whole realm owns
+    you this.`;
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
