@@ -108,7 +108,7 @@ exports.checkCompatibilityComposition = ({licenseArray, clientLicenseAnswer}) =>
 
 exports.checkCompatibilityCollage = ({licenseArray, clientLicenseAnswer}) => {
     clientLicenseAnswer = clientLicenseAnswer.toLowerCase();
-    console.log(clientLicenseAnswer);
+    console.log(licenseArray);
     for (let i = 0; i < licenseArray.length; i++) {
         licenseArray[i] = licenseArray[i].toLowerCase();
     }
@@ -130,6 +130,7 @@ exports.checkCompatibilityCollage = ({licenseArray, clientLicenseAnswer}) => {
 
     for (let i = 1; i < licenseArray.length; i++) {
         response.lastSource = [response.correctAnswer, licenseArray[i]];
+        console.log(response.correctAnswer);
         response.correctAnswer = self.COMPATIBILITY_TABLE[response.correctAnswer][licenseArray[i]] ? self.COMPATIBILITY_TABLE[response.correctAnswer][licenseArray[i]] : 'none';
         if (response.correctAnswer === 'none' || self.LICENSE_POWER_LEVEL[response.correctAnswer] > self.LICENSE_POWER_LEVEL[clientLicenseAnswer]) {
             break;
