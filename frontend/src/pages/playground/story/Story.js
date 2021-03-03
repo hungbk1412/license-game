@@ -167,19 +167,24 @@ function Story() {
         @param [int] choiceNumbers
      */
     const prepare_and_then_open_choose_license_dialog = (choiceNumbers) => {
-        let newMessage = 'The ' + current_challenge.combination_type + ' of ' + current_challenge.oer_resources[0].toUpperCase();
+        let licenses_to_be_combined = current_challenge.oer_resources[0].toUpperCase();
         let newChosenLicenses = lodash.cloneDeep(chosenLicenses);
         for (let i = 0; i < choiceNumbers.length; i++) {
-            newChosenLicenses.push(current_challenge.choices[choiceNumbers[i]].CC_license);
+            newChosenLicenses.push(current_challenge.choices[choiceNumtuanbers[i]].CC_license);
             if (i === choiceNumbers.length - 1) {
-                newMessage += ' and ' + current_challenge.choices[choiceNumbers[i]].CC_license.toUpperCase();
-                newMessage += ' is:';
+                licenses_to_be_combined += ' and ' + current_challenge.choices[choiceNumbers[i]].CC_license.toUpperCase();
             } else {
-                newMessage += ', ' + current_challenge.choices[choiceNumbers[i]].CC_license.toUpperCase();
+                licenses_to_be_combined += ', ' + current_challenge.choices[choiceNumbers[i]].CC_license.toUpperCase();
             }
         }
         setChosenLicenses(newChosenLicenses);
-        dispatch(set_message_for_choose_license_dialog(newMessage));
+        dispatch(set_message_for_choose_license_dialog(
+            <p>
+                Please choose the license for the {current_challenge.combination_type} of
+                <br/>
+                {licenses_to_be_combined}
+            </p>
+        ));
         dispatch(select_license('none'));
         dispatch(open_choose_license_dialog());
     };
