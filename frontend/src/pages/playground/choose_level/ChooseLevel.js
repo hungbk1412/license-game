@@ -8,6 +8,7 @@ import {main_background, system_button_background} from "../../../images";
 import {color} from '../../../definitions/Types';
 import {set_current_page} from "../../../redux_slices/CurrentPage";
 import {reset_time} from "../../../redux_slices/TimerSlice";
+import {reset_to_default_practices_list} from "../../../redux_slices/CurrentPracticesListSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,6 +55,7 @@ const ChooseLevel = (props) => {
 
     useEffect(() => {
         dispatch(reset_time());
+        dispatch(reset_to_default_practices_list());
     });
 
     return (

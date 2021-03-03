@@ -57,16 +57,15 @@ const useStyles = makeStyles((theme) => ({
     context: {
         'backgroundImage': `url(${story_talk_box})`,
         'background-size': '100% 100%',
-        'padding-top': '4vh',
-        'padding-left': '3vw',
+        'padding-top': '6vh',
+        'padding-left': '5vw',
         'padding-right': '2.5vw',
-        'height': '23vh',
-        'font-size': '1.8vh'
-
+        'height': '30vh',
+        'font-size': '2.2vh'
     },
     picture: {
         'position': 'relative',
-        'margin-top': '-4vh',
+        'margin-top': '-11vh',
         [theme.breakpoints.up('sm')]: {
             'height': '26vh'
         },
@@ -92,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
         'padding-left': '4vw',
         'padding-right': '4vw',
         'height': '20vh',
-        'font-size': '1.8vh'
+        'font-size': '2.2vh'
 
     },
     next_button_container: {
@@ -111,8 +110,8 @@ const useStyles = makeStyles((theme) => ({
         'z-index': '0',
         'position': 'absolute',
         'max-width': '25vw',
-        'top': '15vh',
-        'left': '30vw'
+        'top': '28vh',
+        'left': '33vw'
     }
 }));
 
@@ -420,9 +419,9 @@ function Story() {
                     <ConfirmSubmissionDialog go_to_next_level={go_to_next_level}/>
                     <ChooseLicenseDialog click_on_submit_button={click_on_submit_button}/>
                     <Grid container item direction={'row'} justify={'center'} xs={11}>
-                        <Grid container item xs={10} justify={'flex-start'}>
+                        <Grid container item xs={11} justify={'flex-start'}>
                             <Slide direction={'right'} in={show_up.stable_content} mountOnEnter unmountOnExit>
-                                <Grid container item xs={11} className={styles.context}
+                                <Grid container item xs={12} className={styles.context}
                                       justify={'center'}>
                                     {current_challenge.context}
                                 </Grid>
