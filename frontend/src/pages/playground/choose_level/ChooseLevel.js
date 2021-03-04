@@ -9,6 +9,7 @@ import {color} from '../../../definitions/Types';
 import {set_current_page} from "../../../redux_slices/CurrentPage";
 import {reset_time} from "../../../redux_slices/TimerSlice";
 import {reset_to_default_practices_list} from "../../../redux_slices/CurrentPracticesListSlice";
+import {set_game_mode} from "../../../redux_slices/CurrentGameModeSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,6 +57,7 @@ const ChooseLevel = (props) => {
     useEffect(() => {
         dispatch(reset_time());
         dispatch(reset_to_default_practices_list());
+        dispatch(set_game_mode(''));
     });
 
     return (

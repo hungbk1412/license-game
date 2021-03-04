@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
         'background-image': `url(${story_dialog})`,
         'background-size': '100% 100%',
         'position': 'absolute',
-        'width': '20vw',
-        'height': '30vh',
+        'width': '27vw',
+        'height': '40vh',
         'top': '50%',
         'left': '50%',
         'transform': 'translate(-50%,-50%)',
@@ -24,23 +24,23 @@ const useStyles = makeStyles((theme) => ({
         'padding-right': '1.5vw'
     },
     symbol: {
-        'max-width': '4.5vw',
-        'max-height': '9vh'
+        'max-width': '6vw',
+        'max-height': '11vh'
     },
     congratulation_message: {
         'color': color.WHITE,
         'margin-top': '1vh',
-        'font-size': '2vh',
+        'font-size': '3vh',
         'text-alignt': 'center',
         'font-family': 'Charmonman'
     },
     confirm_button: {
         'background-image': `url(${system_button_background})`,
         'background-size': '100% 100%',
-        'width': '8vw',
-        'margin-top': '2.3vh',
+        'width': '10vw',
+        'margin-top': '2vh',
         'color': color.WHITE,
-        'font-size': '1.7vh'
+        'font-size': '2.5vh'
     }
 }));
 

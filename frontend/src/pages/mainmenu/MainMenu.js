@@ -12,6 +12,7 @@ import {reset_time} from "../../redux_slices/TimerSlice";
 import {set_current_page} from "../../redux_slices/CurrentPage";
 import About from "./About";
 import Modal from "@material-ui/core/Modal";
+import {set_game_mode} from "../../redux_slices/CurrentGameModeSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -92,6 +93,7 @@ function MainMenu() {
     };
 
     useEffect(() => {
+        dispatch(set_game_mode(''));
         dispatch(reset_to_default_challenge());
         dispatch(reset_to_default_practices_list());
         dispatch(reset_time());

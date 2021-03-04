@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     },
     header: {
         'color': color.WHITE,
-        'font-size': '1.8vh'
+        'font-size': '2vh'
     },
     header_container: {
         'height': '10vh',
@@ -206,7 +206,7 @@ function PracticeTheory(props) {
                 <SureToSkipDialog go_to_next_level={go_to_next_level} is_skip_dialog_opening={is_skip_dialog_opening}
                                   set_is_skip_dialog_opening={set_is_skip_dialog_opening}/>
                 <Slide direction={'down'} in={show_up} mountOnEnter unmountOnExit>
-                    <Grid container item direction={'row'} className={styles.header_container} xs={10}
+                    <Grid container item direction={'row'} className={styles.header_container} xs={11}
                           justify={'center'}
                           alignItems={'center'}>
                         <Grid item className={styles.header}>{practice.description}</Grid>

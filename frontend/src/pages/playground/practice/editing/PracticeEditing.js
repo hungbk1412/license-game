@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
     description: {
         'color': color.WHITE,
-        'font-size': '1.8vh'
+        'font-size': '2vh'
     },
     description_container: {
         'background-image': `url(${story_question})`,
