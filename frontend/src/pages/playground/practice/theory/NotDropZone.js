@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     concept: {
         'position': 'relative',
         'color': color.WHITE,
-        'height': '10vh',
+        'height': '13vh',
         'font-size': '1.8vh',
         'background-image': `url(${practice_theory_concept})`,
         'background-size': '100% 100%'

@@ -9,12 +9,12 @@ const useStyles = makeStyles((theme) => ({
     root: {
         'position': 'relative',
         'color': color.WHITE,
-        'height': '10vh',
+        'height': '13vh',
         'text-align': 'center',
         'background-image': `url(${practice_theory_description})`,
         'background-size': '100% 100%',
         'padding-left': '1.5vw',
-        'padding-right': '1.5vw',
+        'padding-right': '1.7vw',
         'font-size': '1.8vh',
         '&:hover': {
             'cursor': 'pointer'

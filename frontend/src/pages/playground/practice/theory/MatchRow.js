@@ -7,7 +7,7 @@ import {practice_theory_concept, practice_lava_frame} from "../../../../images";
 import NotDropZone from "./NotDropZone";
 const useStyles = makeStyles((theme) => ({
     root: {
-        'height': '16vh',
+        'height': '20vh',
         'margin-top': '3vh',
         'background-image': `url(${practice_lava_frame})`,
         'background-size': '100% 100%'
@@ -17,13 +17,6 @@ const useStyles = makeStyles((theme) => ({
     },
     wrong_notification: {
         'background-color': '#F64A0A'
-    },
-    concept: {
-        'color': color.WHITE,
-        'height': '10vh',
-        'font-size': '1.8vh',
-        'background-image': `url(${practice_theory_concept})`,
-        'background-size': '100% 100%'
     }
 }));
 
