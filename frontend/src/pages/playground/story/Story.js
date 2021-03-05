@@ -240,9 +240,18 @@ function Story() {
             .catch(e => console.log(e));
     };
 
-    const click_on_go_button = (e) => {
+    const click_on_next_button = (e) => {
         e.preventDefault();
-        prepare_and_then_open_choose_license_dialog(get_all_selected_choices());
+        if (get_all_selected_choices().length === 2) {
+            prepare_and_then_open_choose_license_dialog(get_all_selected_choices());
+        } else {
+            dispatch(open_confirm_submission_dialog({
+                    correctness: false,
+                    message: 'Please choose exact two gems',
+                    is_last_level: false,
+                }
+            ));
+        }
     };
 
     const count_the_number_of_selected_choices = () => {
@@ -466,7 +475,7 @@ function Story() {
                             <Grid container item xs={12} justify={'center'}>
                                 <Grid container item className={styles.next_button_container}>
                                     <Button fullWidth className={styles.next_button}
-                                            onClick={click_on_go_button}>Next</Button>
+                                            onClick={click_on_next_button}>Next</Button>
                                 </Grid>
                             </Grid>
                         }

@@ -70,7 +70,7 @@ const NavBar = () => {
                         </Button>
                     </Tooltip>
                 </Grid>
-                <Grid container item xs={8} justify={'center'}>
+                <Grid container item xs={9} justify={'center'}>
                     <Grid container item xs={3} justify={'flex-start'}>
                         <Grid item className={styles.score_and_time_and_game_type}>
                             Score: {total_score}
@@ -87,8 +87,8 @@ const NavBar = () => {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid container item justify={'flex-end'} xs={2}>
-                    <Grid container item xs={5} justify={'center'}>
+                <Grid container item justify={'flex-end'} xs={1}>
+                    <Grid container item xs={10} justify={'center'}>
                         <Tooltip title={"Log Out"}>
                             <Button onClick={logout} className={styles.logout_button}>
                             </Button>
